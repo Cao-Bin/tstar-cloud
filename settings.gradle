@@ -1,0 +1,5 @@
+rootProject.name = 'tstar-cloud'
+include 'estar-gw'
+include 'estar-proc'
+include 'estar-op'
+
