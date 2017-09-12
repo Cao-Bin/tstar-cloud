@@ -2,22 +2,28 @@ package com.tiza.process.gb32960.protocol.cmd;
 
 import com.tiza.process.common.support.model.Header;
 import com.tiza.process.common.util.CommonUtil;
+import com.tiza.process.gb32960.bean.GB32960Header;
 import com.tiza.process.gb32960.protocol.GB32960DataProcess;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.util.*;
 
 /**
  * Description: CMD_02
  * Author: Wangw
  * Update: 2017-09-07 14:57
  */
+
+@Service
 public class CMD_02 extends GB32960DataProcess {
 
     public CMD_02() {
         this.cmd = 0x02;
     }
+
+    private List<Map> paramValues = new ArrayList<>();;
 
     @Override
     public void parse(byte[] content, Header header) {
@@ -26,6 +32,11 @@ public class CMD_02 extends GB32960DataProcess {
         byte[] dateBytes = new byte[6];
         buf.readBytes(dateBytes);
         Date date = CommonUtil.bytesToDate(dateBytes);
+
+        Map map = new HashMap();
+        map.put("SYSTEMTIME", new Date());
+        map.put("GPSTIME", date);
+        paramValues.add(map);
 
         boolean error = false;
         while (buf.readableBytes() > 0) {
@@ -67,6 +78,8 @@ public class CMD_02 extends GB32960DataProcess {
                 break;
             }
         }
+
+        updateGpsInfo((GB32960Header) header, paramValues);
     }
 
     private boolean parseVehicle(ByteBuf byteBuf) {
@@ -75,22 +88,100 @@ public class CMD_02 extends GB32960DataProcess {
             return true;
         }
 
-        int vehStatus = byteBuf.readByte();
-        int charge = byteBuf.readByte();
-        int runMode = byteBuf.readByte();
+        int vehStatus = byteBuf.readUnsignedByte();
+        int charge = byteBuf.readUnsignedByte();
+        int runMode = byteBuf.readUnsignedByte();
 
-        int speed = byteBuf.readShort();
-        int mile = byteBuf.readInt();
+        int speed = byteBuf.readUnsignedShort();
+        long mile = byteBuf.readUnsignedInt();
 
-        int voltage = byteBuf.readShort();
-        int electricity = byteBuf.readShort();
+        int voltage = byteBuf.readUnsignedShort();
+        int electricity = byteBuf.readUnsignedShort();
 
-        int soc = byteBuf.readByte();
-        int dcStatus = byteBuf.readByte();
+        int soc = byteBuf.readUnsignedByte();
+        int dcStatus = byteBuf.readUnsignedByte();
 
-        int gears = byteBuf.readByte();
-        int ohm = byteBuf.readShort();
+        int gears = byteBuf.readUnsignedByte();
+        int ohm = byteBuf.readUnsignedShort();
         byteBuf.readShort();
+
+
+        Map map = new HashMap();
+        map.put("VEHICLESTATUS", vehStatus);
+        map.put("CHARGESTATUS", charge);
+        map.put("DRIVINGMODE", runMode);
+
+        // 速度
+        if (0xFFFF == speed){
+
+            map.put("SPEEDSTATUS", 255);
+        }else if (0xFFFE == speed){
+
+            map.put("SPEEDSTATUS", 254);
+        }else {
+
+            map.put("SPEEDSTATUS", 1);
+            map.put("SPEED", speed);
+        }
+
+        // 里程
+        if (0xFFFFFFFFl == mile){
+
+            map.put("ODOSTATUS", 255);
+        }else if (0xFFFFFFFEl == mile){
+
+            map.put("ODOSTATUS", 254);
+        }else {
+
+            map.put("ODOSTATUS", 1);
+            map.put("ODO", mile);
+        }
+
+
+        // 电压
+        if (0xFFFF == voltage){
+
+            map.put("VOLTAGESTATUS", 255);
+        }else if (0xFFFE == voltage){
+
+            map.put("VOLTAGESTATUS", 254);
+        }else {
+
+            map.put("VOLTAGESTATUS", 1);
+            map.put("VOLTAGE", voltage);
+        }
+
+        // 电流
+        if (0xFFFF == electricity){
+
+            map.put("AMPSTATUS", 255);
+        }else if (0xFFFE == electricity){
+
+            map.put("AMPSTATUS", 254);
+        }else {
+
+            map.put("AMPSTATUS", 1);
+            map.put("AMP", electricity);
+        }
+
+        // SOC
+        if (0xFF == soc || 0xFE == soc){
+
+            map.put("SOCSTATUS", soc);
+        }else {
+
+            map.put("SOCSTATUS", 1);
+            map.put("SOC", soc);
+        }
+
+        // DC-DC
+        map.put("DCDC", dcStatus);
+
+        map.put("GEARS", gears);
+
+        map.put("RESISTANCE", ohm);
+
+        paramValues.add(map);
 
         return false;
     }

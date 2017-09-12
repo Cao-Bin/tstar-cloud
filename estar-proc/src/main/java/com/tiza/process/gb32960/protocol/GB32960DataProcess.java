@@ -1,6 +1,8 @@
 package com.tiza.process.gb32960.protocol;
 
 import com.tiza.process.common.support.cache.ICache;
+import com.tiza.process.common.support.dao.VehicleDao;
+import com.tiza.process.common.support.entity.VehicleInfo;
 import com.tiza.process.common.support.model.Header;
 import com.tiza.process.common.support.model.IDataProcess;
 import com.tiza.process.gb32960.bean.GB32960Header;
@@ -12,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.*;
 
 /**
  * Description: GB32960DataProcess
@@ -30,6 +33,9 @@ public class GB32960DataProcess implements IDataProcess {
 
     @Resource
     protected ICache vehicleCacheProvider;
+
+    @Resource
+    private VehicleDao vehicleDao;
 
     @Override
     public Header dealHeader(byte[] bytes) {
@@ -62,6 +68,40 @@ public class GB32960DataProcess implements IDataProcess {
     @Override
     public void parse(byte[] content, Header header) {
 
+    }
+
+    /**
+     * 更新车辆当前位置表
+     *
+     * @param header
+     * @param paramValues
+     *
+     */
+    protected void updateGpsInfo(GB32960Header header, List<Map> paramValues){
+
+        String vin = header.getVin();
+        if (!vehicleCacheProvider.containsKey(vin)){
+            logger.warn("[{}] is not in the list of vehicles", vin);
+            return;
+        }
+        VehicleInfo vehicleInfo = (VehicleInfo) vehicleCacheProvider.get(vin);
+
+        List list = new ArrayList();
+        StringBuilder strb = new StringBuilder("update BS_VEHICLEGPSINFO set ");
+        for (Map map: paramValues){
+
+            for (Iterator iterator = map.keySet().iterator(); iterator.hasNext();){
+
+                String key = (String) iterator.next();
+                Object value = map.get(key);
+
+                strb.append(key).append("=?, ");
+                list.add(value);
+            }
+        }
+
+        String sql = strb.substring(0, strb.length() - 2) + " where VEHICLEID=" + vehicleInfo.getId();
+        vehicleDao.update(sql, list.toArray());
     }
 
     @Override

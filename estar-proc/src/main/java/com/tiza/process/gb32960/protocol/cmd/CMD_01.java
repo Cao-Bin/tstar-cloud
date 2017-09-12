@@ -5,6 +5,7 @@ import com.tiza.process.common.util.CommonUtil;
 import com.tiza.process.gb32960.protocol.GB32960DataProcess;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,6 +16,8 @@ import java.util.List;
  * Author: Wangw
  * Update: 2017-09-07 14:57
  */
+
+@Service
 public class CMD_01 extends GB32960DataProcess{
 
     public CMD_01() {
@@ -52,5 +55,7 @@ public class CMD_01 extends GB32960DataProcess{
 
             codes.add(code);
         }
+
+        // todo
     }
 }

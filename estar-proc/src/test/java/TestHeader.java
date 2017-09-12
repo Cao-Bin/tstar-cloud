@@ -4,6 +4,9 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 /**
  * Description: TestHeader
  * Author: Wangw
@@ -44,5 +47,33 @@ public class TestHeader {
         String vin = "00008613685132382";
 
         System.out.println(vin.getBytes().length);
+    }
+
+
+    @Test
+    public void test3(){
+
+        String str = "FFFFFFFE";
+        byte[] bytes = CommonUtil.hexStringToBytes(str);
+        ByteBuf buf = Unpooled.copiedBuffer(bytes);
+
+        System.out.println(buf.readUnsignedShort());
+
+        System.out.println(0xfffe);
+        System.out.println(0xffff);
+    }
+
+    @Test
+    public void test4(){
+
+        String str = "FFFFFFFE";
+        byte[] bytes = CommonUtil.hexStringToBytes(str);
+        ByteBuf buf = Unpooled.copiedBuffer(bytes);
+
+        long l = buf.readUnsignedInt();
+        System.out.println(l);
+
+        System.out.println(0xfffffffel == l);
+        System.out.println(BigInteger.valueOf(0xFFFFFFFE).longValue() == l);
     }
 }

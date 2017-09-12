@@ -38,4 +38,15 @@ public class BaseDao {
 
         return false;
     }
+
+    public boolean update(String sql) {
+        int result = jdbcTemplate.update(sql);
+
+        if (result > 0) {
+
+            return true;
+        }
+
+        return false;
+    }
 }
