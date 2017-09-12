@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.Date;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Description: GB32960ProtocolHandler
@@ -23,43 +25,131 @@ public class GB32960ProtocolHandler extends BaseUserDefinedHandler {
 
     public TStarData handleRecvMessage(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf) {
 
-        byte[] bytes = new byte[byteBuf.readableBytes() - 2];
-        byteBuf.getBytes(2, bytes);
+        byte[] msgBody = new byte[byteBuf.readableBytes()];
+        byteBuf.getBytes(0, msgBody);
 
-        byte last = bytes[bytes.length - 1];
-        byte check = CommonUtil.getCheck(Arrays.copyOf(bytes, bytes.length - 1));
-        if (last != check){
-
-            logger.error("check code error!");
-            return null;
-        }
-
-        ByteBuf buf = Unpooled.copiedBuffer(bytes);
-
-        int cmd = buf.readByte();
-        int resp = buf.readByte();
+        byteBuf.readByte();
+        byteBuf.readByte();
+        int cmd = byteBuf.readByte();
+        int resp = byteBuf.readByte();
 
         byte[] vinArray = new byte[17];
-        buf.readBytes(vinArray);
-
+        byteBuf.readBytes(vinArray);
         String vin = new String(vinArray);
 
         TStarData tStarData = new TStarData();
-        tStarData.setMsgBody(bytes);
+        tStarData.setMsgBody(msgBody);
         tStarData.setCmdID(cmd);
         tStarData.setTerminalID(vin);
         tStarData.setTime(System.currentTimeMillis());
 
+        // 加密标识
+        byteBuf.readByte();
+        // 数据单元长度
+        int length = byteBuf.readShort();
+        byteBuf.readBytes(new byte[length]);
+        // 校验位
+        int last = byteBuf.readByte();
+
+        byte[] content = new byte[msgBody.length - 3];
+        System.arraycopy(msgBody, 2, content, 0, content.length);
+        byte check = CommonUtil.getCheck(content);
+
+        // 验证校验位
+        if (last != check){
+            logger.error("check code error!");
+            // 数据错误
+            doResponse(channelHandlerContext, tStarData, 0x02);
+
+            return null;
+        }
+
         // 需要应答
         if (resp == 0xFE){
 
-
+            doResponse(channelHandlerContext, tStarData, 0x01);
         }
 
-        logger.info("收到消息，终端[{}]指令[{}], 内容[{}]...", vin, String.format("%02X", cmd), CommonUtil.bytesToStr(bytes));
+        logger.info("收到消息，终端[{}]指令[{}], 内容[{}]...", vin, String.format("%02X", cmd), CommonUtil.bytesToStr(msgBody));
 
         return tStarData;
     }
 
+    /**
+     * 指令应答
+     * @param ctx
+     * @param tStarData
+     * @param respCmd
+     */
+    private void doResponse(ChannelHandlerContext ctx, TStarData tStarData, int respCmd){
+        int cmd = tStarData.getCmdID();
 
+        ByteBuf buf;
+        if (0x07 == cmd){
+            buf = Unpooled.buffer(25);
+            buf.writeByte(0x23);
+            buf.writeByte(0x23);
+            buf.writeByte(cmd);
+            buf.writeByte(respCmd);
+            // VIN
+            buf.writeBytes(tStarData.getTerminalID().getBytes());
+            // 不加密
+            buf.writeByte(0x01);
+            buf.writeShort(0);
+
+            // 获取校验位
+            byte[] content = new byte[22];
+            buf.getBytes(2, content);
+            int check = CommonUtil.getCheck(content);
+
+            buf.writeByte(check);
+        }else {
+            buf = Unpooled.buffer(31);
+            buf.writeByte(0x23);
+            buf.writeByte(0x23);
+            buf.writeByte(cmd);
+            buf.writeByte(respCmd);
+            // VIN
+            buf.writeBytes(tStarData.getTerminalID().getBytes());
+            // 不加密
+            buf.writeByte(0x01);
+            buf.writeShort(6);
+
+            // 时间
+            byte[] dateArray = new byte[6];
+            System.arraycopy(tStarData.getMsgBody(), 24, dateArray, 0, 6);
+            buf.writeBytes(dateArray);
+
+            // 获取校验位
+            byte[] content = new byte[28];
+            buf.getBytes(2, content);
+            int check = CommonUtil.getCheck(content);
+
+            buf.writeByte(check);
+        }
+
+        TStarData respData = new TStarData();
+        respData.setTerminalID(tStarData.getTerminalID());
+        respData.setCmdID(tStarData.getCmdID());
+        respData.setMsgBody(buf.array());
+        respData.setTime(System.currentTimeMillis());
+        respData.setCmdSerialNo(getMsgSerial());
+
+        ctx.channel().writeAndFlush(respData);
+    }
+
+
+    /**
+     * 命令序号
+     **/
+    private static AtomicLong msgSerial = new AtomicLong(0);
+    private static int getMsgSerial() {
+        Long serial = msgSerial.incrementAndGet();
+        if (serial > 65535) {
+            msgSerial.set(0);
+            serial = msgSerial.incrementAndGet();
+        }
+
+        return serial.intValue();
+    }
 }

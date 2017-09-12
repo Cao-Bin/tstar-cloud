@@ -35,7 +35,8 @@ public class GB32960Decoder extends CustomDecoder {
         // 头标识
         if (header1 != 0x23 || header2 != 0x23){
 
-            logger.error("协议头校验失败!");
+            logger.error("协议头校验失败，断开连接!");
+            ctx.disconnect();
             return;
         }
         buf.readBytes(new byte[20]);

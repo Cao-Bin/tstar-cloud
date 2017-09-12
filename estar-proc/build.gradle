@@ -54,7 +54,7 @@ jar {
 }
 jar.dependsOn(copyJar)
 
-
+// 打包
 task zip(type: Zip, dependsOn: [copyConf, jar]) {
     from 'build/libs'
 }
