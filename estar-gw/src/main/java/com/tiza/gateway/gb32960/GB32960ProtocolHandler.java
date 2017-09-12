@@ -70,7 +70,7 @@ public class GB32960ProtocolHandler extends BaseUserDefinedHandler {
             doResponse(channelHandlerContext, tStarData, 0x01);
         }
 
-        logger.info("收到消息，终端[{}]指令[{}], 内容[{}]...", vin, String.format("%02X", cmd), CommonUtil.bytesToStr(msgBody));
+        logger.info("Receive: Terminal[{}] CMD[{}], Content[{}]...", vin, String.format("%02X", cmd), CommonUtil.bytesToStr(msgBody));
 
         return tStarData;
     }
@@ -134,7 +134,7 @@ public class GB32960ProtocolHandler extends BaseUserDefinedHandler {
         respData.setMsgBody(buf.array());
         respData.setTime(System.currentTimeMillis());
 
-        logger.info("终端[], 响应数据[]...", tStarData.getTerminalID(), CommonUtil.bytesToStr(tStarData.getMsgBody()));
+        logger.info("Response, Terminal[{}], Content[{}]...", tStarData.getTerminalID(), CommonUtil.bytesToStr(tStarData.getMsgBody()));
         ctx.channel().writeAndFlush(respData);
     }
 
