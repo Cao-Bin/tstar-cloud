@@ -30,8 +30,8 @@ public class GB32960ProtocolHandler extends BaseUserDefinedHandler {
 
         byteBuf.readByte();
         byteBuf.readByte();
-        int cmd = byteBuf.readByte();
-        int resp = byteBuf.readByte();
+        int cmd = byteBuf.readUnsignedByte();
+        int resp = byteBuf.readUnsignedByte();
 
         byte[] vinArray = new byte[17];
         byteBuf.readBytes(vinArray);
@@ -46,7 +46,7 @@ public class GB32960ProtocolHandler extends BaseUserDefinedHandler {
         // 加密标识
         byteBuf.readByte();
         // 数据单元长度
-        int length = byteBuf.readShort();
+        int length = byteBuf.readUnsignedShort();
         byteBuf.readBytes(new byte[length]);
         // 校验位
         int last = byteBuf.readByte();
@@ -133,15 +133,15 @@ public class GB32960ProtocolHandler extends BaseUserDefinedHandler {
         respData.setCmdID(tStarData.getCmdID());
         respData.setMsgBody(buf.array());
         respData.setTime(System.currentTimeMillis());
-        respData.setCmdSerialNo(getMsgSerial());
 
+        logger.info("终端[], 响应数据[]...", tStarData.getTerminalID(), CommonUtil.bytesToStr(tStarData.getMsgBody()));
         ctx.channel().writeAndFlush(respData);
     }
 
 
     /**
      * 命令序号
-     **/
+     *
     private static AtomicLong msgSerial = new AtomicLong(0);
     private static int getMsgSerial() {
         Long serial = msgSerial.incrementAndGet();
@@ -152,4 +152,5 @@ public class GB32960ProtocolHandler extends BaseUserDefinedHandler {
 
         return serial.intValue();
     }
+     **/
 }
