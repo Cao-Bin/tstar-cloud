@@ -22,6 +22,11 @@ public class VehicleDao extends BaseDao {
     public List<VehicleInfo> selectVehicleInfo() {
         String sql = Constant.getSQL(Constant.SQL.SELECT_VEHICLE_INFO);
 
+        if (jdbcTemplate == null){
+
+            return null;
+        }
+
         return jdbcTemplate.query(sql, new RowMapper<VehicleInfo>() {
 
             @Override

@@ -11,6 +11,6 @@
     <bean id="refreshVehicleInfoTask" class="com.tiza.process.common.support.task.impl.RefreshVehicleInfoTask"/>
 
     <task:scheduled-tasks>
-        <task:scheduled ref="refreshVehicleInfoTask" method="execute" cron="0 */5 * * * ?" initial-delay="5000"/>
+        <task:scheduled ref="refreshVehicleInfoTask" method="execute" cron="0 0/5 * * * ?"/>
     </task:scheduled-tasks>
 </beans>

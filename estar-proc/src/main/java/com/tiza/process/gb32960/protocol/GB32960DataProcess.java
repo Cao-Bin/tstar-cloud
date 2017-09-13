@@ -42,6 +42,9 @@ public class GB32960DataProcess implements IDataProcess {
 
         ByteBuf buf = Unpooled.copiedBuffer(bytes);
 
+        // 读取头标志[0x23,0x23]
+        buf.readBytes(new byte[2]);
+
         int cmd = buf.readByte();
         int resp = buf.readByte();
 

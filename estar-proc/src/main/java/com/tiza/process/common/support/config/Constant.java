@@ -54,7 +54,7 @@ public final class Constant {
     }
 
     public static void init(String file){
-        logger.info("加载配置文件...");
+        logger.info("init configuration...");
         initSqlCache(file);
     }
 

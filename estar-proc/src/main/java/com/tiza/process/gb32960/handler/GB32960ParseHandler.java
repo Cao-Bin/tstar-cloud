@@ -6,7 +6,9 @@ import cn.com.tiza.tstar.common.process.RPTuple;
 import cn.com.tiza.tstar.common.utils.DBUtil;
 import com.tiza.process.common.support.cache.ICache;
 import com.tiza.process.common.support.config.Constant;
+import com.tiza.process.common.support.dao.VehicleDao;
 import com.tiza.process.common.support.dao.base.BaseDao;
+import com.tiza.process.common.support.task.ITask;
 import com.tiza.process.common.util.CommonUtil;
 import com.tiza.process.common.util.SpringUtil;
 import com.tiza.process.gb32960.bean.GB32960Header;
@@ -26,12 +28,12 @@ public class GB32960ParseHandler extends BaseHandle {
 
     @Override
     public RPTuple handle(RPTuple rpTuple) throws Exception {
-        logger.info("收到终端[{}], 指令[{}]...", rpTuple.getTerminalID(), CommonUtil.toHex(rpTuple.getCmdID()));
+        logger.info("terminal[{}], cmd[{}]...", rpTuple.getTerminalID(), CommonUtil.toHex(rpTuple.getCmdID()));
 
         ICache cmdCacheProvider = SpringUtil.getBean("cmdCacheProvider");
         GB32960DataProcess process = (GB32960DataProcess) cmdCacheProvider.get(rpTuple.getCmdID());
         if (process == null) {
-            logger.error("无法找到[{}]指令解析器!", CommonUtil.toHex(rpTuple.getCmdID()));
+            logger.error("can't find [{}] cmd parser!", CommonUtil.toHex(rpTuple.getCmdID()));
             return null;
         }
 
@@ -55,5 +57,9 @@ public class GB32960ParseHandler extends BaseHandle {
 
         // 初始化数据源
         BaseDao.initDataSource(dbUtil.getDataSource());
+
+        // 刷新车辆列表
+        ITask task = SpringUtil.getBean("refreshVehicleInfoTask");
+        task.execute();
     }
 }

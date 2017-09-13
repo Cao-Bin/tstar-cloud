@@ -63,14 +63,13 @@ public class GB32960ProtocolHandler extends BaseUserDefinedHandler {
 
             return null;
         }
+        //logger.info("Receive: Terminal[{}] CMD[{}], Content[{}]...", vin, String.format("%02X", cmd), CommonUtil.bytesToStr(msgBody));
 
         // 需要应答
         if (resp == 0xFE){
 
             doResponse(channelHandlerContext, tStarData, 0x01);
         }
-
-        logger.info("Receive: Terminal[{}] CMD[{}], Content[{}]...", vin, String.format("%02X", cmd), CommonUtil.bytesToStr(msgBody));
 
         return tStarData;
     }
@@ -134,7 +133,7 @@ public class GB32960ProtocolHandler extends BaseUserDefinedHandler {
         respData.setMsgBody(buf.array());
         respData.setTime(System.currentTimeMillis());
 
-        logger.info("Response, Terminal[{}], Content[{}]...", tStarData.getTerminalID(), CommonUtil.bytesToStr(tStarData.getMsgBody()));
+        //logger.info("Response, Terminal[{}], Content[{}]...", respData.getTerminalID(), CommonUtil.bytesToStr(respData.getMsgBody()));
         ctx.channel().writeAndFlush(respData);
     }
 

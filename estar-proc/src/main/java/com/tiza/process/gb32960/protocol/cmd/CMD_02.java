@@ -27,6 +27,9 @@ public class CMD_02 extends GB32960DataProcess {
 
     @Override
     public void parse(byte[] content, Header header) {
+        logger.info("[0x02,{}]", CommonUtil.bytesToStr(content));
+        logger.info(vehicleCacheProvider.getKeys().toString());
+
         ByteBuf buf = Unpooled.copiedBuffer(content);
 
         byte[] dateBytes = new byte[6];
@@ -65,16 +68,24 @@ public class CMD_02 extends GB32960DataProcess {
                     break;
                 case 0x06:
 
+                    error = parseExtreme(buf);
                     break;
                 case 0x07:
 
+                    error = parseAlarm(buf);
                     break;
                 default:
+
+                    if (buf.readableBytes() > 2){
+
+                        int length = buf.readUnsignedShort();
+                        buf.readBytes(new byte[length]);
+                    }
                     break;
 
             }
             if (error) {
-                logger.error("parse byte[] error!");
+                logger.error("cmd[{}], parse bytes error!", flag);
                 break;
             }
         }
@@ -82,6 +93,11 @@ public class CMD_02 extends GB32960DataProcess {
         updateGpsInfo((GB32960Header) header, paramValues);
     }
 
+    /**
+     * 整车数据
+     * @param byteBuf
+     * @return
+     */
     private boolean parseVehicle(ByteBuf byteBuf) {
         if (byteBuf.readableBytes() < 20) {
 
@@ -186,6 +202,11 @@ public class CMD_02 extends GB32960DataProcess {
         return false;
     }
 
+    /**
+     * 驱动电机数据
+     * @param byteBuf
+     * @return
+     */
     private boolean parseMotor(ByteBuf byteBuf) {
 
         int count = byteBuf.readByte();
@@ -197,33 +218,44 @@ public class CMD_02 extends GB32960DataProcess {
         for (int i = 0; i < count; i++) {
 
             int serial = byteBuf.readByte();
-            int status = byteBuf.readByte();
+            int status = byteBuf.readUnsignedByte();
 
-            int controlTemp = byteBuf.readByte();
+            int controlTemp = byteBuf.readUnsignedByte();
 
             int rpm = byteBuf.readUnsignedShort();
             int torque = byteBuf.readUnsignedShort();
 
-            int temp = byteBuf.readByte();
-            int voltage = byteBuf.readShort();
-            int electricity = byteBuf.readShort();
+            int temp = byteBuf.readUnsignedByte();
+            int voltage = byteBuf.readUnsignedShort();
+            int electricity = byteBuf.readUnsignedShort();
         }
 
         return false;
     }
 
+    /**
+     * 燃料电池数据
+     * @param byteBuf
+     * @return
+     */
     private boolean parseBattery(ByteBuf byteBuf) {
 
         if (byteBuf.readableBytes() < 8) {
 
             return true;
         }
-        int voltage = byteBuf.readShort();
-        int electricity = byteBuf.readShort();
+        int voltage = byteBuf.readUnsignedShort();
+        int electricity = byteBuf.readUnsignedShort();
 
-        int drain = byteBuf.readShort();
+        int drain = byteBuf.readUnsignedShort();
 
-        int count = byteBuf.readShort();
+        int count = byteBuf.readUnsignedShort();
+        // 数量无效
+        if (0xFFFE == count || 0xFFFF == count){
+
+            return false;
+        }
+
         if (byteBuf.readableBytes() < count * 10) {
 
             return true;
@@ -231,21 +263,26 @@ public class CMD_02 extends GB32960DataProcess {
 
         for (int i = 0; i < count; i++) {
 
-            int maxTemp = byteBuf.readShort();
-            int tempNumber = byteBuf.readByte();
+            int maxTemp = byteBuf.readUnsignedShort();
+            int tempNumber = byteBuf.readUnsignedByte();
 
-            int maxPPM = byteBuf.readShort();
-            int ppmNumber = byteBuf.readByte();
+            int maxPPM = byteBuf.readUnsignedShort();
+            int ppmNumber = byteBuf.readUnsignedByte();
 
             int maxPressure = byteBuf.readShort();
-            int pressureNumber = byteBuf.readByte();
+            int pressureNumber = byteBuf.readUnsignedByte();
 
-            int dcStatus = byteBuf.readByte();
+            int dcStatus = byteBuf.readUnsignedByte();
         }
 
         return false;
     }
 
+    /**
+     * 发动机数据
+     * @param byteBuf
+     * @return
+     */
     private boolean parseEngine(ByteBuf byteBuf) {
 
         if (byteBuf.readableBytes() < 5){
@@ -253,13 +290,18 @@ public class CMD_02 extends GB32960DataProcess {
             return true;
         }
 
-        int status = byteBuf.readByte();
-        int speed = byteBuf.readShort();
-        int drain = byteBuf.readShort();
+        int status = byteBuf.readUnsignedByte();
+        int speed = byteBuf.readUnsignedShort();
+        int drain = byteBuf.readUnsignedShort();
 
         return false;
     }
 
+    /**
+     * 车辆位置数据
+     * @param byteBuf
+     * @return
+     */
     private boolean parsePosition(ByteBuf byteBuf) {
         if (byteBuf.readableBytes() < 9){
 
@@ -278,14 +320,70 @@ public class CMD_02 extends GB32960DataProcess {
         return false;
     }
 
+    /**
+     * 极值数据
+     * @param byteBuf
+     * @return
+     */
     private boolean parseExtreme(ByteBuf byteBuf) {
-
+        byteBuf.readBytes(new byte[14]);
 
         return false;
     }
 
+    /**
+     * 报警数据
+     * @param byteBuf
+     * @return
+     */
     private boolean parseAlarm(ByteBuf byteBuf) {
+        int level = byteBuf.readUnsignedByte();
 
+        long flag = byteBuf.readUnsignedInt();
+
+        int chargeFault = byteBuf.readUnsignedByte();
+        if (0xFE != chargeFault && 0xFF != chargeFault){
+            if (byteBuf.readableBytes() < chargeFault * 4 + 3){
+                return true;
+            }
+            for (int i = 0; i < chargeFault; i++){
+
+                byteBuf.readUnsignedInt();
+            }
+        }
+
+        int motorFault = byteBuf.readUnsignedByte();
+        if (0xFE != motorFault && 0xFF != motorFault){
+            if (byteBuf.readableBytes() < chargeFault * 4 + 2){
+                return true;
+            }
+            for (int i = 0; i < motorFault; i++){
+
+                byteBuf.readUnsignedInt();
+            }
+        }
+
+        int engineFault = byteBuf.readUnsignedByte();
+        if (0xFE != engineFault && 0xFF != engineFault){
+            if (byteBuf.readableBytes() < chargeFault * 4 + 1){
+                return true;
+            }
+            for (int i = 0; i < engineFault; i++){
+
+                byteBuf.readUnsignedInt();
+            }
+        }
+
+        int otherFault = byteBuf.readUnsignedByte();
+        if (0xFE != otherFault && 0xFF != otherFault){
+            if (byteBuf.readableBytes() < chargeFault * 4){
+                return true;
+            }
+            for (int i = 0; i < otherFault; i++){
+
+                byteBuf.readUnsignedInt();
+            }
+        }
 
         return false;
     }
