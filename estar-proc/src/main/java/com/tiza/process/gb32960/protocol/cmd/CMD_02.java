@@ -23,14 +23,12 @@ public class CMD_02 extends GB32960DataProcess {
         this.cmd = 0x02;
     }
 
-    private List<Map> paramValues = new ArrayList<>();;
+    private List<Map> paramValues;
 
     @Override
     public void parse(byte[] content, Header header) {
-        logger.info("[0x02,{}]", CommonUtil.bytesToStr(content));
-        logger.info(vehicleCacheProvider.getKeys().toString());
-
         ByteBuf buf = Unpooled.copiedBuffer(content);
+        paramValues = new ArrayList<>();
 
         byte[] dateBytes = new byte[6];
         buf.readBytes(dateBytes);
@@ -74,8 +72,16 @@ public class CMD_02 extends GB32960DataProcess {
 
                     error = parseAlarm(buf);
                     break;
-                default:
 
+                case 0x08:
+
+                    error = parseStorageVoltage(buf);
+                    break;
+                case 0x09:
+
+                    error = parseStorageTemp(buf);
+                    break;
+                default:
                     if (buf.readableBytes() > 2){
 
                         int length = buf.readUnsignedShort();
@@ -382,6 +388,86 @@ public class CMD_02 extends GB32960DataProcess {
             for (int i = 0; i < otherFault; i++){
 
                 byteBuf.readUnsignedInt();
+            }
+        }
+
+        return false;
+    }
+
+
+    /**
+     * 可充电储能电压数据
+     * @param byteBuf
+     * @return
+     */
+    private boolean parseStorageVoltage(ByteBuf byteBuf){
+
+        int count = byteBuf.readUnsignedByte();
+        if (0xFE == count || 0xFF == count){
+
+            return false;
+        }
+        if (byteBuf.readableBytes() < count * 10){
+
+            return true;
+        }
+        for (int i = 0; i < count; i++){
+
+            int number = byteBuf.readByte();
+            int voltage = byteBuf.readUnsignedShort();
+            int electricity = byteBuf.readUnsignedShort();
+
+            int battery = byteBuf.readUnsignedShort();
+            int serial = byteBuf.readUnsignedShort();
+
+            int m = byteBuf.readByte();
+            if (byteBuf.readableBytes() < m * 2){
+
+                return true;
+            }
+
+            for (int j = 0; j < m; j++){
+
+                int kv = byteBuf.readUnsignedShort();
+            }
+        }
+
+        return false;
+    }
+
+
+    /**
+     * 可充电储能温度数据
+     * @param byteBuf
+     * @return
+     */
+    private boolean parseStorageTemp(ByteBuf byteBuf){
+
+        int count = byteBuf.readUnsignedByte();
+        if (0xFE == count || 0xFF == count){
+
+            return false;
+        }
+        if (byteBuf.readableBytes() < count * 3){
+
+            return true;
+        }
+        for (int i = 0; i < count; i++){
+
+            int number = byteBuf.readByte();
+            int n = byteBuf.readUnsignedShort();
+
+            if (0xFE == count || 0xFF == count){
+
+                return false;
+            }
+            if (byteBuf.readableBytes() < n){
+
+                return true;
+            }
+            for (int j = 0; j < n; j++){
+
+                int temp = byteBuf.readUnsignedByte();
             }
         }
 
