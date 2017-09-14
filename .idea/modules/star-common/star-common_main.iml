@@ -35,7 +35,16 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../lib/common/logback-core-1.1.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../lib/common/tstar-common-0.2-SNAPSHOT.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../lib/common/mysql-connector-java-5.1.25.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -53,6 +62,15 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../lib/common/logback-core-1.1.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
           <root url="jar://$MODULE_DIR$/../../../lib/common/log4j-over-slf4j-1.7.7.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -62,16 +80,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../lib/common/commons-lang3-3.3.2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../lib/common/ojdbc6-11.2.0.3.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../lib/common/jcl-over-slf4j-1.7.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -98,6 +107,15 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../lib/common/ojdbc6-11.2.0.3.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
           <root url="jar://$MODULE_DIR$/../../../lib/common/slf4j-api-1.7.7.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -107,25 +125,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../lib/common/tstar-common-0.2-SNAPSHOT.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../lib/common/mysql-connector-java-5.1.25.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../lib/common/jcl-over-slf4j-1.7.7.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../lib/common/commons-lang3-3.3.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

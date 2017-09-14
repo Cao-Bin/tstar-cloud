@@ -89,7 +89,7 @@ public class M2ProtocolHandler extends BaseUserDefinedHandler {
         tStarData.setCmdSerialNo(serial);
         tStarData.setTime(System.currentTimeMillis());
 
-        logger.info("收到消息，终端[{}]指令[{}], 内容[{}]...", terminal, CommonUtil.toHex(cmd), CommonUtil.bytesToStr(bytes));
+        logger.info("上行消息，终端[{}]指令[{}], 内容[{}]...", terminal, CommonUtil.toHex(cmd), CommonUtil.bytesToStr(bytes));
 
         TStarData respData = new TStarData();
         respData.setTerminalID(terminal);
@@ -109,6 +109,7 @@ public class M2ProtocolHandler extends BaseUserDefinedHandler {
             respData.setMsgBody(respMsg);
             context.channel().writeAndFlush(respData);
 
+            logger.info("下行消息，终端[{}]指令[{}], 内容[{}]...", terminal, CommonUtil.toHex(respData.getCmdID()), CommonUtil.bytesToStr(respData.getMsgBody()));
         } else if (0x80 == cmd) {
             // 请求中心地址
             String apn = properties.getProperty("apn");
@@ -127,6 +128,8 @@ public class M2ProtocolHandler extends BaseUserDefinedHandler {
             respData.setCmdID(0x01);
             respData.setMsgBody(respMsg);
             context.channel().writeAndFlush(respData);
+
+            logger.info("下行消息，终端[{}]指令[{}], 内容[{}]...", terminal, CommonUtil.toHex(respData.getCmdID()), CommonUtil.bytesToStr(respData.getMsgBody()));
         }
 
         return tStarData;
@@ -155,7 +158,7 @@ public class M2ProtocolHandler extends BaseUserDefinedHandler {
                 ackData = new AckData(msg, respCmd, serial);
                 break;
 
-            // 定位指令(上传的指令不包含下发序列号，自己组装回复序列号)
+            // 定位指令(上传的指令不包含下行序列号，自己组装回复序列号)
             case 0x83:
                 respCmd = 0x03;
 
@@ -164,7 +167,7 @@ public class M2ProtocolHandler extends BaseUserDefinedHandler {
                 ackData = new AckData(msg, respCmd, serial);
                 break;
 
-            // 终端参数(上传的指令不包含下发序列号，自己组装回复序列号)
+            // 终端参数(上传的指令不包含下行序列号，自己组装回复序列号)
             case 0x84:
                 bytes = msg.getMsgBody();
                 buf = Unpooled.copiedBuffer(bytes, 14, bytes.length - 14);
@@ -191,7 +194,7 @@ public class M2ProtocolHandler extends BaseUserDefinedHandler {
     @Override
     public void commandReceived(ChannelHandlerContext ctx, CommandData cmd) {
 
-        logger.info("下发消息，终端[{}]指令[{}], 内容[{}]...", cmd.getTerminalID(), CommonUtil.toHex(cmd.getCmdID()), CommonUtil.bytesToStr(cmd.getMsgBody()));
+        logger.info("下行消息，终端[{}]指令[{}], 内容[{}]...", cmd.getTerminalID(), CommonUtil.toHex(cmd.getCmdID()), CommonUtil.bytesToStr(cmd.getMsgBody()));
     }
 
     /**
@@ -212,9 +215,9 @@ public class M2ProtocolHandler extends BaseUserDefinedHandler {
     /**
      * 生成回复指令内容
      *
-     * @param recMsg  收到上行的指令内容
-     * @param content 需要下发的指令内容
-     * @param cmd     需要下发的命令ID
+     * @param recMsg  上行上行的指令内容
+     * @param content 需要下行的指令内容
+     * @param cmd     需要下行的命令ID
      * @return
      */
     public byte[] createResp(byte[] recMsg, byte[] content, int cmd) {

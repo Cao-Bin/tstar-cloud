@@ -29,3 +29,9 @@ task copyJars(type: Copy) {
 task zip(type: Zip, dependsOn: [jar, copyJars]) {
     from 'build/libs'
 }
+
+
+// 设置编码
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
