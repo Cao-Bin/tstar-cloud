@@ -2,7 +2,7 @@ package com.tiza.process.common.dao;
 
 import com.diyiliu.common.dao.BaseDao;
 import com.tiza.process.common.config.Constant;
-import com.tiza.process.common.entity.VehicleInfo;
+import com.tiza.process.common.model.VehicleInfo;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 

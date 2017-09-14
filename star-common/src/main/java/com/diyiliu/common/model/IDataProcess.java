@@ -11,5 +11,7 @@ public interface IDataProcess {
 
     void parse(byte[] content, Header header);
 
+    byte[] pack(Header header, Object... argus);
+
     void init();
 }

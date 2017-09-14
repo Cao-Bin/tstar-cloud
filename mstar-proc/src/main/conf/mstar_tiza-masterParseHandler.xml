@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <property>
+        <name>trackTopic</name>
+        <value>mstar_tiza_trackdata</value>
+        <description>MSTAR轨迹表</description>
+    </property>
+    <property>
         <name>business.database.driver</name>
         <value>oracle.jdbc.driver.OracleDriver</value>
     </property>

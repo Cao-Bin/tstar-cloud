@@ -3,7 +3,7 @@ package com.tiza.process.common.task;
 import com.diyiliu.common.cache.ICache;
 import com.diyiliu.common.task.ITask;
 import com.tiza.process.common.dao.VehicleDao;
-import com.tiza.process.common.entity.VehicleInfo;
+import com.tiza.process.common.model.VehicleInfo;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- TStar dataInterface rest module configuration -->
+<configuration>
+    <!-- Override Common.xml -->
+    <property>
+        <name>tstar.common.database.pool.max.connections</name>
+        <value>2</value>
+    </property>
+    <property>
+        <name>tstar.common.database.pool.initial.connections</name>
+        <value>1</value>
+    </property>
+    <property>
+        <name>tstar.common.database.pool.incremental</name>
+        <value>1</value>
+    </property>
+
+    <!-- configures of tstar-datainterface-service -->
+    <property>
+        <name>tstar.datainterface.service.hbase.connection.threadPool.size
+        </name>
+        <value>8</value>
+        <description>HBase connection thread pool size.</description>
+    </property>
+    <property>
+        <name>tstar.datainterface.service.historydata.querier.timeoutSeconds
+        </name>
+        <value>30</value>
+        <description>HistoryData querier timeout seconds.</description>
+    </property>
+    <property>
+        <name>tstar.datainterface.service.historydata.queriercache.cleanUp.interval
+        </name>
+        <value>120</value>
+        <description>Period seconds of querierCleaner thread.
+        </description>
+    </property>
+    <property>
+        <name>tstar.datainterface.service.historydata.querier.size.alarm.threshold
+        </name>
+        <value>5000</value>
+    </property>
+
+    <!-- configures of tstar-datainterface-client -->
+    <property>
+        <name>tstar.datainterfacce.client.service.impl.class</name>
+        <value>
+            cn.com.tiza.tstar.datainterface.service.impl.InterfaceServiceImpl
+        </value>
+    </property>
+    <property>
+        <name>tstar.datainterface.client.watchdog.interval</name>
+        <value>60</value>
+        <description>The interval of inspecting alarm,default 60 seconds
+        </description>
+    </property>
+</configuration>

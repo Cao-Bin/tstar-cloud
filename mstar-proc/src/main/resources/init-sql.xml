@@ -7,9 +7,9 @@
                    t.deviceid,
                    t.terminalno,
                    t.simno,
-                   t.protocol protocoltype
+                   t.protocoltype
               FROM bs_vehicle c
-             INNER JOIN dbd_terminal t
+             INNER JOIN bs_terminal t
                 ON t. id = c. terminalid
         ]]>
     </sql>

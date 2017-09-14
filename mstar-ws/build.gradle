@@ -1,0 +1,58 @@
+group 'com.tiza'
+version '1.0'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.7
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    compile project(':star-common')
+
+    compile fileTree(dir: rootDir.path + "/lib/ws", include: "*.jar")
+
+    compile group: 'com.alibaba', name: 'druid', version: '1.0.18'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
+
+    // hadoop
+    compile group: 'org.apache.hadoop', name: 'hadoop-common', version: '2.5.2'
+    compile group: 'org.apache.hadoop', name: 'hadoop-hdfs', version: '2.5.2'
+    // hbase
+    compile group: 'org.apache.hbase', name: 'hbase-common', version: '0.98.12-hadoop2'
+    compile group: 'org.apache.hbase', name: 'hbase-client', version: '0.98.12-hadoop2'
+    // kafka
+    compile group: 'org.apache.kafka', name: 'kafka-clients', version: '0.8.2.2'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.tiza.webservice.Main',
+                'Class-Path': 'resources/ lib/' + configurations.compile.collect {it.name}.join(' lib/')
+        )
+    }
+
+    // 过滤所有配置文件(打包时取消注释)
+//    sourceSets {
+//        main {
+//            resources {
+//                exclude '*.*'
+//                exclude '**/'
+//            }
+//        }
+//    }
+}
+
+// 拷贝文件
+task copyJars(type: Copy) {
+    from configurations.runtime
+    into 'dist'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
