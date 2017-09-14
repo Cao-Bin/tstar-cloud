@@ -5,4 +5,5 @@ include 'estar-op'
 include 'star-common'
 include 'mstar-gw'
 include 'cstar-gw'
+include 'mstar-proc'
 

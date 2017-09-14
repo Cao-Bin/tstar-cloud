@@ -14,6 +14,8 @@
       <module name="estar_test" target="1.8" />
       <module name="mstar-gw_main" target="1.7" />
       <module name="mstar-gw_test" target="1.7" />
+      <module name="mstar-proc_main" target="1.7" />
+      <module name="mstar-proc_test" target="1.7" />
       <module name="star-common_main" target="1.7" />
       <module name="star-common_test" target="1.7" />
       <module name="tstar-cloud_main" target="1.7" />

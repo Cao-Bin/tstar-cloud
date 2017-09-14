@@ -17,6 +17,9 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/mstar-gw.iml" filepath="$PROJECT_DIR$/.idea/modules/mstar-gw.iml" group="mstar-gw" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/mstar-gw/mstar-gw_main.iml" filepath="$PROJECT_DIR$/.idea/modules/mstar-gw/mstar-gw_main.iml" group="mstar-gw" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/mstar-gw/mstar-gw_test.iml" filepath="$PROJECT_DIR$/.idea/modules/mstar-gw/mstar-gw_test.iml" group="mstar-gw" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mstar-proc.iml" filepath="$PROJECT_DIR$/.idea/modules/mstar-proc.iml" group="mstar-proc" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mstar-proc/mstar-proc_main.iml" filepath="$PROJECT_DIR$/.idea/modules/mstar-proc/mstar-proc_main.iml" group="mstar-proc" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mstar-proc/mstar-proc_test.iml" filepath="$PROJECT_DIR$/.idea/modules/mstar-proc/mstar-proc_test.iml" group="mstar-proc" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/star-common.iml" filepath="$PROJECT_DIR$/.idea/modules/star-common.iml" group="star-common" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/star-common/star-common_main.iml" filepath="$PROJECT_DIR$/.idea/modules/star-common/star-common_main.iml" group="star-common" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/star-common/star-common_test.iml" filepath="$PROJECT_DIR$/.idea/modules/star-common/star-common_test.iml" group="star-common" />

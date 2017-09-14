@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <sql id="selectVehicleInfo" description="查询车辆信息">
+        <![CDATA[
+            SELECT c.id,
+                   c.terminalid,
+                   t.deviceid,
+                   t.terminalno,
+                   t.simno,
+                   t.protocol protocoltype
+              FROM bs_vehicle c
+             INNER JOIN dbd_terminal t
+                ON t. id = c. terminalid
+        ]]>
+    </sql>
+</root>

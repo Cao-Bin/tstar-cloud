@@ -1,0 +1,54 @@
+group 'com.tiza'
+version '1.0'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.7
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    compile project(':star-common')
+
+    compile fileTree(dir: rootDir.path + "/lib/process", include: "*.jar")
+}
+
+// 拷贝文件(排除项目自带jar)
+task copyJar(type: Copy) {
+    from configurations.runtime
+    into "$buildDir/dist"
+    exclude {
+        //detail -> detail.file.path.contains('tstar-cloud\\lib')
+        it.file.path.contains('tstar-cloud\\lib')
+    }
+}
+
+task copyConf(type: Copy) {
+    from "$projectDir/src/main/conf"
+    into "$buildDir/libs/conf"
+}
+
+jar {
+    archiveName = 'estar_gb32960.jar'
+    from {
+        File srcDir = file("$buildDir/dist")
+        // 使用闭合创建一个文件集合
+        FileCollection collection = files { srcDir.listFiles() }
+        collection.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+jar.dependsOn(copyJar)
+
+// 打包
+task zip(type: Zip, dependsOn: [copyConf, jar]) {
+    from 'build/libs'
+}
+
+
+// 设置编码
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
