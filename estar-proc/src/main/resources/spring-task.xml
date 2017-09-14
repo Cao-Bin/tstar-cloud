@@ -8,7 +8,7 @@
        http://www.springframework.org/schema/task/spring-task.xsd">
 
     <!-- 刷新车辆列表 -->
-    <bean id="refreshVehicleInfoTask" class="com.tiza.process.common.support.task.impl.RefreshVehicleInfoTask"/>
+    <bean id="refreshVehicleInfoTask" class="com.tiza.process.common.task.RefreshVehicleInfoTask"/>
 
     <task:scheduled-tasks>
         <task:scheduled ref="refreshVehicleInfoTask" method="execute" cron="0 0/5 * * * ?"/>

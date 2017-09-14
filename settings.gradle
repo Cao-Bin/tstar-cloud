@@ -2,4 +2,7 @@ rootProject.name = 'tstar-cloud'
 include 'estar-gw'
 include 'estar-proc'
 include 'estar-op'
+include 'star-common'
+include 'mstar-gw'
+include 'cstar-gw'
 

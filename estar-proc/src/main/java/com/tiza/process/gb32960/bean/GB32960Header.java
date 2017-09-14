@@ -1,7 +1,7 @@
 package com.tiza.process.gb32960.bean;
 
 import cn.com.tiza.tstar.common.entity.TStarData;
-import com.tiza.process.common.support.model.Header;
+import com.diyiliu.common.model.Header;
 
 /**
  * Description: GB32960Header

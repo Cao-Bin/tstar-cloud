@@ -1,10 +1,10 @@
 package com.tiza.process.gb32960.protocol;
 
-import com.tiza.process.common.support.cache.ICache;
-import com.tiza.process.common.support.dao.VehicleDao;
-import com.tiza.process.common.support.entity.VehicleInfo;
-import com.tiza.process.common.support.model.Header;
-import com.tiza.process.common.support.model.IDataProcess;
+import com.diyiliu.common.cache.ICache;
+import com.diyiliu.common.model.Header;
+import com.diyiliu.common.model.IDataProcess;
+import com.tiza.process.common.dao.VehicleDao;
+import com.tiza.process.common.entity.VehicleInfo;
 import com.tiza.process.gb32960.bean.GB32960Header;
 import com.tiza.process.gb32960.handler.GB32960ParseHandler;
 import io.netty.buffer.ByteBuf;

@@ -1,7 +1,7 @@
 package com.tiza.process.gb32960.protocol.cmd;
 
-import com.tiza.process.common.support.model.Header;
-import com.tiza.process.common.util.CommonUtil;
+import com.diyiliu.common.model.Header;
+import com.diyiliu.common.util.CommonUtil;
 import com.tiza.process.gb32960.bean.GB32960Header;
 import com.tiza.process.gb32960.protocol.GB32960DataProcess;
 import io.netty.buffer.ByteBuf;

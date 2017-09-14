@@ -2,6 +2,8 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="cstar-gw_main" target="1.7" />
+      <module name="cstar-gw_test" target="1.7" />
       <module name="estar-gw_main" target="1.7" />
       <module name="estar-gw_test" target="1.7" />
       <module name="estar-op_main" target="1.7" />
@@ -10,6 +12,10 @@
       <module name="estar-proc_test" target="1.7" />
       <module name="estar_main" target="1.8" />
       <module name="estar_test" target="1.8" />
+      <module name="mstar-gw_main" target="1.7" />
+      <module name="mstar-gw_test" target="1.7" />
+      <module name="star-common_main" target="1.7" />
+      <module name="star-common_test" target="1.7" />
       <module name="tstar-cloud_main" target="1.7" />
       <module name="tstar-cloud_test" target="1.7" />
     </bytecodeTargetLevel>

@@ -4,13 +4,12 @@ import cn.com.tiza.tstar.common.datasource.BusinessDBManager;
 import cn.com.tiza.tstar.common.process.BaseHandle;
 import cn.com.tiza.tstar.common.process.RPTuple;
 import cn.com.tiza.tstar.common.utils.DBUtil;
-import com.tiza.process.common.support.cache.ICache;
-import com.tiza.process.common.support.config.Constant;
-import com.tiza.process.common.support.dao.VehicleDao;
-import com.tiza.process.common.support.dao.base.BaseDao;
-import com.tiza.process.common.support.task.ITask;
-import com.tiza.process.common.util.CommonUtil;
-import com.tiza.process.common.util.SpringUtil;
+import com.diyiliu.common.cache.ICache;
+import com.diyiliu.common.dao.BaseDao;
+import com.diyiliu.common.task.ITask;
+import com.diyiliu.common.util.CommonUtil;
+import com.diyiliu.common.util.SpringUtil;
+import com.tiza.process.common.config.Constant;
 import com.tiza.process.gb32960.bean.GB32960Header;
 import com.tiza.process.gb32960.protocol.GB32960DataProcess;
 import org.slf4j.Logger;
@@ -57,6 +56,9 @@ public class GB32960ParseHandler extends BaseHandle {
 
         // 初始化数据源
         BaseDao.initDataSource(dbUtil.getDataSource());
+
+        // 加载初始化SQL
+        Constant.init("init-sql.xml");
 
         // 刷新车辆列表
         ITask task = SpringUtil.getBean("refreshVehicleInfoTask");

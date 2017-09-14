@@ -13,10 +13,10 @@
     <import resource="classpath*:spring-*.xml"/>
 
     <!-- Spring工具类 -->
-    <bean class="com.tiza.process.common.util.SpringUtil"/>
+    <bean class="com.diyiliu.common.util.SpringUtil"/>
 
     <!-- 指令解析初始化 -->
-    <bean class="com.tiza.process.common.support.listener.CMDInitializer">
+    <bean class="com.diyiliu.common.listener.CMDInitializer">
         <property name="protocols">
             <list>
                 <value>com.tiza.process.gb32960.protocol.GB32960DataProcess</value>

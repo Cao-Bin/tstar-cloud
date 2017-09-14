@@ -1,6 +1,6 @@
 package com.tiza.process.gb32960.protocol.cmd;
 
-import com.tiza.process.common.support.model.Header;
+import com.diyiliu.common.model.Header;
 import com.tiza.process.gb32960.protocol.GB32960DataProcess;
 import org.springframework.stereotype.Service;
 

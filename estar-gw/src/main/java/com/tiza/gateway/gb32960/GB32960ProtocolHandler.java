@@ -2,7 +2,7 @@ package com.tiza.gateway.gb32960;
 
 import cn.com.tiza.tstar.common.entity.TStarData;
 import cn.com.tiza.tstar.gateway.handler.BaseUserDefinedHandler;
-import com.tiza.gateway.common.util.CommonUtil;
+import com.diyiliu.common.util.CommonUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
