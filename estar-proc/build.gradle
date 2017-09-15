@@ -13,6 +13,7 @@ repositories {
 dependencies {
     compile project(':star-common')
 
+    compile fileTree(dir: rootDir.path + "/lib/common", include: "*.jar")
     compile fileTree(dir: rootDir.path + "/lib/process", include: "*.jar")
 }
 

@@ -1,5 +1,7 @@
 package com.tiza.webservice;
 
+import com.diyiliu.common.util.SpringUtil;
+
 /**
  * Description: Main
  * Author: DIYILIU
@@ -9,5 +11,6 @@ public class Main {
 
     public static void main(String[] args) {
 
+        SpringUtil.init("config/applicationContext.xml");
     }
 }

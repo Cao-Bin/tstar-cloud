@@ -15,8 +15,12 @@ dependencies {
 
     compile fileTree(dir: rootDir.path + "/lib/ws", include: "*.jar")
 
+    compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
+
     compile group: 'com.alibaba', name: 'druid', version: '1.0.18'
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.6'
 
     // hadoop
     compile group: 'org.apache.hadoop', name: 'hadoop-common', version: '2.5.2'
@@ -26,13 +30,15 @@ dependencies {
     compile group: 'org.apache.hbase', name: 'hbase-client', version: '0.98.12-hadoop2'
     // kafka
     compile group: 'org.apache.kafka', name: 'kafka-clients', version: '0.8.2.2'
+    // mysql
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.38'
 }
 
 jar {
     manifest {
         attributes(
                 'Main-Class': 'com.tiza.webservice.Main',
-                'Class-Path': 'resources/ lib/' + configurations.compile.collect {it.name}.join(' lib/')
+                'Class-Path': 'resources/ lib/' + configurations.compile.collect { it.name }.join(' lib/')
         )
     }
 
