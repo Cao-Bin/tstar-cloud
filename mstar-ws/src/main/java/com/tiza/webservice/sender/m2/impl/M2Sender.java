@@ -47,6 +47,12 @@ public class M2Sender implements IM2Sender {
     }
 
     @Override
+    public void sendOriginal(int id, int cmd, String terminalId, byte[] content) {
+
+        m2DataProcess.send(id, cmd, terminalId, content);
+    }
+
+    @Override
     public void init() {
 
         Endpoint.publish(address, this);

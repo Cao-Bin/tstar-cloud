@@ -37,7 +37,7 @@ public class M2DataProcess implements IDataProcess {
     protected ICache waitRespCacheProvider;
 
     @Value("${terminalType}")
-    protected String terminalType = "cstar_tiza";
+    protected String terminalType = "mstar_tiza";
 
     @Override
     public Header dealHeader(byte[] bytes) {
@@ -82,8 +82,9 @@ public class M2DataProcess implements IDataProcess {
 
     @Override
     public byte[] pack(Header header, Object... argus) {
+        M2Header m2Header = (M2Header) header;
 
-        return null;
+        return headerToSendBytes(m2Header.getContent(), m2Header.getCmd(), m2Header);
     }
 
     public void init(){
@@ -127,10 +128,35 @@ public class M2DataProcess implements IDataProcess {
 
         msg.setSerial(serial);
         msg.setTerminalType(terminalType);
-        msg.setWaitCount(0);
 
         MSGSenderTask.send(msg);
     }
+
+    /**
+     * 原始指令下发(锁车)
+     * @param id
+     * @param cmd
+     * @param terminalId
+     * @param bytes
+     */
+    public void send(int id, int cmd, String terminalId, byte[] bytes){
+
+        M2Header header = new M2Header();
+        header.setCmd(cmd);
+        header.setTerminalId(terminalId);
+        header.setContent(bytes);
+
+        byte[] content = pack(header, null);
+
+        SendMSG msg = new SendMSG(terminalId, cmd, content);
+        msg.setId(id);
+
+        msg.setSerial(header.getSerial());
+        msg.setTerminalType(terminalType);
+
+        MSGSenderTask.send(msg);
+    }
+
 
     /**
      * 消息头（不包含校验位、结束位）
@@ -154,6 +180,11 @@ public class M2DataProcess implements IDataProcess {
         return buf.array();
     }
 
+    /**
+     * header转byte[]
+     * @param header
+     * @return
+     */
     public byte[] headerToBytes(M2Header header) {
 
         ByteBuf buf = Unpooled.buffer(header.getLength() + 3);
@@ -172,6 +203,13 @@ public class M2DataProcess implements IDataProcess {
         return buf.array();
     }
 
+    /**
+     * header转byte[]，自动生成序列号和校验位
+     * @param content
+     * @param cmd
+     * @param header
+     * @return
+     */
     public byte[] headerToSendBytes(byte[] content, int cmd, M2Header header) {
 
         header.setLength(14 + content.length);
