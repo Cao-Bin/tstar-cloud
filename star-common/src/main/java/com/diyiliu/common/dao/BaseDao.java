@@ -13,8 +13,7 @@ import javax.sql.DataSource;
  */
 
 public class BaseDao {
-
-    private static Logger logger = LoggerFactory.getLogger(BaseDao.class);
+    protected static Logger logger = LoggerFactory.getLogger(BaseDao.class);
 
     protected static JdbcTemplate jdbcTemplate;
 
@@ -26,6 +25,11 @@ public class BaseDao {
     }
 
     public boolean update(String sql, Object[] values) {
+        if (jdbcTemplate == null){
+            logger.warn("未装载数据源，无法连接数据库!");
+            return false;
+        }
+
         int result = jdbcTemplate.update(sql, values);
 
         if (result > 0) {
@@ -37,6 +41,11 @@ public class BaseDao {
     }
 
     public boolean update(String sql) {
+        if (jdbcTemplate == null){
+            logger.warn("未装载数据源，无法连接数据库!");
+            return false;
+        }
+
         int result = jdbcTemplate.update(sql);
 
         if (result > 0) {

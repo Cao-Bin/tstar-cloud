@@ -23,7 +23,7 @@ public class VehicleDao extends BaseDao {
         String sql = Constant.getSQL(Constant.SQL.SELECT_VEHICLE_INFO);
 
         if (jdbcTemplate == null){
-
+            logger.warn("尚未装载数据源，无法连接数据库!");
             return null;
         }
 

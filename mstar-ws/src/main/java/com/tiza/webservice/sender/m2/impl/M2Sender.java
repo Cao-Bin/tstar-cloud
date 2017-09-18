@@ -1,5 +1,6 @@
 package com.tiza.webservice.sender.m2.impl;
 
+import com.diyiliu.common.util.CommonUtil;
 import com.diyiliu.common.util.JacksonUtil;
 import com.tiza.webservice.protocol.m2.M2DataProcess;
 import com.tiza.webservice.sender.m2.IM2Sender;
@@ -47,9 +48,10 @@ public class M2Sender implements IM2Sender {
     }
 
     @Override
-    public void sendOriginal(int id, int cmd, String terminalId, byte[] content) {
+    public void sendOriginal(int id, int cmd, String terminalId, String content) {
+        byte[] bytes = CommonUtil.hexStringToBytes(content);
 
-        m2DataProcess.send(id, cmd, terminalId, content);
+        m2DataProcess.send(id, cmd, terminalId, bytes);
     }
 
     @Override

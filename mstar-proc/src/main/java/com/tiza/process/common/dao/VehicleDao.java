@@ -22,6 +22,11 @@ public class VehicleDao extends BaseDao {
     public List<VehicleInfo> selectVehicleInfo() {
         String sql = Constant.getSQL(Constant.SQL.SELECT_VEHICLE_INFO);
 
+        if (jdbcTemplate == null){
+            logger.warn("未装载数据源，无法连接数据库!");
+            return null;
+        }
+
         return jdbcTemplate.query(sql, new RowMapper<VehicleInfo>() {
             @Override
             public VehicleInfo mapRow(ResultSet rs, int rowNum) throws SQLException {

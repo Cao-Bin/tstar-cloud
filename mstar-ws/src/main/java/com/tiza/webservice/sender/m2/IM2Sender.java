@@ -29,8 +29,8 @@ public interface IM2Sender extends ISender {
      * @param id
      * @param cmd
      * @param terminalId
-     * @param content 指令内容(字节数组)
+     * @param content 指令内容(16进制字符串)
      */
     @WebMethod
-    void sendOriginal(int id, int cmd, String terminalId, byte[] content);
+    void sendOriginal(int id, int cmd, String terminalId, String content);
 }
