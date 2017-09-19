@@ -13,4 +13,24 @@
                 ON t. id = c. terminalid
         ]]>
     </sql>
+
+    <sql id="selectVehicleOutIn" description="查询车辆出入库记录">
+        <![CDATA[
+            SELECT t.vehicleid, t.unitid, t.status
+              FROM bs_warehouseoutin t
+             WHERE t.id IN (SELECT MAX(id) FROM bs_warehouseoutin GROUP BY vehicleid)
+        ]]>
+    </sql>
+
+    <sql id="selectVehicleStorehouse" description="查询车辆仓库信息">
+        <![CDATA[
+            SELECT t.id, t.fencesharp, t.fencegeoinfo, v.vehicleid
+              FROM bs_orgunit t
+             INNER JOIN bs_vehicleorgunitrelation v
+                ON t.id = v.orgunitid
+             WHERE t.orgunittypeid = 3
+               AND t.fencesharp IN (1, 2)
+               AND t.fencegeoinfo IS NOT NULL
+        ]]>
+    </sql>
 </root>

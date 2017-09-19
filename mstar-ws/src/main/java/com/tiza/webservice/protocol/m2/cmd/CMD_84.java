@@ -56,7 +56,7 @@ public class CMD_84 extends M2DataProcess {
                 buf.readBytes(bytes);
                 value = toValue(paramId, bytes);
 
-                logger.info("终端参数ID[{}]，参数值[{}], 原始值[{}]", CommonUtil.toHex(paramId), value, CommonUtil.bytesToString(bytes));
+                //logger.info("终端参数ID[{}]，参数值[{}], 原始值[{}]", CommonUtil.toHex(paramId), value, CommonUtil.bytesToString(bytes));
             }
             waitRespCacheProvider.remove(serial);
 

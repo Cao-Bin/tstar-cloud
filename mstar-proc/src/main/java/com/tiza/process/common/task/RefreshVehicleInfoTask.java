@@ -36,7 +36,7 @@ public class RefreshVehicleInfoTask implements ITask {
 
 
     private void refresh(List<VehicleInfo> vehicleInfos, ICache vehicleCache) {
-        if (vehicleInfos == null || vehicleInfos.size() < 1){
+        if (vehicleInfos == null){
             logger.warn("无车辆信息！");
             return;
         }

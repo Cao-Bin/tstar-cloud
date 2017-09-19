@@ -10,6 +10,13 @@ public class Point {
     private double lng;
     private double lat;
 
+    /** 省份 */
+    private String province;
+    /** 城市 */
+    private String city;
+    /** 区县 */
+    private String area;
+
     public Point() {
     }
 
@@ -35,4 +42,27 @@ public class Point {
     }
 
 
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
 }

@@ -53,9 +53,9 @@ public class CurrentStatusModule  extends BaseHandle {
             sqlBuilder.append(" WHERE t.vehicleid =").append(vehicleId);
 
             if (vehicleDao.update(sqlBuilder.toString(), values)) {
-                logger.info("车辆[{}]更新当前表位置信息...", vehicleId);
+                //logger.info("车辆[{}]更新当前表位置信息...", vehicleId);
             } else {
-                logger.warn("车辆[{}]更新当前表位置信息失败!", vehicleId);
+                logger.error("车辆[{}]更新当前表位置信息失败!", vehicleId);
             }
         }
 

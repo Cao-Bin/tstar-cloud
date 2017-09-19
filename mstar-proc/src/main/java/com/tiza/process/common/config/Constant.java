@@ -57,6 +57,8 @@ public final class Constant {
     public enum SQL{
         ;
         public final static String SELECT_VEHICLE_INFO = "selectVehicleInfo";
+        public final static String SELECT_VEHICLE_STOREHOUSE = "selectVehicleStorehouse";
+        public final static String SELECT_VEHICLE_OUT_IN = "selectVehicleOutIn";
     }
 
 
