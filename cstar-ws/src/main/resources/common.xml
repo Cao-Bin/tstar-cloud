@@ -1,0 +1,79 @@
+<configuration>
+	<property>
+		<name>tstar.common.database.driver</name>
+		<value>oracle.jdbc.driver.OracleDriver</value>
+	</property>
+	<property>
+		<name>tstar.common.database.url</name>
+		<value>jdbc:oracle:thin:@192.168.1.156:1521/xgsid.xg156.com</value>
+	</property>
+    <property>
+        <name>tstar.common.database.username</name>
+        <value>TSTAR</value>
+    </property>
+    <property>
+        <name>tstar.common.database.password</name>
+        <value>TSTAR</value>
+    </property>
+	<property>
+		<name>tstar.common.database.pool.max.connections</name>
+		<value>50</value>
+	</property>
+	<property>
+		<name>tstar.common.database.pool.initial.connections</name>
+		<value>1</value>
+	</property>
+	<property>
+		<name>tstar.common.database.pool.incremental</name>
+		<value>5</value>
+	</property>
+    <property>
+        <name>tstar.common.alarmer.root.dir</name>
+        <value>/tstar/alarm</value>
+    </property>
+
+    <!-- Redis basic configurations -->
+	<property>
+		<name>tstar.common.redis.host</name>
+		<value>192.168.1.156</value>
+		<descrption>Redis server host.</descrption>
+	</property>
+	<property>
+		<name>tstar.common.redis.port</name>
+		<value>6379</value>
+		<descrption>Redis server port.</descrption>
+	</property>
+    <property>
+        <name>tstar.common.redis.password</name>
+        <value></value>
+        <descrption>Redis server password.</descrption>
+    </property>
+    <property>
+        <name>tstar.common.redis.db</name>
+        <value>0</value>
+        <descrption>Redis server db. (0,1,2...)</descrption>
+    </property>
+
+    <!-- Redis client pool configurations -->
+    <property>
+        <name>tstar.common.redis.pool.maxTotal</name>
+        <value>100</value>
+        <descrption>Redis pool max connections.</descrption>
+    </property>
+    <property>
+        <name>tstar.common.redis.pool.maxIdle</name>
+        <value>100</value>
+        <descrption>Redis pool max idle connections.</descrption>
+    </property>
+    <property>
+        <name>tstar.common.redis.pool.maxWaitMillis</name>
+        <value>5000</value>
+        <descrption>Max wait time in milliseconds when borrowing a jedis instance from jedisPool.</descrption>
+    </property>
+    
+    <property>
+        <name>hbase.namespace</name>
+        <value>tstar</value>
+    </property>
+    
+</configuration>

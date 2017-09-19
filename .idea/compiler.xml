@@ -4,6 +4,8 @@
     <bytecodeTargetLevel>
       <module name="cstar-gw_main" target="1.7" />
       <module name="cstar-gw_test" target="1.7" />
+      <module name="cstar-ws_main" target="1.7" />
+      <module name="cstar-ws_test" target="1.7" />
       <module name="estar-gw_main" target="1.7" />
       <module name="estar-gw_test" target="1.7" />
       <module name="estar-op_main" target="1.7" />

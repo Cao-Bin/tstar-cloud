@@ -5,6 +5,9 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/cstar-gw.iml" filepath="$PROJECT_DIR$/.idea/modules/cstar-gw.iml" group="cstar-gw" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/cstar-gw/cstar-gw_main.iml" filepath="$PROJECT_DIR$/.idea/modules/cstar-gw/cstar-gw_main.iml" group="cstar-gw" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/cstar-gw/cstar-gw_test.iml" filepath="$PROJECT_DIR$/.idea/modules/cstar-gw/cstar-gw_test.iml" group="cstar-gw" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/cstar-ws.iml" filepath="$PROJECT_DIR$/.idea/modules/cstar-ws.iml" group="cstar-ws" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/cstar-ws/cstar-ws_main.iml" filepath="$PROJECT_DIR$/.idea/modules/cstar-ws/cstar-ws_main.iml" group="cstar-ws" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/cstar-ws/cstar-ws_test.iml" filepath="$PROJECT_DIR$/.idea/modules/cstar-ws/cstar-ws_test.iml" group="cstar-ws" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/estar-gw.iml" filepath="$PROJECT_DIR$/.idea/modules/estar-gw.iml" group="estar-gw" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/estar-gw/estar-gw_main.iml" filepath="$PROJECT_DIR$/.idea/modules/estar-gw/estar-gw_main.iml" group="estar-gw" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/estar-gw/estar-gw_test.iml" filepath="$PROJECT_DIR$/.idea/modules/estar-gw/estar-gw_test.iml" group="estar-gw" />

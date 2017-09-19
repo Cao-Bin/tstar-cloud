@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task
+       http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!-- 指令下发 -->
+    <bean id="msgSenderTask" class="com.tiza.webservice.common.task.MSGSenderTask"/>
+
+    <!-- 等待响应 -->
+    <bean id="waitRespTask" class="com.tiza.webservice.common.task.WaitRespTask"/>
+
+    <task:scheduled-tasks>
+        <task:scheduled ref="msgSenderTask" method="execute" fixed-delay="1000" initial-delay="3000"/>
+        <task:scheduled ref="waitRespTask" method="execute" fixed-delay="1000" initial-delay="5000"/>
+    </task:scheduled-tasks>
+</beans>

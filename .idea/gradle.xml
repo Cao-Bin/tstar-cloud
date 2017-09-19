@@ -11,6 +11,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/cstar-gw" />
+            <option value="$PROJECT_DIR$/cstar-ws" />
             <option value="$PROJECT_DIR$/estar-gw" />
             <option value="$PROJECT_DIR$/estar-op" />
             <option value="$PROJECT_DIR$/estar-proc" />

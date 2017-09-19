@@ -7,4 +7,5 @@ include 'mstar-gw'
 include 'cstar-gw'
 include 'mstar-proc'
 include 'mstar-ws'
+include 'cstar-ws'
 
