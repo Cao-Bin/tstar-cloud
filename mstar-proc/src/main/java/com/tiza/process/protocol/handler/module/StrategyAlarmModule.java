@@ -4,7 +4,6 @@ import cn.com.tiza.tstar.common.process.BaseHandle;
 import cn.com.tiza.tstar.common.process.RPTuple;
 import com.diyiliu.common.cache.ICache;
 import com.diyiliu.common.model.Point;
-import com.diyiliu.common.task.ITask;
 import com.diyiliu.common.util.JacksonUtil;
 import com.diyiliu.common.util.SpringUtil;
 import com.tiza.process.common.config.Constant;
@@ -19,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Description: StrategyAlarmModule
@@ -29,15 +27,14 @@ import java.util.concurrent.ConcurrentHashMap;
 public class StrategyAlarmModule extends BaseHandle {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    // 当前车辆在仓库中的状态
-    private ConcurrentHashMap<Integer, InOutRecord> recordMap = new ConcurrentHashMap();
-
-    private VehicleDao vehicleDao;
-
+    private ICache recordMap;
     private ICache vehicleStorehouseMap;
 
     @Override
     public RPTuple handle(RPTuple rpTuple) throws Exception {
+        recordMap = SpringUtil.getBean("vehicleOutInCacheProvider");
+        vehicleStorehouseMap = SpringUtil.getBean("vehicleStorehouseCacheProvider");
+
 
         Map<String, String> context = rpTuple.getContext();
 
@@ -64,8 +61,8 @@ public class StrategyAlarmModule extends BaseHandle {
                     }
                 }
 
-                if (recordMap.contains(vehId)) {
-                    InOutRecord oldRecord = recordMap.get(vehicleId);
+                if (recordMap.containsKey(vehId)) {
+                    InOutRecord oldRecord = (InOutRecord) recordMap.get(vehicleId);
 
                     if (storehouse == null){
 
@@ -98,23 +95,10 @@ public class StrategyAlarmModule extends BaseHandle {
 
     @Override
     public void init() throws Exception {
-        logger.info("初始化车辆策略报警...");
-        // 刷新车辆仓库信息
-        ITask task = SpringUtil.getBean("refreshVehicleStorehouseTask");
-        task.execute();
 
-        vehicleDao = SpringUtil.getBean("vehicleDao");
-        List<InOutRecord> list = vehicleDao.selectInOutRecord();
-        for (InOutRecord record : list) {
-
-            recordMap.put(record.getVehicleId(), record);
-        }
-
-        vehicleStorehouseMap = SpringUtil.getBean("vehicleStorehouseCacheProvider");
     }
 
     private void toUpdate(Position position, int vehicleId, int storehouseId, int status) {
-
         String sql = "INSERT INTO bs_warehouseoutin" +
                 "(vehicleid, unitid, gpstime, encryptlng, encryptlat, systemtime, status) " +
                 "VALUES(?,?,?,?,?,?,?)";
@@ -123,11 +107,10 @@ public class StrategyAlarmModule extends BaseHandle {
                 position.getDateTime(), position.getEnLngD(), position.getEnLatD(),
                 new Date(), status};
 
+        VehicleDao vehicleDao = SpringUtil.getBean("vehicleDao");
         if (vehicleDao.update(sql, paramValues)){
-
-            logger.info("新增车辆策略报警成功...");
+            //logger.info("新增车辆策略报警成功...");
         }else {
-
             logger.error("新增车辆策略报警失败！");
         }
 

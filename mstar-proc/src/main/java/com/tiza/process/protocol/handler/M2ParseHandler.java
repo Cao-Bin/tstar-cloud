@@ -1,6 +1,5 @@
 package com.tiza.process.protocol.handler;
 
-import cn.com.tiza.tstar.common.datasource.BusinessDBManager;
 import cn.com.tiza.tstar.common.process.BaseHandle;
 import cn.com.tiza.tstar.common.process.RPTuple;
 import cn.com.tiza.tstar.common.utils.DBUtil;
@@ -10,12 +9,14 @@ import com.diyiliu.common.task.ITask;
 import com.diyiliu.common.util.CommonUtil;
 import com.diyiliu.common.util.SpringUtil;
 import com.tiza.process.common.config.Constant;
+import com.tiza.process.common.dao.VehicleDao;
+import com.tiza.process.common.model.InOutRecord;
 import com.tiza.process.protocol.bean.M2Header;
 import com.tiza.process.protocol.m2.M2DataProcess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * Description: M2ParseHandler
@@ -49,14 +50,7 @@ public class M2ParseHandler extends BaseHandle{
         M2DataProcess.setHandle(this);
         SpringUtil.init();
 
-        BusinessDBManager dbManager = BusinessDBManager.getInstance(this.processorConf);
-        Field field = dbManager.getClass().getDeclaredField("dbUtil");
-        field.setAccessible(true);
-        DBUtil dbUtil = (DBUtil) field.get(dbManager);
-        field.setAccessible(false);
-
-        // 初始化数据源
-        BaseDao.initDataSource(dbUtil.getDataSource());
+        initDataSource();
 
         // 加载初始化SQL
         Constant.init("init-sql.xml");
@@ -64,5 +58,45 @@ public class M2ParseHandler extends BaseHandle{
         // 刷新车辆列表
         ITask task = SpringUtil.getBean("refreshVehicleInfoTask");
         task.execute();
+
+        /**
+         * 每个流程的init方法是并行的，
+         * 所有的初始化方法必须在第一个流程的init方法里。
+         * 除非后面的初始化方法不依赖前面的初始化内容。
+         * （1: Spring容器池; 2: Jdbc数据源; 3: 初始化SQL查询语句。）
+         */
+        initStrategyAlarmModule();
     }
+
+
+    /**
+     * 装载数据源
+     * @throws Exception
+     */
+    public void initDataSource() throws Exception{
+        String driver = processorConf.get("business.database.driver");
+        String url = processorConf.get("business.database.url");
+        String username = processorConf.get("business.database.username");
+        String password = processorConf.get("business.database.password");
+        DBUtil dbUtil = new DBUtil(driver, url, username, password);
+
+        // 初始化数据源
+        BaseDao.initDataSource(dbUtil.getDataSource());
+    }
+
+    public void initStrategyAlarmModule(){
+        // 刷新车辆仓库信息
+        ITask task = SpringUtil.getBean("refreshVehicleStorehouseTask");
+        task.execute();
+
+        ICache  vehicleOutInCacheProvider = SpringUtil.getBean("vehicleOutInCacheProvider");
+        VehicleDao vehicleDao = SpringUtil.getBean("vehicleDao");
+
+        // 车辆最近一条和仓库之间的位置信息
+        List<InOutRecord> list = vehicleDao.selectInOutRecord();
+        for (InOutRecord record : list) {
+            vehicleOutInCacheProvider.put(record.getVehicleId(), record);
+        }
+    }
+
 }

@@ -11,4 +11,7 @@
 
     <!-- 车辆仓库信息 -->
     <bean id="vehicleStorehouseCacheProvider" class="com.diyiliu.common.cache.ram.RamCacheProvider"/>
+
+    <!-- 车辆当前出入库信息 -->
+    <bean id="vehicleOutInCacheProvider" class="com.diyiliu.common.cache.ram.RamCacheProvider"/>
 </beans>
