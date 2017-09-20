@@ -6,7 +6,7 @@ import com.diyiliu.common.model.Circle;
 import com.diyiliu.common.model.Point;
 import com.diyiliu.common.model.Region;
 import com.diyiliu.common.util.JacksonUtil;
-import com.tiza.process.common.config.Constant;
+import com.tiza.process.common.config.MStarConstant;
 import com.tiza.process.common.model.InOutRecord;
 import com.tiza.process.common.model.Storehouse;
 import com.tiza.process.common.model.VehicleInfo;
@@ -32,7 +32,7 @@ import java.util.Map;
 public class VehicleDao extends BaseDao {
 
     public List<VehicleInfo> selectVehicleInfo() {
-        String sql = Constant.getSQL(Constant.SQL.SELECT_VEHICLE_INFO);
+        String sql = MStarConstant.getSQL(MStarConstant.SQL.SELECT_VEHICLE_INFO);
 
         if (jdbcTemplate == null) {
             logger.warn("未装载数据源，无法连接数据库!");
@@ -56,7 +56,7 @@ public class VehicleDao extends BaseDao {
     }
 
     public Map selectVehicleStorehouse() {
-        String sql = Constant.getSQL(Constant.SQL.SELECT_VEHICLE_STOREHOUSE);
+        String sql = MStarConstant.getSQL(MStarConstant.SQL.SELECT_VEHICLE_STOREHOUSE);
 
         if (jdbcTemplate == null) {
             logger.warn("未装载数据源，无法连接数据库!");
@@ -112,7 +112,7 @@ public class VehicleDao extends BaseDao {
     }
 
     public List<InOutRecord> selectInOutRecord(){
-        String sql = Constant.getSQL(Constant.SQL.SELECT_VEHICLE_OUT_IN);
+        String sql = MStarConstant.getSQL(MStarConstant.SQL.SELECT_VEHICLE_OUT_IN);
 
         if (jdbcTemplate == null) {
             logger.warn("未装载数据源，无法连接数据库!");

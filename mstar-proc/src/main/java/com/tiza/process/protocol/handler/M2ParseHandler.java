@@ -8,7 +8,7 @@ import com.diyiliu.common.dao.BaseDao;
 import com.diyiliu.common.task.ITask;
 import com.diyiliu.common.util.CommonUtil;
 import com.diyiliu.common.util.SpringUtil;
-import com.tiza.process.common.config.Constant;
+import com.tiza.process.common.config.MStarConstant;
 import com.tiza.process.common.dao.VehicleDao;
 import com.tiza.process.common.model.InOutRecord;
 import com.tiza.process.protocol.bean.M2Header;
@@ -37,7 +37,7 @@ public class M2ParseHandler extends BaseHandle{
             return null;
         }
 
-        rpTuple.getContext().put(Constant.Kafka.TRACK_TOPIC, processorConf.get("trackTopic"));
+        rpTuple.getContext().put(MStarConstant.Kafka.TRACK_TOPIC, processorConf.get("trackTopic"));
         M2Header header = (M2Header) process.dealHeader(rpTuple.getMsgBody());
         header.settStarData(rpTuple);
         process.parse(header.getContent(), header);
@@ -53,7 +53,7 @@ public class M2ParseHandler extends BaseHandle{
         initDataSource();
 
         // 加载初始化SQL
-        Constant.init("init-sql.xml");
+        MStarConstant.init("init-sql.xml");
 
         // 刷新车辆列表
         ITask task = SpringUtil.getBean("refreshVehicleInfoTask");

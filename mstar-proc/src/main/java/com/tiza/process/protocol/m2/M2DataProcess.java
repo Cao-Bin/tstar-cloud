@@ -7,7 +7,7 @@ import com.diyiliu.common.model.IDataProcess;
 import com.diyiliu.common.util.CommonUtil;
 import com.diyiliu.common.util.DateUtil;
 import com.diyiliu.common.util.JacksonUtil;
-import com.tiza.process.common.config.Constant;
+import com.tiza.process.common.config.MStarConstant;
 import com.tiza.process.common.model.Parameter;
 import com.tiza.process.common.model.Position;
 import com.tiza.process.common.model.Status;
@@ -103,17 +103,17 @@ public class M2DataProcess implements IDataProcess{
         VehicleInfo vehicle = (VehicleInfo) vehicleCacheProvider.get(terminalId);
 
         Map posMap = new HashMap();
-        posMap.put(Constant.Location.GPS_TIME,
+        posMap.put(MStarConstant.Location.GPS_TIME,
                 DateUtil.dateToString(position.getDateTime()));
-        posMap.put(Constant.Location.SPEED, position.getSpeed());
-        posMap.put(Constant.Location.ALTITUDE, position.getHeight());
-        posMap.put(Constant.Location.DIRECTION, position.getDirection());
-        posMap.put(Constant.Location.LOCATION_STATUS, status.getLocation());
-        posMap.put(Constant.Location.ACC_STATUS, status.getAcc());
-        posMap.put(Constant.Location.ORIGINAL_LNG, position.getLngD());
-        posMap.put(Constant.Location.ORIGINAL_LAT, position.getLatD());
-        posMap.put(Constant.Location.LNG, position.getEnLngD());
-        posMap.put(Constant.Location.LAT, position.getLatD());
+        posMap.put(MStarConstant.Location.SPEED, position.getSpeed());
+        posMap.put(MStarConstant.Location.ALTITUDE, position.getHeight());
+        posMap.put(MStarConstant.Location.DIRECTION, position.getDirection());
+        posMap.put(MStarConstant.Location.LOCATION_STATUS, status.getLocation());
+        posMap.put(MStarConstant.Location.ACC_STATUS, status.getAcc());
+        posMap.put(MStarConstant.Location.ORIGINAL_LNG, position.getLngD());
+        posMap.put(MStarConstant.Location.ORIGINAL_LAT, position.getLatD());
+        posMap.put(MStarConstant.Location.LNG, position.getEnLngD());
+        posMap.put(MStarConstant.Location.LAT, position.getLatD());
         posMap.put("VehicleId", vehicle.getId());
 
         RPTuple rpTuple = new RPTuple();
@@ -132,13 +132,13 @@ public class M2DataProcess implements IDataProcess{
         tuple.setTerminalID(String.valueOf(vehicle.getId()));
 
         Map<String, String> context = tuple.getContext();
-        context.put(Constant.FlowKey.POSITION, JacksonUtil.toJson(position));
-        context.put(Constant.FlowKey.STATUS, JacksonUtil.toJson(status));
+        context.put(MStarConstant.FlowKey.POSITION, JacksonUtil.toJson(position));
+        context.put(MStarConstant.FlowKey.STATUS, JacksonUtil.toJson(status));
 
         //context.put(Constant.FlowKey.PARAMETER, JacksonUtil.toJson(parameter));
 
         logger.info("终端[{}]写入Kafka位置信息...", terminalId);
-        handler.storeInKafka(rpTuple, context.get(Constant.Kafka.TRACK_TOPIC));
+        handler.storeInKafka(rpTuple, context.get(MStarConstant.Kafka.TRACK_TOPIC));
     }
 
     protected Position renderPosition(byte[] bytes) {

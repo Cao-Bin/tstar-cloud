@@ -1,7 +1,7 @@
 package com.tiza.process.common.dao;
 
 import com.diyiliu.common.dao.BaseDao;
-import com.tiza.process.common.config.Constant;
+import com.tiza.process.common.config.EStarConstant;
 import com.tiza.process.common.model.VehicleInfo;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -20,7 +20,7 @@ import java.util.List;
 public class VehicleDao extends BaseDao {
 
     public List<VehicleInfo> selectVehicleInfo() {
-        String sql = Constant.getSQL(Constant.SQL.SELECT_VEHICLE_INFO);
+        String sql = EStarConstant.getSQL(EStarConstant.SQL.SELECT_VEHICLE_INFO);
 
         if (jdbcTemplate == null){
             logger.warn("尚未装载数据源，无法连接数据库!");

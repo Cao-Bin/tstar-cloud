@@ -9,7 +9,7 @@ import com.diyiliu.common.dao.BaseDao;
 import com.diyiliu.common.task.ITask;
 import com.diyiliu.common.util.CommonUtil;
 import com.diyiliu.common.util.SpringUtil;
-import com.tiza.process.common.config.Constant;
+import com.tiza.process.common.config.EStarConstant;
 import com.tiza.process.protocol.bean.GB32960Header;
 import com.tiza.process.protocol.gb32960.GB32960DataProcess;
 import org.slf4j.Logger;
@@ -58,7 +58,7 @@ public class GB32960ParseHandler extends BaseHandle {
         BaseDao.initDataSource(dbUtil.getDataSource());
 
         // 加载初始化SQL
-        Constant.init("init-sql.xml");
+        EStarConstant.init("init-sql.xml");
 
         // 刷新车辆列表
         ITask task = SpringUtil.getBean("refreshVehicleInfoTask");

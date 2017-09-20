@@ -4,7 +4,7 @@ import cn.com.tiza.tstar.common.process.BaseHandle;
 import cn.com.tiza.tstar.common.process.RPTuple;
 import com.diyiliu.common.util.JacksonUtil;
 import com.diyiliu.common.util.SpringUtil;
-import com.tiza.process.common.config.Constant;
+import com.tiza.process.common.config.MStarConstant;
 import com.tiza.process.common.dao.VehicleDao;
 import com.tiza.process.common.model.Position;
 import com.tiza.process.common.model.Status;
@@ -26,9 +26,9 @@ public class CurrentStatusModule  extends BaseHandle {
         Map<String, String> context = rpTuple.getContext();
 
         String vehicleId = rpTuple.getTerminalID();
-        if (context.containsKey(Constant.FlowKey.POSITION) && context.containsKey(Constant.FlowKey.STATUS)) {
-            Position position = JacksonUtil.toObject(context.get(Constant.FlowKey.POSITION), Position.class);
-            Status status = JacksonUtil.toObject(context.get(Constant.FlowKey.STATUS), Status.class);
+        if (context.containsKey(MStarConstant.FlowKey.POSITION) && context.containsKey(MStarConstant.FlowKey.STATUS)) {
+            Position position = JacksonUtil.toObject(context.get(MStarConstant.FlowKey.POSITION), Position.class);
+            Status status = JacksonUtil.toObject(context.get(MStarConstant.FlowKey.STATUS), Status.class);
 
             VehicleDao vehicleDao = SpringUtil.getBean("vehicleDao");
             Object[] values = new Object[]{position.getEnLngD(), position.getLatD(),

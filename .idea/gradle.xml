@@ -6,11 +6,11 @@
         <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="gradleHome" value="$PROJECT_DIR$/../../../Gradle/gradle-2.14" />
-        <option name="gradleJvm" value="1.7" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/cstar-gw" />
+            <option value="$PROJECT_DIR$/cstar-proc" />
             <option value="$PROJECT_DIR$/cstar-ws" />
             <option value="$PROJECT_DIR$/estar-gw" />
             <option value="$PROJECT_DIR$/estar-op" />
@@ -21,6 +21,7 @@
             <option value="$PROJECT_DIR$/star-common" />
           </set>
         </option>
+        <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
   </component>

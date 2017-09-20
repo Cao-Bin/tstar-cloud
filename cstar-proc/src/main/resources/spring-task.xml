@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task
+       http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!-- 刷新车辆列表（每5分钟） -->
+    <bean id="refreshVehicleInfoTask" class="com.tiza.process.common.task.RefreshVehicleInfoTask"/>
+
+    <!-- 刷新车辆仓库信息（每15分钟） -->
+    <bean id="refreshVehicleStorehouseTask" class="com.tiza.process.common.task.RefreshVehicleStorehouseTask"/>
+
+    <task:scheduled-tasks>
+        <task:scheduled ref="refreshVehicleInfoTask" method="execute" cron="0 0/5 * * * ?"/>
+        <task:scheduled ref="refreshVehicleStorehouseTask" method="execute" cron="0 0/15 * * * ?"/>
+    </task:scheduled-tasks>
+</beans>
