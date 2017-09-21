@@ -22,9 +22,10 @@ public class CMD_89 extends M2DataProcess {
 
     @Override
     public void parse(byte[] content, Header header) {
-        M2Header m2Header = (M2Header) header;
-
         Position position = renderPosition(content);
         Status status = renderStatus(position.getStatus());
+        // 车辆休眠，视为离线（status.onOff 默认为0）
+
+        toKafka((M2Header) header, position, status, null);
     }
 }

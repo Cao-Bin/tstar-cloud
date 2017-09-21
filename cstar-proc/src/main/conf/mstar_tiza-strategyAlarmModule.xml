@@ -11,11 +11,11 @@
 	</property>
 	<property>
 		<name>business.database.username</name>
-		<value>MSTAR</value>
+		<value>CSTAR</value>
 	</property>
 	<property>
 		<name>business.database.password</name>
-		<value>MSTAR</value>
+		<value>CSTAR</value>
 	</property>
 	<property>
 		<name>business.database.pool.max.connections</name>

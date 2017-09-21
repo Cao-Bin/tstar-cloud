@@ -25,6 +25,9 @@ public class Status {
     private int trailer;
     private int uncap;
 
+    // 开关机
+    private int onOff;
+
     public int getLocation() {
         return location;
     }
@@ -151,5 +154,13 @@ public class Status {
 
     public void setUncap(int uncap) {
         this.uncap = uncap;
+    }
+
+    public int getOnOff() {
+        return onOff;
+    }
+
+    public void setOnOff(int onOff) {
+        this.onOff = onOff;
     }
 }

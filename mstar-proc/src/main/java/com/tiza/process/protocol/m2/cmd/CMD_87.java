@@ -39,6 +39,8 @@ public class CMD_87 extends M2DataProcess {
 
         Position position = renderPosition(positionArray);
         Status status = renderStatus(position.getStatus());
+        // 车辆在线
+        status.setOnOff(1);
 
         byte[] paramArray = new byte[buf.readableBytes()];
         buf.readBytes(paramArray);

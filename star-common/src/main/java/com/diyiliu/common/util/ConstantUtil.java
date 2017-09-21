@@ -21,6 +21,8 @@ import java.util.Map;
 public class ConstantUtil {
     private static Logger logger = LoggerFactory.getLogger(ConstantUtil.class);
 
+    public final static String JSON_CHARSET = "UTF-8";
+
     public static void init(String file){
         logger.info("init configuration...");
         initSqlCache(file);

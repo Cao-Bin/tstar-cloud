@@ -27,19 +27,24 @@ public class CMD_88 extends M2DataProcess {
 
     @Override
     public void parse(byte[] content, Header header) {
-        M2Header m2Header = (M2Header) header;
-
         ByteBuf buf = Unpooled.copiedBuffer(content);
 
         // 年月日
         byte[] ymd = new byte[3];
         buf.readBytes(ymd);
 
-        List<Date> dateList = new ArrayList<>();
         int count = buf.readByte();
+        if (buf.readableBytes() < count * 3 * 2){
+            logger.error("解析指令[{}]， 数据异常...", cmd);
+            return;
+        }
+
+        List<Date> dateList = new ArrayList<>();
+
         // 时分秒
         byte[] hms = new byte[3];
-        for (int i = 0; i < count; i++){
+        // 开始时间、结束时间
+        for (int i = 0; i < count * 2; i++){
             buf.readBytes(hms);
 
             // 拼接 年月日 + 时分秒 = 完整日期
@@ -47,5 +52,7 @@ public class CMD_88 extends M2DataProcess {
             Date date = CommonUtil.bytesToDate(dateBuf.array());
             dateList.add(date);
         }
+
+        toKafka((M2Header) header, dateList);
     }
 }

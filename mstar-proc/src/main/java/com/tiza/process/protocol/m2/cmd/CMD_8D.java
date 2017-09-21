@@ -34,8 +34,12 @@ public class CMD_8D extends M2DataProcess {
         // 00H: 开机信息; 01H: 关机信息
         byte power = buf.readByte();
 
+        // 0:离线; 1:在线(对应数据库字段TERMINALSTATUS)
+        int onOff = power == 0? 1: 0;
+
         Position position = renderPosition(bytes);
         Status status = renderStatus(position.getStatus());
+        status.setOnOff(onOff);
 
         toKafka(m2Header, position, status, null);
     }

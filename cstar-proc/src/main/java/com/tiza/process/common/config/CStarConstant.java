@@ -3,16 +3,16 @@ package com.tiza.process.common.config;
 import com.diyiliu.common.util.ConstantUtil;
 
 /**
- * Description: MStarConstant
+ * Description: CStarConstant
  * Author: DIYILIU
- * Update: 2017-08-07 14:45
+ * Update: 2017-09-20 16:54
  */
+public final class CStarConstant extends ConstantUtil{
 
-public final class MStarConstant extends ConstantUtil{
+
     public enum Kafka {
         ;
         public final static String TRACK_TOPIC = "trackTopic";
-        public final static String WORK_TIME_TOPIC ="workTimeTopic";
     }
 
     public enum FlowKey {
@@ -34,17 +34,22 @@ public final class MStarConstant extends ConstantUtil{
         public final static String ORIGINAL_LAT = "originalLat";
         public final static String LNG = "lng";
         public final static String LAT = "lat";
-
-        public final static String VEHICLE_ID = "vehicleId";
     }
 
-    public enum WorkTime{
+    /**
+     * accTime: 累计工作时间(小时)
+     * rotateDirection：正反转
+     * rotateSpeed：转速
+     * fuelVolume：油位
+     */
+    public enum Parameter{
         ;
-        public final static String START_TIME = "startTime";
-        public final static String END_TIME = "endTime";
-
-        public final static String VEHICLE_ID = "vehicleId";
+        public final static String ACC_HOUR = "accHour";
+        public final static String ROTATE_DIRECTION = "rotateDirection";
+        public final static String ROTATE_SPEED = "rotateSpeed";
+        public final static String FUEL_VOLUME = "fuelVolume";
     }
+
 
     public enum SQL{
         ;

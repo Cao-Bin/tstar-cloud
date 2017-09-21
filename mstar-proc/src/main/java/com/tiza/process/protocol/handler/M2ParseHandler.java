@@ -61,7 +61,7 @@ public class M2ParseHandler extends BaseHandle{
 
         /**
          * 每个流程的init方法是并行的，
-         * 所有的初始化方法必须在第一个流程的init方法里。
+         * 所有的初始化方法必须放在第一个流程的init方法里。
          * 除非后面的初始化方法不依赖前面的初始化内容。
          * （1: Spring容器池; 2: Jdbc数据源; 3: 初始化SQL查询语句。）
          */
@@ -98,5 +98,4 @@ public class M2ParseHandler extends BaseHandle{
             vehicleOutInCacheProvider.put(record.getVehicleId(), record);
         }
     }
-
 }

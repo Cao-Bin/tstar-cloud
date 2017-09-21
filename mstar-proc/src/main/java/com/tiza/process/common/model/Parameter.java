@@ -11,8 +11,11 @@ import java.util.Map;
  */
 public class Parameter {
 
+    /** acc 累计工作时间*/
     private Long accTime;
+    /** acc 累计工作时间(单位：小时)*/
     private Double accHour;
+
     private Integer gsmSignal;
     private Double voltage;
     private Integer satellite;

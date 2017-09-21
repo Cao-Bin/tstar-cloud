@@ -23,6 +23,7 @@ import javax.annotation.Resource;
 import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -93,6 +94,13 @@ public class M2DataProcess implements IDataProcess{
     }
 
 
+    /**
+     * 位置、工况信息
+     * @param header
+     * @param position
+     * @param status
+     * @param parameter
+     */
     public void toKafka(M2Header header, Position position, Status status, Parameter parameter) {
         String terminalId = header.getTerminalId();
         if (!vehicleCacheProvider.containsKey(terminalId)) {
@@ -114,7 +122,8 @@ public class M2DataProcess implements IDataProcess{
         posMap.put(MStarConstant.Location.ORIGINAL_LAT, position.getLatD());
         posMap.put(MStarConstant.Location.LNG, position.getEnLngD());
         posMap.put(MStarConstant.Location.LAT, position.getLatD());
-        posMap.put("VehicleId", vehicle.getId());
+
+        posMap.put(MStarConstant.Location.VEHICLE_ID, vehicle.getId());
 
         RPTuple rpTuple = new RPTuple();
         rpTuple.setCmdID(header.getCmd());
@@ -123,7 +132,7 @@ public class M2DataProcess implements IDataProcess{
         rpTuple.setTerminalID(String.valueOf(vehicle.getId()));
 
         String msgBody = JacksonUtil.toJson(posMap);
-        rpTuple.setMsgBody(msgBody.getBytes(Charset.forName("UTF-8")));
+        rpTuple.setMsgBody(msgBody.getBytes(Charset.forName(MStarConstant.JSON_CHARSET)));
         rpTuple.setTime(position.getDateTime().getTime());
 
         // 将解析的位置和状态信息放入流中
@@ -134,12 +143,53 @@ public class M2DataProcess implements IDataProcess{
         Map<String, String> context = tuple.getContext();
         context.put(MStarConstant.FlowKey.POSITION, JacksonUtil.toJson(position));
         context.put(MStarConstant.FlowKey.STATUS, JacksonUtil.toJson(status));
-
         //context.put(Constant.FlowKey.PARAMETER, JacksonUtil.toJson(parameter));
 
         logger.info("终端[{}]写入Kafka位置信息...", terminalId);
         handler.storeInKafka(rpTuple, context.get(MStarConstant.Kafka.TRACK_TOPIC));
     }
+
+    /**
+     * 开关机信息(统计累计工作时间)
+     * @param header
+     * @param dateList
+     */
+    public void toKafka(M2Header header, List<Date> dateList){
+        String terminalId = header.getTerminalId();
+        if (!vehicleCacheProvider.containsKey(terminalId)) {
+            logger.warn("该终端[{}]不存在车辆列表中...", terminalId);
+            return;
+        }
+
+        VehicleInfo vehicle = (VehicleInfo) vehicleCacheProvider.get(terminalId);
+
+        RPTuple tuple = (RPTuple) header.gettStarData();
+        Map<String, String> context = tuple.getContext();
+
+        Map wtMap = new HashMap();
+        for (int i = 0; i < dateList.size(); i += 2){
+
+            Date starTime = dateList.get(i);
+            Date endTime = dateList.get(i + 1);
+
+            wtMap.put(MStarConstant.WorkTime.START_TIME, starTime);
+            wtMap.put(MStarConstant.WorkTime.END_TIME, endTime);
+            wtMap.put(MStarConstant.WorkTime.VEHICLE_ID, vehicle.getId());
+
+            RPTuple rpTuple = new RPTuple();
+            rpTuple.setCmdID(header.getCmd());
+            rpTuple.setCmdSerialNo(header.getSerial());
+            rpTuple.setTerminalID(String.valueOf(vehicle.getId()));
+
+            String msgBody = JacksonUtil.toJson(wtMap);
+            rpTuple.setMsgBody(msgBody.getBytes(Charset.forName(MStarConstant.JSON_CHARSET)));
+            rpTuple.setTime(starTime.getTime());
+
+            logger.info("终端[{}]写入Kafka开关机信息(累计工作时间)...", terminalId);
+            handler.storeInKafka(rpTuple, context.get(MStarConstant.Kafka.WORK_TIME_TOPIC));
+        }
+    }
+
 
     protected Position renderPosition(byte[] bytes) {
         if (bytes.length < 16) {
@@ -205,52 +255,4 @@ public class M2DataProcess implements IDataProcess{
     public static void setHandle(M2ParseHandler parseHandler) {
         handler = parseHandler;
     }
-
-
-    /*public void toKafka(M2Header header, Position position, Status status) {
-        String terminalId = header.getTerminalId();
-        if (!vehicleCacheProvider.containsKey(terminalId)) {
-            logger.warn("该终端[{}]不存在车辆列表中...", terminalId);
-            return;
-        }
-
-        VehicleInfo vehicle = (VehicleInfo) vehicleCacheProvider.get(terminalId);
-
-        Map posMap = new HashMap();
-        posMap.put(Constant.Location.GPS_TIME,
-                DateUtil.dateToString(position.getDateTime()));
-        posMap.put(Constant.Location.SPEED, position.getSpeed());
-        posMap.put(Constant.Location.ALTITUDE, position.getHeight());
-        posMap.put(Constant.Location.DIRECTION, position.getDirection());
-        posMap.put(Constant.Location.LOCATION_STATUS, status.getLocation());
-        posMap.put(Constant.Location.ACC_STATUS, status.getAcc());
-        posMap.put(Constant.Location.ORIGINAL_LNG, position.getLngD());
-        posMap.put(Constant.Location.ORIGINAL_LAT, position.getLatD());
-        posMap.put(Constant.Location.LNG, position.getEnLngD());
-        posMap.put(Constant.Location.LAT, position.getLatD());
-        posMap.put("VehicleId", vehicle.getId());
-
-        RPTuple rpTuple = new RPTuple();
-        rpTuple.setCmdID(header.getCmd());
-        rpTuple.setCmdSerialNo(header.getSerial());
-
-        rpTuple.setTerminalID(String.valueOf(vehicle.getId()));
-
-        String msgBody = JacksonUtil.toJson(posMap);
-        rpTuple.setMsgBody(msgBody.getBytes(Charset.forName("UTF-8")));
-        rpTuple.setTime(position.getDateTime().getTime());
-
-        // 将解析的位置和状态信息放入流中
-        RPTuple tuple = (RPTuple) header.gettStarData();
-
-        // 修改ID(原来是SIM)为车辆ID
-        tuple.setTerminalID(String.valueOf(vehicle.getId()));
-
-        Map<String, String> context = tuple.getContext();
-        context.put(Constant.FlowKey.POSITION, JacksonUtil.toJson(position));
-        context.put(Constant.FlowKey.STATUS, JacksonUtil.toJson(status));
-
-        logger.info("终端[{}]写入Kafka位置信息...", terminalId);
-        handler.storeInKafka(rpTuple, context.get(Constant.Kafka.TRACK_TOPIC));
-    }*/
 }

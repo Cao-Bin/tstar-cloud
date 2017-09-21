@@ -5,5 +5,6 @@ package com.tiza.process.protocol.handler;
  * Author: DIYILIU
  * Update: 2017-09-20 14:34
  */
-public class SchwingParseHandler {
+public class SchwingParseHandler extends M2ParseHandler {
+
 }

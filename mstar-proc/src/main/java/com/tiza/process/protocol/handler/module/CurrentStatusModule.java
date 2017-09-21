@@ -34,7 +34,7 @@ public class CurrentStatusModule  extends BaseHandle {
             Object[] values = new Object[]{position.getEnLngD(), position.getLatD(),
                     position.getSpeed(), position.getDirection(), position.getHeight(), position.getDateTime(),
                     status.getAcc(), status.getLocation(), status.getPowerOff(), status.getLowPower(),
-                    status.getGpsFault(), status.getLoseAntenna()};
+                    status.getGpsFault(), status.getLoseAntenna(), status.getOnOff()};
 
             StringBuilder sqlBuilder = new StringBuilder("UPDATE bs_vehiclegpsinfo t SET ");
             sqlBuilder.append("t.encryptlng      = ?, ");
@@ -49,7 +49,8 @@ public class CurrentStatusModule  extends BaseHandle {
             sqlBuilder.append("t.poweroff        = ?, ");
             sqlBuilder.append("t.lowvoltage      = ?, ");
             sqlBuilder.append("t.gpsmodulefault  = ?, ");
-            sqlBuilder.append("t.gpsantennafault = ? ");
+            sqlBuilder.append("t.gpsantennafault = ?, ");
+            sqlBuilder.append("t.terminalstatus = ? "); // 开关机状态
             sqlBuilder.append(" WHERE t.vehicleid =").append(vehicleId);
 
             if (vehicleDao.update(sqlBuilder.toString(), values)) {

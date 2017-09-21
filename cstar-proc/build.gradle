@@ -30,7 +30,7 @@ task copyConf(type: Copy) {
 }
 
 jar {
-    archiveName = 'mstar_tiza.jar'
+    archiveName = 'cstar_tiza.jar'
     from {
         File srcDir = file("$buildDir/dist")
         // 使用闭合创建一个文件集合

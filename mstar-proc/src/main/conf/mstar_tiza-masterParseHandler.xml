@@ -6,6 +6,11 @@
         <description>MSTAR轨迹表</description>
     </property>
     <property>
+        <name>workTimeTopic</name>
+        <value>mstar_tiza_worktimedata</value>
+        <description>MSTAR累计工作时间</description>
+    </property>
+    <property>
         <name>business.database.driver</name>
         <value>oracle.jdbc.driver.OracleDriver</value>
     </property>

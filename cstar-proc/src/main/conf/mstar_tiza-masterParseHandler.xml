@@ -2,8 +2,8 @@
 <configuration>
     <property>
         <name>trackTopic</name>
-        <value>mstar_tiza_trackdata</value>
-        <description>MSTAR轨迹表</description>
+        <value>cstar_tiza_trackdata</value>
+        <description>CSTAR轨迹表</description>
     </property>
     <property>
         <name>business.database.driver</name>
@@ -16,11 +16,11 @@
     </property>
     <property>
         <name>business.database.username</name>
-        <value>MSTAR</value>
+        <value>CSTAR</value>
     </property>
     <property>
         <name>business.database.password</name>
-        <value>MSTAR</value>
+        <value>CSTAR</value>
     </property>
     <property>
         <name>business.database.pool.max.connections</name>
