@@ -1,6 +1,9 @@
 package com.tiza.process.common.listener;
 
 import com.diyiliu.common.listener.Initializer;
+import com.diyiliu.common.task.ITask;
+
+import javax.annotation.Resource;
 
 /**
  * Description: SchwingHandlerInitializer
@@ -10,9 +13,14 @@ import com.diyiliu.common.listener.Initializer;
 public class SchwingHandlerInitializer implements Initializer {
 
 
+    @Resource
+    private ITask refreshVehicleInfoTask;
+
     @Override
     public void init() {
 
+        // 刷新车辆列表
+        refreshVehicleInfoTask.execute();
     }
 
 }

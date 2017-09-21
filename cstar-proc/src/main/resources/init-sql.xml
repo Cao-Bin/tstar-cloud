@@ -7,14 +7,20 @@
                    t.deviceid,
                    t.terminalno,
                    t.simno,
-                   t.protocoltype
+                   t.protocoltype,
+                   c.vehicletype,
+                   c.overspeedthreshold,
+                   c.staytimethreshold,
+                   c.staydistancethreshold
               FROM bs_vehicle c
              INNER JOIN bs_terminal t
                 ON t. id = c. terminalid
+
         ]]>
     </sql>
 
-<!--    <sql id="selectVehicleOutIn" description="查询车辆出入库记录">
+    <!--
+   <sql id="selectVehicleOutIn" description="查询车辆出入库记录">
         <![CDATA[
             SELECT t.vehicleid, t.unitid, t.status
               FROM bs_warehouseoutin t
@@ -32,5 +38,6 @@
                AND t.fencesharp IN (1, 2)
                AND t.fencegeoinfo IS NOT NULL
         ]]>
-    </sql>-->
+    </sql>
+    -->
 </root>

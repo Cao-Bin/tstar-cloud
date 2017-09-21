@@ -66,7 +66,7 @@ public class CMD_87 extends SchwingDataProcess {
         }
 
         /*
-        * 施维英新增内容
+        * 施维英协议新增内容
         * 正反转、转速、油位状态量、油位
         * */
         if (parameters.containsKey("05")) {
