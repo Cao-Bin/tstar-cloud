@@ -122,7 +122,7 @@ public class M2DataProcess implements IDataProcess{
         posMap.put(MStarConstant.Location.ORIGINAL_LNG, position.getLngD());
         posMap.put(MStarConstant.Location.ORIGINAL_LAT, position.getLatD());
         posMap.put(MStarConstant.Location.LNG, position.getEnLngD());
-        posMap.put(MStarConstant.Location.LAT, position.getLatD());
+        posMap.put(MStarConstant.Location.LAT, position.getEnLatD());
 
         posMap.put(MStarConstant.Location.VEHICLE_ID, vehicle.getId());
 

@@ -42,7 +42,7 @@ public class SchwingDataProcess extends M2DataProcess {
         posMap.put(CStarConstant.Location.ORIGINAL_LNG, position.getLngD());
         posMap.put(CStarConstant.Location.ORIGINAL_LAT, position.getLatD());
         posMap.put(CStarConstant.Location.LNG, position.getEnLngD());
-        posMap.put(CStarConstant.Location.LAT, position.getLatD());
+        posMap.put(CStarConstant.Location.LAT, position.getEnLatD());
 
         // 正反转、转速、油位
         posMap.put(CStarConstant.Parameter.ACC_HOUR, parameter.getAccHour());
