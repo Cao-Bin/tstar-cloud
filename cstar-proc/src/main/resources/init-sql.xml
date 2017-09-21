@@ -14,7 +14,7 @@
         ]]>
     </sql>
 
-    <sql id="selectVehicleOutIn" description="查询车辆出入库记录">
+<!--    <sql id="selectVehicleOutIn" description="查询车辆出入库记录">
         <![CDATA[
             SELECT t.vehicleid, t.unitid, t.status
               FROM bs_warehouseoutin t
@@ -32,5 +32,5 @@
                AND t.fencesharp IN (1, 2)
                AND t.fencegeoinfo IS NOT NULL
         ]]>
-    </sql>
+    </sql>-->
 </root>

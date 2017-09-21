@@ -45,23 +45,12 @@ public class GB32960ParseHandler extends BaseHandle {
 
     @Override
     public void init() throws Exception {
-        GB32960DataProcess.setHandler(this);
+        // 加载配置信息
+        EStarConstant.init("init-sql.xml", processorConf);
+
+        // 装载Spring容器
         SpringUtil.init();
-
-        BusinessDBManager dbManager = BusinessDBManager.getInstance(this.processorConf);
-        Field field = dbManager.getClass().getDeclaredField("dbUtil");
-        field.setAccessible(true);
-        DBUtil dbUtil = (DBUtil) field.get(dbManager);
-        field.setAccessible(false);
-
-        // 初始化数据源
-        BaseDao.initDataSource(dbUtil.getDataSource());
-
-        // 加载初始化SQL
-        EStarConstant.init("init-sql.xml");
-
-        // 刷新车辆列表
-        ITask task = SpringUtil.getBean("refreshVehicleInfoTask");
-        task.execute();
+        //
+        GB32960DataProcess.setHandler(this);
     }
 }

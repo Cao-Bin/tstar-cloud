@@ -1,5 +1,6 @@
 package com.tiza.process.protocol.gb32960;
 
+import cn.com.tiza.tstar.common.process.BaseHandle;
 import com.diyiliu.common.cache.ICache;
 import com.diyiliu.common.model.Header;
 import com.diyiliu.common.model.IDataProcess;
@@ -25,8 +26,9 @@ import java.util.*;
 @Service
 public class GB32960DataProcess implements IDataProcess {
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
-
     protected int cmd = 0xFF;
+
+    private static BaseHandle handler;
 
     @Resource
     protected ICache cmdCacheProvider;
@@ -117,8 +119,7 @@ public class GB32960DataProcess implements IDataProcess {
         cmdCacheProvider.put(cmd, this);
     }
 
-    private static GB32960ParseHandler handler;
-    public static void setHandler(GB32960ParseHandler handler) {
-        GB32960DataProcess.handler = handler;
+    public static void setHandler(BaseHandle parseHandler) {
+        handler = parseHandler;
     }
 }
