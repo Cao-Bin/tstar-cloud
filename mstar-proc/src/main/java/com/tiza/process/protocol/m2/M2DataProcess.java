@@ -163,6 +163,7 @@ public class M2DataProcess implements IDataProcess{
 
         VehicleInfo vehicle = (VehicleInfo) vehicleCacheProvider.get(terminalId);
 
+        // 获取上下文终中的配置信息
         RPTuple tuple = (RPTuple) header.gettStarData();
         Map<String, String> context = tuple.getContext();
 
@@ -172,8 +173,8 @@ public class M2DataProcess implements IDataProcess{
             Date starTime = dateList.get(i);
             Date endTime = dateList.get(i + 1);
 
-            wtMap.put(MStarConstant.WorkTime.START_TIME, starTime);
-            wtMap.put(MStarConstant.WorkTime.END_TIME, endTime);
+            wtMap.put(MStarConstant.WorkTime.START_TIME, DateUtil.dateToString(starTime));
+            wtMap.put(MStarConstant.WorkTime.END_TIME, DateUtil.dateToString(endTime));
             wtMap.put(MStarConstant.WorkTime.VEHICLE_ID, vehicle.getId());
 
             RPTuple rpTuple = new RPTuple();

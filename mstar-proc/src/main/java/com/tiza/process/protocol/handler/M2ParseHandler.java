@@ -37,7 +37,10 @@ public class M2ParseHandler extends BaseHandle{
             return null;
         }
 
+        // 将processorConf内容放入上下文中
         rpTuple.getContext().put(MStarConstant.Kafka.TRACK_TOPIC, processorConf.get("trackTopic"));
+        rpTuple.getContext().put(MStarConstant.Kafka.WORK_TIME_TOPIC, processorConf.get("workTimeTopic"));
+
         M2Header header = (M2Header) process.dealHeader(rpTuple.getMsgBody());
         header.settStarData(rpTuple);
         process.parse(header.getContent(), header);
