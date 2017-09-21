@@ -5,6 +5,7 @@ import cn.com.tiza.tstar.common.process.RPTuple;
 import cn.com.tiza.tstar.common.utils.DBUtil;
 import com.diyiliu.common.cache.ICache;
 import com.diyiliu.common.dao.BaseDao;
+import com.diyiliu.common.model.IDataProcess;
 import com.diyiliu.common.task.ITask;
 import com.diyiliu.common.util.CommonUtil;
 import com.diyiliu.common.util.SpringUtil;
@@ -31,7 +32,7 @@ public class M2ParseHandler extends BaseHandle{
         logger.info("收到终端[{}], 指令[{}]...", rpTuple.getTerminalID(), CommonUtil.toHex(rpTuple.getCmdID()));
 
         ICache cmdCacheProvider = SpringUtil.getBean("cmdCacheProvider");
-        M2DataProcess process = (M2DataProcess) cmdCacheProvider.get(rpTuple.getCmdID());
+        IDataProcess process = (IDataProcess) cmdCacheProvider.get(rpTuple.getCmdID());
         if (process == null) {
             logger.error("无法找到[{}]指令解析器!", CommonUtil.toHex(rpTuple.getCmdID()));
             return null;
@@ -41,7 +42,7 @@ public class M2ParseHandler extends BaseHandle{
         rpTuple.getContext().put(MStarConstant.Kafka.TRACK_TOPIC, processorConf.get("trackTopic"));
         rpTuple.getContext().put(MStarConstant.Kafka.WORK_TIME_TOPIC, processorConf.get("workTimeTopic"));
 
-        M2Header header = (M2Header) process.dealHeader(rpTuple.getMsgBody());
+        M2Header header = (M2Header)process.dealHeader(rpTuple.getMsgBody());
         header.settStarData(rpTuple);
         process.parse(header.getContent(), header);
 
@@ -53,10 +54,8 @@ public class M2ParseHandler extends BaseHandle{
         M2DataProcess.setHandle(this);
         SpringUtil.init();
 
-        initDataSource();
-
         // 加载初始化SQL
-        MStarConstant.init("init-sql.xml");
+        MStarConstant.init("init-sql.xml", processorConf);
 
         // 刷新车辆列表
         ITask task = SpringUtil.getBean("refreshVehicleInfoTask");
@@ -69,22 +68,6 @@ public class M2ParseHandler extends BaseHandle{
          * （1: Spring容器池; 2: Jdbc数据源; 3: 初始化SQL查询语句。）
          */
         initStrategyAlarmModule();
-    }
-
-
-    /**
-     * 装载数据源
-     * @throws Exception
-     */
-    public void initDataSource() throws Exception{
-        String driver = processorConf.get("business.database.driver");
-        String url = processorConf.get("business.database.url");
-        String username = processorConf.get("business.database.username");
-        String password = processorConf.get("business.database.password");
-        DBUtil dbUtil = new DBUtil(driver, url, username, password);
-
-        // 初始化数据源
-        BaseDao.initDataSource(dbUtil.getDataSource());
     }
 
     public void initStrategyAlarmModule(){

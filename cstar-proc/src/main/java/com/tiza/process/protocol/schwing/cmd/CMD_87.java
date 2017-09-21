@@ -1,10 +1,10 @@
-package com.tiza.process.protocol.m2.cmd;
+package com.tiza.process.protocol.schwing.cmd;
 
 import com.diyiliu.common.model.Header;
 import com.diyiliu.common.util.CommonUtil;
 import com.tiza.process.common.model.*;
 import com.tiza.process.protocol.bean.M2Header;
-import com.tiza.process.protocol.m2.M2DataProcess;
+import com.tiza.process.protocol.schwing.SchwingDataProcess;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import org.apache.commons.collections.map.HashedMap;
@@ -22,7 +22,7 @@ import java.util.Map;
  */
 
 @Service
-public class CMD_87 extends M2DataProcess {
+public class CMD_87 extends SchwingDataProcess {
 
     public CMD_87() {
         this.cmd = 0x87;
@@ -63,6 +63,26 @@ public class CMD_87 extends M2DataProcess {
         if (parameters.containsKey("04")) {
             int satellite = CommonUtil.getNoSin(parameters.get("04")[0]);
             param.setSatellite(satellite);
+        }
+
+        /*
+        * 施维英新增内容
+        * 正反转、转速、油位状态量、油位
+        * */
+        if (parameters.containsKey("05")) {
+            int rotateDirection = CommonUtil.getNoSin(parameters.get("05")[0]);
+            int rotateSpeed = CommonUtil.getNoSin(parameters.get("05")[1]);
+
+            param.setRotateDirection(rotateDirection);
+            param.setRotateSpeed(rotateSpeed);
+        }
+        if (parameters.containsKey("06")) {
+            Long stateVolume = CommonUtil.bytesToLong(parameters.get("06"));
+            param.setStateVolume(stateVolume.intValue());
+        }
+        if (parameters.containsKey("07")) {
+            Long fuelVolume = CommonUtil.bytesToLong(parameters.get("07"));
+            param.setFuelVolume(fuelVolume.intValue());
         }
 
         toKafka(m2Header, position, status, param);

@@ -19,7 +19,7 @@
     <bean class="com.diyiliu.common.listener.CMDInitializer">
         <property name="protocols">
             <list>
-                <value>com.tiza.process.protocol.m2.M2DataProcess</value>
+                <value>com.tiza.process.protocol.schwing.SchwingDataProcess</value>
             </list>
         </property>
     </bean>

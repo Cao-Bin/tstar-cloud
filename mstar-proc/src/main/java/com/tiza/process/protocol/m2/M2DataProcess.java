@@ -1,5 +1,6 @@
 package com.tiza.process.protocol.m2;
 
+import cn.com.tiza.tstar.common.process.BaseHandle;
 import cn.com.tiza.tstar.common.process.RPTuple;
 import com.diyiliu.common.cache.ICache;
 import com.diyiliu.common.model.Header;
@@ -35,7 +36,7 @@ public class M2DataProcess implements IDataProcess{
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
     protected int cmd = 0xFF;
 
-    protected static M2ParseHandler handler;
+    protected static BaseHandle handler;
 
     @Resource
     protected ICache cmdCacheProvider;
@@ -253,7 +254,7 @@ public class M2DataProcess implements IDataProcess{
         return new Long((l >> offset) & 0x01).intValue();
     }
 
-    public static void setHandle(M2ParseHandler parseHandler) {
+    public static void setHandle(BaseHandle parseHandler) {
         handler = parseHandler;
     }
 }

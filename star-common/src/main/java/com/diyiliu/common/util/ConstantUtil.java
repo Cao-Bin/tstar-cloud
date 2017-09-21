@@ -1,5 +1,7 @@
 package com.diyiliu.common.util;
 
+import com.diyiliu.common.dao.BaseDao;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.dom4j.Document;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
@@ -27,6 +29,34 @@ public class ConstantUtil {
         logger.info("init configuration...");
         initSqlCache(file);
     }
+
+    public static void init(String file, Map<String, String> conf) throws Exception{
+        logger.info("init configuration...");
+        initSqlCache(file);
+
+        initDataSource(conf);
+    }
+
+    /**
+     * 装载数据源
+     * @throws Exception
+     */
+    public static void initDataSource(Map<String, String> conf) throws Exception{
+        String driver = conf.get("business.database.driver");
+        String url = conf.get("business.database.url");
+        String username = conf.get("business.database.username");
+        String password = conf.get("business.database.password");
+
+        ComboPooledDataSource dataSource = new ComboPooledDataSource();
+        dataSource.setDriverClass(driver);
+        dataSource.setJdbcUrl(url);
+        dataSource.setUser(username);
+        dataSource.setPassword(password);
+
+        // 初始化数据源
+        BaseDao.initDataSource(dataSource);
+    }
+
 
     private static Map<String, String> sqlCache = new HashMap<>();
     public static void initSqlCache(String sqlFile) {
