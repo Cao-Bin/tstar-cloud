@@ -2,22 +2,15 @@ package com.tiza.process.protocol.handler;
 
 import cn.com.tiza.tstar.common.process.BaseHandle;
 import cn.com.tiza.tstar.common.process.RPTuple;
-import cn.com.tiza.tstar.common.utils.DBUtil;
 import com.diyiliu.common.cache.ICache;
-import com.diyiliu.common.dao.BaseDao;
 import com.diyiliu.common.model.IDataProcess;
-import com.diyiliu.common.task.ITask;
 import com.diyiliu.common.util.CommonUtil;
 import com.diyiliu.common.util.SpringUtil;
 import com.tiza.process.common.config.MStarConstant;
-import com.tiza.process.common.dao.VehicleDao;
-import com.tiza.process.common.model.InOutRecord;
 import com.tiza.process.protocol.bean.M2Header;
 import com.tiza.process.protocol.m2.M2DataProcess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.List;
 
 /**
  * Description: M2ParseHandler
@@ -38,7 +31,7 @@ public class M2ParseHandler extends BaseHandle{
             return null;
         }
 
-        // 将processorConf内容放入上下文中
+        // 将conf配置信息放入上下文中
         rpTuple.getContext().put(MStarConstant.Kafka.TRACK_TOPIC, processorConf.get("trackTopic"));
         rpTuple.getContext().put(MStarConstant.Kafka.WORK_TIME_TOPIC, processorConf.get("workTimeTopic"));
 
@@ -51,37 +44,12 @@ public class M2ParseHandler extends BaseHandle{
 
     @Override
     public void init() throws Exception {
-        M2DataProcess.setHandle(this);
-        SpringUtil.init();
-
-        // 加载初始化SQL
+        // 加载配置信息
         MStarConstant.init("init-sql.xml", processorConf);
 
-        // 刷新车辆列表
-        ITask task = SpringUtil.getBean("refreshVehicleInfoTask");
-        task.execute();
-
-        /**
-         * 每个流程的init方法是并行的，
-         * 所有的初始化方法必须放在第一个流程的init方法里。
-         * 除非后面的初始化方法不依赖前面的初始化内容。
-         * （1: Spring容器池; 2: Jdbc数据源; 3: 初始化SQL查询语句。）
-         */
-        initStrategyAlarmModule();
-    }
-
-    public void initStrategyAlarmModule(){
-        // 刷新车辆仓库信息
-        ITask task = SpringUtil.getBean("refreshVehicleStorehouseTask");
-        task.execute();
-
-        ICache  vehicleOutInCacheProvider = SpringUtil.getBean("vehicleOutInCacheProvider");
-        VehicleDao vehicleDao = SpringUtil.getBean("vehicleDao");
-
-        // 车辆最近一条和仓库之间的位置信息
-        List<InOutRecord> list = vehicleDao.selectInOutRecord();
-        for (InOutRecord record : list) {
-            vehicleOutInCacheProvider.put(record.getVehicleId(), record);
-        }
+        // 装载Spring容器
+        SpringUtil.init();
+        //
+        M2DataProcess.setHandle(this);
     }
 }

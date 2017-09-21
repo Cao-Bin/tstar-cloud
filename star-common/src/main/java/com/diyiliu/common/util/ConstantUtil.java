@@ -26,12 +26,12 @@ public class ConstantUtil {
     public final static String JSON_CHARSET = "UTF-8";
 
     public static void init(String file){
-        logger.info("init configuration...");
+        logger.info("初始化配置信息...");
         initSqlCache(file);
     }
 
     public static void init(String file, Map<String, String> conf) throws Exception{
-        logger.info("init configuration...");
+        logger.info("初始化配置信息...");
         initSqlCache(file);
 
         initDataSource(conf);

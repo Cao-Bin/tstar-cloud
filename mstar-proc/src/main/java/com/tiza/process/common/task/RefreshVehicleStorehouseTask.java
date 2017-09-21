@@ -33,6 +33,10 @@ public class RefreshVehicleStorehouseTask implements ITask {
     }
 
     public void refresh(Map map, ICache provider){
+        if (map.isEmpty()){
+            logger.warn("无仓库信息！");
+            return;
+        }
 
         Set oldKeys = provider.getKeys();
         Set tempKeys = new HashSet(map.size());

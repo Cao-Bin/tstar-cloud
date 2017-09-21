@@ -23,4 +23,7 @@
             </list>
         </property>
     </bean>
+
+    <!-- 初始化操作 -->
+    <bean class="com.tiza.process.common.listener.M2HandlerInitializer" init-method="init"/>
 </beans>
