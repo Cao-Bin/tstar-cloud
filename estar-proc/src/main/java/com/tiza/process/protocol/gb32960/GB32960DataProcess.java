@@ -1,13 +1,17 @@
 package com.tiza.process.protocol.gb32960;
 
 import cn.com.tiza.tstar.common.process.BaseHandle;
+import cn.com.tiza.tstar.common.process.RPTuple;
 import com.diyiliu.common.cache.ICache;
 import com.diyiliu.common.model.Header;
 import com.diyiliu.common.model.IDataProcess;
+import com.diyiliu.common.util.DateUtil;
+import com.diyiliu.common.util.JacksonUtil;
+import com.tiza.process.common.config.EStarConstant;
 import com.tiza.process.common.dao.VehicleDao;
+import com.tiza.process.common.model.Position;
 import com.tiza.process.common.model.VehicleInfo;
 import com.tiza.process.protocol.bean.GB32960Header;
-import com.tiza.process.protocol.handler.GB32960ParseHandler;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import org.slf4j.Logger;
@@ -15,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.nio.charset.Charset;
 import java.util.*;
 
 /**
@@ -97,13 +102,35 @@ public class GB32960DataProcess implements IDataProcess {
         VehicleInfo vehicleInfo = (VehicleInfo) vehicleCacheProvider.get(vin);
 
         List list = new ArrayList();
+        Date gpsTime = null;
         StringBuilder strb = new StringBuilder("update BS_VEHICLEGPSINFO set ");
         for (Map map: paramValues){
 
             for (Iterator iterator = map.keySet().iterator(); iterator.hasNext();){
-
                 String key = (String) iterator.next();
                 Object value = map.get(key);
+
+                if (key.equalsIgnoreCase("GPSTIME")){
+                    gpsTime = (Date) value;
+                }
+
+                if (key.equalsIgnoreCase("position")){
+                    //logger.info("处理终端[{}]位置信息...", vin);
+
+                    Position position = (Position) value;
+                    position.setDateTime(gpsTime);
+
+                    strb.append("LOCATIONSTATUS").append("=?, ");
+                    strb.append("GCJ02LAT").append("=?, ");
+                    strb.append("GCJ02LNG").append("=?, ");
+
+                    list.add(position.getStatus());
+                    list.add(position.getLatD());
+                    list.add(position.getLngD());
+
+                    toKafka(header, vehicleInfo, position);
+                    continue;
+                }
 
                 strb.append(key).append("=?, ");
                 list.add(value);
@@ -112,6 +139,35 @@ public class GB32960DataProcess implements IDataProcess {
 
         String sql = strb.substring(0, strb.length() - 2) + " where VEHICLEID=" + vehicleInfo.getId();
         vehicleDao.update(sql, list.toArray());
+    }
+
+
+    private void toKafka(GB32960Header header, VehicleInfo vehicle, Position position){
+
+        Map posMap = new HashMap();
+        posMap.put(EStarConstant.Location.GPS_TIME, DateUtil.dateToString(position.getDateTime()));
+        posMap.put(EStarConstant.Location.LOCATION_STATUS, position.getStatus());
+        posMap.put(EStarConstant.Location.ORIGINAL_LAT, position.getLatD());
+        posMap.put(EStarConstant.Location.ORIGINAL_LNG, position.getLngD());
+
+        posMap.put(EStarConstant.Location.VEHICLE_ID, vehicle.getId());
+
+        RPTuple rpTuple = new RPTuple();
+        rpTuple.setCmdID(header.getCmd());
+        rpTuple.setCmdSerialNo(header.getSerial());
+        rpTuple.setTerminalID(String.valueOf(vehicle.getId()));
+
+        String msgBody = JacksonUtil.toJson(posMap);
+        rpTuple.setMsgBody(msgBody.getBytes(Charset.forName(EStarConstant.JSON_CHARSET)));
+        rpTuple.setTime(position.getDateTime().getTime());
+
+        //
+        RPTuple tuple = (RPTuple) header.gettStarData();
+        Map<String, String> context = tuple.getContext();
+
+        logger.info("终端[{}]写入Kafka位置信息...", header.getVin());
+        handler.storeInKafka(rpTuple, context.get(EStarConstant.Kafka.TRACK_TOPIC));
+
     }
 
     @Override

@@ -93,4 +93,8 @@ public class GB32960Header extends Header {
     public void settStarData(TStarData tStarData) {
         this.tStarData = tStarData;
     }
+
+    public TStarData gettStarData() {
+        return tStarData;
+    }
 }

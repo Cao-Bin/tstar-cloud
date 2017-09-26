@@ -2,6 +2,7 @@ package com.tiza.process.protocol.gb32960.cmd;
 
 import com.diyiliu.common.model.Header;
 import com.diyiliu.common.util.CommonUtil;
+import com.tiza.process.common.model.Position;
 import com.tiza.process.protocol.bean.GB32960Header;
 import com.tiza.process.protocol.gb32960.GB32960DataProcess;
 import io.netty.buffer.ByteBuf;
@@ -316,12 +317,22 @@ public class CMD_02 extends GB32960DataProcess {
 
         int status = byteBuf.readByte();
 
+        //0:有效;1:无效
         int effective = status & 0x01;
         int latDir = status & 0x02;
         int lngDir = status & 0x04;
 
         long lng = byteBuf.readUnsignedInt();
         long lat = byteBuf.readUnsignedInt();
+
+        Position position = new Position();
+        position.setStatus(effective);
+        position.setLng(lng * (lngDir == 0? 1: -1));
+        position.setLat(lat * (latDir == 0? 1: -1));
+
+        Map map = new HashMap();
+        map.put("position", position);
+        paramValues.add(map);
 
         return false;
     }
