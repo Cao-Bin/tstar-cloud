@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,4 +44,14 @@ public class MainTest {
         return mapper.getTypeFactory().constructParametricType(collectionClass, elementClasses);
     }
 
+
+    @Test
+    public void test2(){
+
+        long mile = 999;
+
+        double mileage = new BigDecimal(mile).divide(new BigDecimal(10)).doubleValue();
+
+        System.out.println(mileage);
+    }
 }

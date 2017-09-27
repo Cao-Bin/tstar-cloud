@@ -16,5 +16,6 @@ public final class Constant {
         public final static Integer SUCCESS = 3;
         public final static Integer FAIL = 4;
         public final static Integer TIMEOUT = 5;
+        public final static Integer OFFLINE = 6;
     }
 }

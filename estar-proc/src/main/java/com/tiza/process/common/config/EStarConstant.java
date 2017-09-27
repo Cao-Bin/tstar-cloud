@@ -22,6 +22,7 @@ public final class EStarConstant extends ConstantUtil {
         public final static String ORIGINAL_LAT = "originalLat";
         public final static String LNG = "lng";
         public final static String LAT = "lat";
+        public final static String MILEAGE = "mileage";
 
         public final static String VEHICLE_ID = "vehicleId";
     }

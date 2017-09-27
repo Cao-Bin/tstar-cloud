@@ -101,8 +101,9 @@ public class GB32960DataProcess implements IDataProcess {
         }
         VehicleInfo vehicleInfo = (VehicleInfo) vehicleCacheProvider.get(vin);
 
-        List list = new ArrayList();
         Date gpsTime = null;
+        Double mileage = null;
+        List list = new ArrayList();
         StringBuilder strb = new StringBuilder("update BS_VEHICLEGPSINFO set ");
         for (Map map: paramValues){
 
@@ -114,6 +115,10 @@ public class GB32960DataProcess implements IDataProcess {
                     gpsTime = (Date) value;
                 }
 
+                if (key.equalsIgnoreCase("ODO")){
+                    mileage = (Double) value;
+                }
+
                 if (key.equalsIgnoreCase("position")){
                     //logger.info("处理终端[{}]位置信息...", vin);
 
@@ -121,13 +126,18 @@ public class GB32960DataProcess implements IDataProcess {
                     position.setDateTime(gpsTime);
 
                     strb.append("LOCATIONSTATUS").append("=?, ");
+                    strb.append("WGS84LAT").append("=?, ");
+                    strb.append("WGS84LNG").append("=?, ");
                     strb.append("GCJ02LAT").append("=?, ");
                     strb.append("GCJ02LNG").append("=?, ");
 
                     list.add(position.getStatus());
                     list.add(position.getLatD());
                     list.add(position.getLngD());
+                    list.add(position.getEnLatD());
+                    list.add(position.getEnLngD());
 
+                    position.setMileage(mileage);
                     toKafka(header, vehicleInfo, position);
                     continue;
                 }
@@ -149,6 +159,10 @@ public class GB32960DataProcess implements IDataProcess {
         posMap.put(EStarConstant.Location.LOCATION_STATUS, position.getStatus());
         posMap.put(EStarConstant.Location.ORIGINAL_LAT, position.getLatD());
         posMap.put(EStarConstant.Location.ORIGINAL_LNG, position.getLngD());
+        posMap.put(EStarConstant.Location.LAT, position.getEnLatD());
+        posMap.put(EStarConstant.Location.LNG, position.getEnLngD());
+
+        posMap.put(EStarConstant.Location.MILEAGE, position.getMileage());
 
         posMap.put(EStarConstant.Location.VEHICLE_ID, vehicle.getId());
 

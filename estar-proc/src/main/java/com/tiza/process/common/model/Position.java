@@ -25,6 +25,9 @@ public class Position {
 
     private Date dateTime;
 
+    // 里程
+    private Double mileage;
+
     public int getStatus() {
         return status;
     }
@@ -86,5 +89,13 @@ public class Position {
 
     public void setDateTime(Date dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public Double getMileage() {
+        return mileage;
+    }
+
+    public void setMileage(Double mileage) {
+        this.mileage = mileage;
     }
 }

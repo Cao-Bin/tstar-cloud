@@ -53,7 +53,7 @@ public class MSGSenderTask implements ITask {
             try {
                 // TStar 指令下发
                 ClientCmdSendResult sendResult = tStarClient.cmdSend(msg.getTerminalType(), msg.getTerminalId(),
-                        cmd, msg.getSerial(), content, 1);
+                        cmd, msg.getSerial(), content, 0);
 
                 // 等待处理指令返回结果
                 msg.setSendTime(new Date());
@@ -66,6 +66,9 @@ public class MSGSenderTask implements ITask {
                 } else {
                     status = Constant.SendStatus.FAIL;
                     int errorCode = sendResult.getErrorCode();
+                    if (errorCode == 1905){
+                        status = Constant.SendStatus.OFFLINE;
+                    }
                     logger.error("指令下发失败，错误代码[{}]", errorCode);
                 }
 

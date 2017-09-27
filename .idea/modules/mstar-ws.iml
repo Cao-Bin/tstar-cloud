@@ -151,9 +151,9 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="Gradle: tstar-common-1.0.2">
+      <library name="Gradle: tstar-common-1.0.1-SNAPSHOT">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/ws/tstar-common-1.0.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/ws/tstar-common-1.0.1-SNAPSHOT.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

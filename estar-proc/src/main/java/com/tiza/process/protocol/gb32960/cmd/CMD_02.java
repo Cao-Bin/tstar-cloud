@@ -9,6 +9,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -40,47 +41,48 @@ public class CMD_02 extends GB32960DataProcess {
         map.put("GPSTIME", date);
         paramValues.add(map);
 
-        boolean error = false;
+        // 中断标识
+        boolean interrupt = false;
         while (buf.readableBytes() > 0) {
             int flag = buf.readByte();
             switch (flag) {
 
                 case 0x01:
 
-                    error = parseVehicle(buf);
+                    interrupt = parseVehicle(buf);
                     break;
                 case 0x02:
 
-                    error = parseMotor(buf);
+                    interrupt = parseMotor(buf);
                     break;
                 case 0x03:
 
-                    error = parseBattery(buf);
+                    interrupt = parseBattery(buf);
                     break;
                 case 0x04:
 
-                    error = parseEngine(buf);
+                    interrupt = parseEngine(buf);
                     break;
                 case 0x05:
 
-                    error = parsePosition(buf);
+                    interrupt = parsePosition(buf);
                     break;
                 case 0x06:
 
-                    error = parseExtreme(buf);
+                    interrupt = parseExtreme(buf);
                     break;
                 case 0x07:
 
-                    error = parseAlarm(buf);
+                    interrupt = parseAlarm(buf);
                     break;
 
                 case 0x08:
 
-                    error = parseStorageVoltage(buf);
+                    interrupt = parseStorageVoltage(buf);
                     break;
                 case 0x09:
 
-                    error = parseStorageTemp(buf);
+                    interrupt = parseStorageTemp(buf);
                     break;
                 default:
                     if (buf.readableBytes() > 2){
@@ -91,8 +93,8 @@ public class CMD_02 extends GB32960DataProcess {
                     break;
 
             }
-            if (error) {
-                logger.error("cmd[{}], parse bytes error!", flag);
+            if (interrupt) {
+                logger.error("cmd[{}], parse bytes interrupt!", flag);
                 break;
             }
         }
@@ -117,6 +119,8 @@ public class CMD_02 extends GB32960DataProcess {
 
         int speed = byteBuf.readUnsignedShort();
         long mile = byteBuf.readUnsignedInt();
+        // 单元：0.1 km
+        double mileage = new BigDecimal(mile).divide(new BigDecimal(10)).doubleValue();
 
         int voltage = byteBuf.readUnsignedShort();
         int electricity = byteBuf.readUnsignedShort();
@@ -157,7 +161,7 @@ public class CMD_02 extends GB32960DataProcess {
         }else {
 
             map.put("ODOSTATUS", 1);
-            map.put("ODO", mile);
+            map.put("ODO", mileage);
         }
 
 
