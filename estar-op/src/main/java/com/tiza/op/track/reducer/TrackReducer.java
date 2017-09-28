@@ -3,14 +3,11 @@ package com.tiza.op.track.reducer;
 import com.tiza.op.entity.MileageRecord;
 import com.tiza.op.model.Position;
 import com.tiza.op.model.TrackKey;
-import com.tiza.op.util.DBUtil;
 import com.tiza.op.util.DateUtil;
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -20,28 +17,16 @@ import java.util.Iterator;
  * Update: 2017-09-27 16:42
  */
 public class TrackReducer extends Reducer<TrackKey, Position, MileageRecord, NullWritable> {
-    private Connection connection;
     private Date date;
 
     @Override
     protected void setup(Context context) throws IOException, InterruptedException {
-        Configuration conf = context.getConfiguration();
-        conf.addResource("op-core.xml");
-        conf.addResource("track.xml");
-
         try {
-            connection = DBUtil.getConnection(conf);
-
             String datetime = context.getConfiguration().get("data_time");
             date = DateUtil.str2Date(datetime);
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    protected void cleanup(Context context) throws IOException, InterruptedException {
-        DBUtil.close(connection);
     }
 
     @Override
