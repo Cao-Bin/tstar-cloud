@@ -4,12 +4,10 @@ import com.tiza.op.entity.MileageRecord;
 import com.tiza.op.model.Position;
 import com.tiza.op.model.TrackKey;
 import com.tiza.op.util.DBUtil;
-import org.apache.commons.lang3.time.FastDateFormat;
+import com.tiza.op.util.DateUtil;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.mapreduce.Reducer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -22,8 +20,6 @@ import java.util.Iterator;
  * Update: 2017-09-27 16:42
  */
 public class TrackReducer extends Reducer<TrackKey, Position, MileageRecord, NullWritable> {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-
     private Connection connection;
     private Date date;
 
@@ -36,8 +32,8 @@ public class TrackReducer extends Reducer<TrackKey, Position, MileageRecord, Nul
         try {
             connection = DBUtil.getConnection(conf);
 
-            FastDateFormat dateFormat = FastDateFormat.getInstance("yyyyMMdd");
-            date = dateFormat.parse(context.getConfiguration().get("data_time"));
+            String datetime = context.getConfiguration().get("data_time");
+            date = DateUtil.str2Date(datetime);
         } catch (Exception e) {
             e.printStackTrace();
         }
