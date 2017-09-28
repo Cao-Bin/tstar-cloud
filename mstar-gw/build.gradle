@@ -19,7 +19,7 @@ dependencies {
 }
 
 // 拷贝文件(排除项目自带jar)
-task copyJars(type: Copy) {
+task copyJar(type: Copy) {
     from configurations.runtime
     into "$buildDir/libs/lib"
     exclude{
@@ -28,7 +28,7 @@ task copyJars(type: Copy) {
     }
 }
 
-task zip(type: Zip, dependsOn: [jar, copyJars]) {
+task zip(type: Zip, dependsOn: [jar, copyJar]) {
     from 'build/libs'
 }
 

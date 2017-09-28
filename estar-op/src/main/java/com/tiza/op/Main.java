@@ -8,9 +8,11 @@ import com.tiza.op.model.TrackKey;
 import com.tiza.op.track.mapper.TrackMapper;
 import com.tiza.op.track.reducer.TrackReducer;
 import com.tiza.op.util.DateUtil;
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.db.DBOutputFormat;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 
 import java.util.Calendar;
@@ -22,8 +24,10 @@ import java.util.Calendar;
  */
 public class Main extends BaseJob{
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws Exception{
+        Job job = new Main().getJob();
+        FileInputFormat.addInputPath(job, new Path(args[0]));
+        System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
 
     @Override
@@ -35,13 +39,11 @@ public class Main extends BaseJob{
             this.data_time = DateUtil.date2Str(calendar.getTime());
         }
         job.getConfiguration().set("data_time", this.data_time);
-
         String table = "ALY_MILEAGE" + data_time.substring(0, 6);
 
         job.setJarByClass(Main.class);
 
         job.setGroupingComparatorClass(GroupingComparator.class);
-
         job.setMapperClass(TrackMapper.class);
         job.setMapOutputKeyClass(TrackKey.class);
         job.setMapOutputValueClass(Position.class);

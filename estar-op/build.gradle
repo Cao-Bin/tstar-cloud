@@ -31,7 +31,7 @@ dependencies {
 // 拷贝文件
 task copyJar(type: Copy) {
     from configurations.runtime
-    into "$buildDir/dist"
+    into "$buildDir/libs/lib"
     exclude {
         //排除部署环境中存在的依赖
         it.file.name.contains('hadoop') || it.file.name.contains('tstar')
@@ -44,18 +44,13 @@ task copyConf(type: Copy) {
 }
 
 jar {
-    archiveName = 'mstar_tiza.jar'
-    from {
-        File srcDir = file("$buildDir/dist")
-        // 使用闭合创建一个文件集合
-        FileCollection collection = files { srcDir.listFiles() }
-        collection.collect { it.isDirectory() ? it : zipTree(it) }
-    }
+    archiveName = 'estar-op.jar'
 }
-jar.dependsOn(copyJar)
+
 
 // 打包
-task zip(type: Zip, dependsOn: [copyConf, jar]) {
+task zip(type: Zip, dependsOn: [copyConf, copyJar, jar]) {
+    archiveName = 'estar-op.zip'
     from 'build/libs'
 }
 

@@ -17,7 +17,7 @@
     </property>
     <property>
         <name>dataDir</name>
-        <value>/tstar/estar_tiza_trackdata</value>
+        <value>/tstar/estar_gb32960_trackdata</value>
         <description>
             hdfs上要分析的数据目录，可以多个目录以逗号分隔，也可以写正则表达式。
         </description>
