@@ -15,7 +15,25 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Gradle: org.apache.hadoop:hadoop-client:2.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.hadoop:hadoop-common:2.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.hadoop:hadoop-mapreduce-client-app:2.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.hadoop:hadoop-mapreduce-client-core:2.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.hadoop:hadoop-mapreduce-client-jobclient:2.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.7.3" level="project" />
+    <orderEntry type="library" name="Gradle: ch.qos.logback:logback-classic:1.1.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.7.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.7.3" level="project" />
+    <orderEntry type="library" name="Gradle: ch.qos.logback:logback-core:1.1.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.6" level="project" />
+    <orderEntry type="module-library">
+      <library name="Gradle: ojdbc6-11.2.0.3">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../lib/op/ojdbc6-11.2.0.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="module-library">
       <library name="Gradle: tstar-op-1.0-SNAPSHOT">
         <CLASSES>

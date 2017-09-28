@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property>
+        <name>job_name</name>
+        <value>trackMileage</value>
+        <description>任务名称，独立运行时必配项，在op环境运行时可以不配置</description>
+    </property>
+    <property>
+        <name>op.perid</name>
+        <value>d</value>
+        <description>周期标记,d代表天,w代表周,m代表月</description>
+    </property>
+    <property>
+        <name>op.plan_time</name>
+        <value>23:50</value>
+        <description>计划执行时间</description>
+    </property>
+    <property>
+        <name>dataDir</name>
+        <value>/tstar/estar_tiza_trackdata</value>
+        <description>
+            hdfs上要分析的数据目录，可以多个目录以逗号分隔，也可以写正则表达式。
+        </description>
+    </property>
+    <property>
+        <name>time_window</name>
+        <value>0</value>
+        <description>时间窗口，每次计算前多少天的数据</description>
+    </property>
+
+    <property>
+        <name>tstar.op.database.username</name>
+        <value>ESTAR</value>
+    </property>
+    <property>
+        <name>tstar.op.database.password</name>
+        <value>ESTAR</value>
+    </property>
+    <property>
+        <name>tstar.op.database.driver</name>
+        <value>oracle.jdbc.driver.OracleDriver</value>
+    </property>
+    <property>
+        <name>tstar.op.database.url</name>
+        <!--<value>jdbc:oracle:thin:@10.3.12.41:1521/ortz</value>-->
+        <value>jdbc:oracle:thin:@192.168.1.156:1521/xgsid.xg156.com</value>
+    </property>
+</configuration>

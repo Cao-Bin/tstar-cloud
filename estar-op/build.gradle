@@ -10,27 +10,31 @@ repositories {
     mavenCentral()
 }
 
-ext{
+ext {
     hadoopVersion = '2.5.2'
 }
 
 dependencies {
     compile fileTree(dir: rootDir.path + "/lib/op", include: "*.jar")
 
-    compile group: 'org.apache.hadoop', name: 'hadoop-client', version: "$hadoopVersion", transitive:false
+    compile group: 'org.apache.hadoop', name: 'hadoop-common', version: "$hadoopVersion",transitive: false
+    compile group: 'org.apache.hadoop', name: 'hadoop-mapreduce-client-app', version: "$hadoopVersion",transitive: false
+    compile group: 'org.apache.hadoop', name: 'hadoop-mapreduce-client-core', version: "$hadoopVersion",transitive: false
+    compile group: 'org.apache.hadoop', name: 'hadoop-mapreduce-client-jobclient', version: "$hadoopVersion",transitive: false
+
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.7.3'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.2'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
-
-// 拷贝文件(排除项目自带jar)
+// 拷贝文件
 task copyJar(type: Copy) {
     from configurations.runtime
     into "$buildDir/dist"
     exclude {
-        //detail -> detail.file.path.contains('tstar-cloud\\lib')
-        it.file.path.contains('tstar-cloud\\lib')
-        it.file.name.contains('hadoop')
+        //排除部署环境中存在的依赖
+        it.file.name.contains('hadoop') || it.file.name.contains('tstar')
     }
 }
 
