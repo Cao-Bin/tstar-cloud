@@ -74,4 +74,10 @@ public class MileageRecord implements DBWritable {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
+
+	@Override
+	public String toString() {
+
+		return "[vehicle: " + vehicleId + "; day: " + dateTime + "; mileage: " + mileage + "]";
+	}
 }

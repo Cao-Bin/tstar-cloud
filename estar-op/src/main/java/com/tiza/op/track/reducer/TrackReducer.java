@@ -3,13 +3,16 @@ package com.tiza.op.track.reducer;
 import com.tiza.op.entity.MileageRecord;
 import com.tiza.op.model.Position;
 import com.tiza.op.model.TrackKey;
-import com.tiza.op.util.DateUtil;
+import com.tiza.op.util.DBUtil;
+import org.apache.commons.lang3.time.FastDateFormat;
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -21,15 +24,28 @@ import java.util.Iterator;
 public class TrackReducer extends Reducer<TrackKey, Position, MileageRecord, NullWritable> {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    // 统计时间
-    private Date date = null;
+    private Connection connection;
+    private Date date;
 
     @Override
     protected void setup(Context context) throws IOException, InterruptedException {
-        String date_time = context.getConfiguration().get("date_time");
-        date = DateUtil.str2Date(date_time);
+        Configuration conf = context.getConfiguration();
+        conf.addResource("op-core.xml");
+        conf.addResource("track.xml");
 
-        logger.info("TrackReducer获取时间[{}]", date_time);
+        try {
+            connection = DBUtil.getConnection(conf);
+
+            FastDateFormat dateFormat = FastDateFormat.getInstance("yyyyMMdd");
+            date = dateFormat.parse(context.getConfiguration().get("data_time"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void cleanup(Context context) throws IOException, InterruptedException {
+        DBUtil.close(connection);
     }
 
     @Override

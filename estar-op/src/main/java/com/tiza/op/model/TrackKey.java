@@ -17,9 +17,17 @@ public class TrackKey implements WritableComparable<TrackKey> {
     private String vehicleId;
     private long datetime;
 
+    public TrackKey() {
+    }
+
     public TrackKey(String vehicleId, long datetime) {
         this.vehicleId = vehicleId;
         this.datetime = datetime;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.vehicleId.hashCode();
     }
 
     @Override

@@ -15,20 +15,112 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Gradle: org.apache.hadoop:hadoop-common:2.5.2" level="project" />
-    <orderEntry type="library" name="Gradle: org.apache.hadoop:hadoop-mapreduce-client-app:2.5.2" level="project" />
-    <orderEntry type="library" name="Gradle: org.apache.hadoop:hadoop-mapreduce-client-core:2.5.2" level="project" />
-    <orderEntry type="library" name="Gradle: org.apache.hadoop:hadoop-mapreduce-client-jobclient:2.5.2" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.7.3" level="project" />
-    <orderEntry type="library" name="Gradle: ch.qos.logback:logback-classic:1.1.2" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.7.0" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.7.3" level="project" />
-    <orderEntry type="library" name="Gradle: ch.qos.logback:logback-core:1.1.2" level="project" />
-    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.6" level="project" />
+    <orderEntry type="module-library">
+      <library name="Gradle: commons-lang3-3.3.2">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/op/commons-lang3-3.3.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: commons-logging-1.1.3">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/op/commons-logging-1.1.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: hadoop-common-2.5.2">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/op/hadoop-common-2.5.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: hadoop-mapreduce-client-app-2.5.2">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/op/hadoop-mapreduce-client-app-2.5.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: hadoop-mapreduce-client-core-2.5.2">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/op/hadoop-mapreduce-client-core-2.5.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: hadoop-mapreduce-client-jobclient-2.5.2-tests">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/op/hadoop-mapreduce-client-jobclient-2.5.2-tests.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: hadoop-mapreduce-client-jobclient-2.5.2">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/op/hadoop-mapreduce-client-jobclient-2.5.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: logback-classic-1.1.2">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/op/logback-classic-1.1.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: logback-core-1.1.2">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/op/logback-core-1.1.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: mysql-connector-java-5.1.25">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/op/mysql-connector-java-5.1.25.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="module-library">
       <library name="Gradle: ojdbc6-11.2.0.3">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/op/ojdbc6-11.2.0.3.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/op/ojdbc6-11.2.0.3.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: slf4j-api-1.7.7">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/op/slf4j-api-1.7.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -37,7 +129,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: tstar-op-1.0-SNAPSHOT">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/op/tstar-op-1.0-SNAPSHOT.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/op/tstar-op-1.0-SNAPSHOT.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

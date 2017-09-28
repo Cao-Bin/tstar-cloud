@@ -36,9 +36,10 @@ public class Main extends BaseJob{
         if (data_time == null) {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.DATE, -1);
-            this.data_time = DateUtil.date2Str(calendar.getTime());
+            data_time = DateUtil.date2Str(calendar.getTime());
         }
-        job.getConfiguration().set("data_time", this.data_time);
+        job.getConfiguration().set("data_time", data_time);
+
         String table = "ALY_MILEAGE" + data_time.substring(0, 6);
 
         job.setJarByClass(Main.class);

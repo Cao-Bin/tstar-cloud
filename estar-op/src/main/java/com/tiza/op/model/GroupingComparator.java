@@ -1,5 +1,6 @@
 package com.tiza.op.model;
 
+import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.io.WritableComparator;
 
 /**
@@ -14,10 +15,10 @@ public class GroupingComparator extends WritableComparator {
     }
 
     @Override
-    public int compare(Object a, Object b) {
-        TrackKey keya = (TrackKey) a;
-        TrackKey keyb = (TrackKey) a;
+    public int compare(WritableComparable a, WritableComparable b) {
+        TrackKey key1 = (TrackKey)a;
+        TrackKey key2 = (TrackKey)b;
 
-        return keya.getVehicleId().compareTo(keyb.getVehicleId());
+        return key1.getVehicleId().compareTo(key2.getVehicleId());
     }
 }

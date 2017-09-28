@@ -48,7 +48,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: commons-configuration-1.10">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/common/commons-configuration-1.10.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/common/commons-configuration-1.10.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -57,7 +57,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: commons-lang-2.6">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/common/commons-lang-2.6.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/common/commons-lang-2.6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -66,7 +66,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: commons-lang3-3.3.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/common/commons-lang3-3.3.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/common/commons-lang3-3.3.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -75,7 +75,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: jcl-over-slf4j-1.7.7">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/common/jcl-over-slf4j-1.7.7.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/common/jcl-over-slf4j-1.7.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -84,7 +84,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: junit-4.12">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/common/junit-4.12.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/common/junit-4.12.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -93,7 +93,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: log4j-over-slf4j-1.7.7">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/common/log4j-over-slf4j-1.7.7.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/common/log4j-over-slf4j-1.7.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -102,7 +102,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: logback-classic-1.1.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/common/logback-classic-1.1.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/common/logback-classic-1.1.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -111,7 +111,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: logback-core-1.1.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/common/logback-core-1.1.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/common/logback-core-1.1.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -120,7 +120,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: mysql-connector-java-5.1.25">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/common/mysql-connector-java-5.1.25.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/common/mysql-connector-java-5.1.25.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -129,7 +129,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: ojdbc6-11.2.0.3">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/common/ojdbc6-11.2.0.3.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/common/ojdbc6-11.2.0.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -138,7 +138,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: slf4j-api-1.7.7">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/common/slf4j-api-1.7.7.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/common/slf4j-api-1.7.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -147,7 +147,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: tstar-common-1.0.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/common/tstar-common-1.0.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/common/tstar-common-1.0.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -156,7 +156,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: c3p0-0.9.5">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/c3p0-0.9.5.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/c3p0-0.9.5.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -165,7 +165,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: commons-cli-1.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/commons-cli-1.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/commons-cli-1.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -174,7 +174,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: commons-codec-1.9">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/commons-codec-1.9.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/commons-codec-1.9.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -183,7 +183,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: commons-collections-3.2.1">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/commons-collections-3.2.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/commons-collections-3.2.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -192,7 +192,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: commons-io-2.4">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/commons-io-2.4.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/commons-io-2.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -201,7 +201,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: commons-logging-1.1.1">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/commons-logging-1.1.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/commons-logging-1.1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -210,7 +210,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: commons-pool2-2.3">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/commons-pool2-2.3.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/commons-pool2-2.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -219,7 +219,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: fastjson-1.2.7">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/fastjson-1.2.7.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/fastjson-1.2.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -228,7 +228,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: jackson-core-2.6.0">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/jackson-core-2.6.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/jackson-core-2.6.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -237,7 +237,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: jedis-2.7.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/jedis-2.7.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/jedis-2.7.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -246,7 +246,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: jopt-simple-3.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/jopt-simple-3.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/jopt-simple-3.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -255,7 +255,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: junit-4.10">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/junit-4.10.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/junit-4.10.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -264,7 +264,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: kafka-clients-0.8.2.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/kafka-clients-0.8.2.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/kafka-clients-0.8.2.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -273,7 +273,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: kafka_2.10-0.8.2.2">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/kafka_2.10-0.8.2.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/kafka_2.10-0.8.2.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -282,7 +282,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: lz4-1.2.0">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/lz4-1.2.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/lz4-1.2.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -291,7 +291,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: mchange-commons-java-0.2.9">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/mchange-commons-java-0.2.9.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/mchange-commons-java-0.2.9.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -300,7 +300,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: metrics-core-2.2.0">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/metrics-core-2.2.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/metrics-core-2.2.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -309,7 +309,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: netty-all-4.1.1.Final">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/netty-all-4.1.1.Final.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/netty-all-4.1.1.Final.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -318,7 +318,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: scala-library-2.10.4">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/scala-library-2.10.4.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/scala-library-2.10.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -327,7 +327,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: snappy-java-1.1.1.7">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/snappy-java-1.1.1.7.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/snappy-java-1.1.1.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -336,7 +336,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: spring-aop-4.1.3.RELEASE">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/spring-aop-4.1.3.RELEASE.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/spring-aop-4.1.3.RELEASE.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -345,7 +345,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: spring-beans-4.1.3.RELEASE">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/spring-beans-4.1.3.RELEASE.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/spring-beans-4.1.3.RELEASE.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -354,7 +354,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: spring-context-4.1.3.RELEASE">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/spring-context-4.1.3.RELEASE.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/spring-context-4.1.3.RELEASE.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -363,7 +363,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: spring-core-4.1.3.RELEASE">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/spring-core-4.1.3.RELEASE.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/spring-core-4.1.3.RELEASE.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -372,7 +372,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: spring-expression-4.1.3.RELEASE">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/spring-expression-4.1.3.RELEASE.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/spring-expression-4.1.3.RELEASE.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -381,7 +381,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: tstar-gateway-0.2-SNAPSHOT">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/tstar-gateway-0.2-SNAPSHOT.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/tstar-gateway-0.2-SNAPSHOT.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -390,7 +390,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: zkclient-0.3">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/zkclient-0.3.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/zkclient-0.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -399,7 +399,7 @@
     <orderEntry type="module-library">
       <library name="Gradle: zookeeper-3.4.6">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../lib/gateway/zookeeper-3.4.6.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../lib/tstar/gateway/zookeeper-3.4.6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

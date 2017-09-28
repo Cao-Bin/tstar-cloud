@@ -13,7 +13,7 @@ repositories {
 dependencies {
     compile project(':star-common')
 
-    compile fileTree(dir: rootDir.path + "/lib/ws", include: "*.jar")
+    compile fileTree(dir: rootDir.path + "/lib/tstar/ws", include: "*.jar")
 
     compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'

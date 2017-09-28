@@ -13,9 +13,9 @@ repositories {
 dependencies {
     compile project(':star-common')
 
-    compile fileTree(dir: rootDir.path + "/lib/common", include: "*.jar")
+    compile fileTree(dir: rootDir.path + "/lib/tstar/common", include: "*.jar")
 
-    compile fileTree(dir: rootDir.path + "/lib/gateway", include: "*.jar")
+    compile fileTree(dir: rootDir.path + "/lib/tstar/gateway", include: "*.jar")
 }
 
 // 拷贝文件(排除项目自带jar)
@@ -24,7 +24,7 @@ task copyJar(type: Copy) {
     into "$buildDir/libs/lib"
     exclude{
         //detail -> detail.file.path.contains('tstar-cloud\\lib')
-        it.file.path.contains('tstar-cloud\\lib')
+        it.file.path.contains('tstar-cloud\\lib\\tstar')
     }
 }
 

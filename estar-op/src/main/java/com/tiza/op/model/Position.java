@@ -1,24 +1,35 @@
 package com.tiza.op.model;
 
-import java.util.Date;
+import org.apache.hadoop.io.Writable;
+
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
 
 /**
  * Description: Position
  * Author: DIYILIU
  * Update: 2017-09-26 14:22
  */
-public class Position {
+public class Position implements Writable {
 
     private Double lngD;
     private Double latD;
 
-    private Double enLngD;
-    private Double enLatD;
-
-    private Date dateTime;
+    private Long dateTime;
 
     // 里程
     private Double mileage;
+
+    public Position() {
+    }
+
+    public Position(Double lngD, Double latD, Long dateTime, Double mileage) {
+        this.lngD = lngD;
+        this.latD = latD;
+        this.dateTime = dateTime;
+        this.mileage = mileage;
+    }
 
     public Double getLngD() {
         return lngD;
@@ -36,27 +47,11 @@ public class Position {
         this.latD = latD;
     }
 
-    public Double getEnLngD() {
-        return enLngD;
-    }
-
-    public void setEnLngD(Double enLngD) {
-        this.enLngD = enLngD;
-    }
-
-    public Double getEnLatD() {
-        return enLatD;
-    }
-
-    public void setEnLatD(Double enLatD) {
-        this.enLatD = enLatD;
-    }
-
-    public Date getDateTime() {
+    public Long getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(Date dateTime) {
+    public void setDateTime(Long dateTime) {
         this.dateTime = dateTime;
     }
 
@@ -66,5 +61,40 @@ public class Position {
 
     public void setMileage(Double mileage) {
         this.mileage = mileage;
+    }
+
+    @Override
+    public void write(DataOutput dataOutput) throws IOException {
+
+        dataOutput.writeDouble(lngD);
+        dataOutput.writeDouble(latD);
+        dataOutput.writeLong(dateTime);
+        dataOutput.writeDouble(mileage);
+    }
+
+    @Override
+    public void readFields(DataInput dataInput) throws IOException {
+        this.lngD = dataInput.readDouble();
+        this.latD = dataInput.readDouble();
+        this.dateTime = dataInput.readLong();
+        this.mileage = dataInput.readDouble();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj != null) {
+            if (obj instanceof Position) {
+                Position p = (Position) obj;
+                if (p.getLngD() == lngD &&
+                        p.getLatD() == latD &&
+                        p.getMileage() == mileage) {
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

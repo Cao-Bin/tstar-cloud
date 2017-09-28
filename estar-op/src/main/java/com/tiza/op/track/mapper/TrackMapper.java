@@ -39,7 +39,7 @@ public class TrackMapper extends Mapper<LongWritable, Text, TrackKey, Position> 
             refreshVehicle(conf);
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("TrackMapper初始化错误！");
+            logger.error("TrackMapper查询车辆错误！");
         }
 
     }
@@ -54,14 +54,16 @@ public class TrackMapper extends Mapper<LongWritable, Text, TrackKey, Position> 
 
             return;
         }
-
-        Position position = new Position();
-        position.setEnLatD((Double) map.get("lat"));
-        position.setEnLngD((Double) map.get("lng"));
-        position.setMileage((Double) map.get("mileage"));
-
         Date date = DateUtil.stringToDate((String) map.get("gpsTime"));
-        TrackKey trackKey = new TrackKey(vehicleId, date.getTime());
+
+        long datetime = date.getTime();
+
+        double lng = (Double) map.get("lng");
+        double lat = (Double) map.get("lat");
+        double mileage = (Double) map.get("mileage");
+
+        Position position = new Position(lng, lat, datetime, mileage);
+        TrackKey trackKey = new TrackKey(vehicleId, datetime);
         context.write(trackKey, position);
     }
 

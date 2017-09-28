@@ -20,7 +20,7 @@ task copyJar(type: Copy) {
     into "$buildDir/dist"
     exclude {
         //detail -> detail.file.path.contains('tstar-cloud\\lib')
-        it.file.path.contains('tstar-cloud\\lib')
+        it.file.path.contains('tstar-cloud\\lib\\tstar')
     }
 }
 
