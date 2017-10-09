@@ -24,6 +24,13 @@ public class CanInfo {
 
     }
 
+    public CanInfo(String softVersion, String softName, String modelCode, String functionXml) {
+        this.softVersion = softVersion;
+        this.softName = softName;
+        this.modelCode = modelCode;
+        this.functionXml = functionXml;
+    }
+
     public CanInfo(String softVersion, String softName, String modelCode, String functionXml , String alarmXml) {
         this.softVersion = softVersion;
         this.softName = softName;

@@ -11,11 +11,11 @@ import javax.annotation.Resource;
 import java.util.*;
 
 /**
- * Description: RefreshVehicleStorehouseTask
+ * Description: RefreshStorehouseTask
  * Author: DIYILIU
  * Update: 2017-09-19 09:53
  */
-public class RefreshVehicleStorehouseTask implements ITask {
+public class RefreshStorehouseTask implements ITask {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Resource

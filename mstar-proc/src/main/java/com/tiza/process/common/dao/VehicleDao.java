@@ -49,6 +49,7 @@ public class VehicleDao extends BaseDao {
                 vehicleInfo.setTerminalNo(rs.getString("terminalno"));
                 vehicleInfo.setSim(rs.getString("simno"));
                 vehicleInfo.setProtocolType(rs.getString("protocoltype"));
+                vehicleInfo.setSoftVersion(rs.getString("versioncode"));
 
                 return vehicleInfo;
             }

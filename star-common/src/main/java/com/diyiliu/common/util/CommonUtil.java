@@ -384,7 +384,7 @@ public class CommonUtil {
         ScriptEngineManager factory = new ScriptEngineManager();
         ScriptEngine engine = factory.getEngineByName("JavaScript");
 
-        String retVal = "";
+        String retVal;
         if (type.equalsIgnoreCase("hex")) {
             retVal = String.format("%02X", val);
         } else if (type.equalsIgnoreCase("decimal")) {

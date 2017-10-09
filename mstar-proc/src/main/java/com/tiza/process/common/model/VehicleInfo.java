@@ -15,6 +15,8 @@ public class VehicleInfo {
     private String sim;
 
     private String protocolType;
+    /** 软件版本号 */
+    private String softVersion;
 
     public long getId() {
         return id;
@@ -62,5 +64,13 @@ public class VehicleInfo {
 
     public void setProtocolType(String protocolType) {
         this.protocolType = protocolType;
+    }
+
+    public String getSoftVersion() {
+        return softVersion;
+    }
+
+    public void setSoftVersion(String softVersion) {
+        this.softVersion = softVersion;
     }
 }

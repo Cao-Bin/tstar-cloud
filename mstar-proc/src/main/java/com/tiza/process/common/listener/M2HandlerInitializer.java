@@ -16,12 +16,14 @@ import java.util.List;
  */
 public class M2HandlerInitializer implements Initializer {
 
-
     @Resource
     private ITask refreshVehicleInfoTask;
 
     @Resource
-    private ITask refreshVehicleStorehouseTask;
+    private ITask refreshCanInfoTask;
+
+    @Resource
+    private ITask refreshStorehouseTask;
 
     @Resource
     private ICache vehicleOutInCacheProvider;
@@ -34,8 +36,11 @@ public class M2HandlerInitializer implements Initializer {
         // 刷新车辆列表
         refreshVehicleInfoTask.execute();
 
+        // 刷新功能集配置
+        refreshCanInfoTask.execute();
+
         // 刷新车辆仓库
-        refreshVehicleStorehouseTask.execute();
+        refreshStorehouseTask.execute();
 
         // 车辆最近一条和仓库之间的位置信息
         List<InOutRecord> list = vehicleDao.selectInOutRecord();

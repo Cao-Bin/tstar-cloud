@@ -10,11 +10,15 @@
     <!-- 刷新车辆列表（每5分钟） -->
     <bean id="refreshVehicleInfoTask" class="com.tiza.process.common.task.RefreshVehicleInfoTask"/>
 
+    <!-- 刷新功能集（每10分钟） -->
+    <bean id="refreshCanInfoTask" class="com.tiza.process.common.task.RefreshCanInfoTask"/>
+
     <!-- 刷新车辆仓库信息（每15分钟） -->
-    <bean id="refreshVehicleStorehouseTask" class="com.tiza.process.common.task.RefreshVehicleStorehouseTask"/>
+    <bean id="refreshStorehouseTask" class="com.tiza.process.common.task.RefreshStorehouseTask"/>
 
     <task:scheduled-tasks>
         <task:scheduled ref="refreshVehicleInfoTask" method="execute" cron="0 0/5 * * * ?"/>
-        <task:scheduled ref="refreshVehicleStorehouseTask" method="execute" cron="0 0/15 * * * ?"/>
+        <task:scheduled ref="refreshCanInfoTask" method="execute" cron="0 0/15 * * * ?"/>
+        <task:scheduled ref="refreshStorehouseTask" method="execute" cron="0 0/15 * * * ?"/>
     </task:scheduled-tasks>
 </beans>

@@ -7,10 +7,20 @@
                    t.deviceid,
                    t.terminalno,
                    t.simno,
-                   t.protocoltype
+                   t.protocoltype,
+                   t.versioncode
               FROM bs_vehicle c
              INNER JOIN bs_terminal t
                 ON t. id = c. terminalid
+        ]]>
+    </sql>
+
+    <sql id="selectCanInfo" description="查询功能集信息">
+        <![CDATA[
+            SELECT s.code, s.description, s.modelcode, t.xml
+              FROM bs_functionset t
+             INNER JOIN bs_gpssoftversion s
+                ON s.code = t.code
         ]]>
     </sql>
 
@@ -22,7 +32,7 @@
         ]]>
     </sql>
 
-    <sql id="selectVehicleStorehouse" description="查询车辆仓库信息">
+    <sql id="selectStorehouse" description="查询车辆仓库信息">
         <![CDATA[
             SELECT t.id, t.fencesharp, t.fencegeoinfo, v.vehicleid
               FROM bs_orgunit t

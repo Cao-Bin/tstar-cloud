@@ -49,7 +49,8 @@ public final class MStarConstant extends ConstantUtil{
     public enum SQL{
         ;
         public final static String SELECT_VEHICLE_INFO = "selectVehicleInfo";
-        public final static String SELECT_VEHICLE_STOREHOUSE = "selectVehicleStorehouse";
+        public final static String SELECT_CAN_INFO = "selectCanInfo";
+        public final static String SELECT_VEHICLE_STOREHOUSE = "selectStorehouse";
         public final static String SELECT_VEHICLE_OUT_IN = "selectVehicleOutIn";
     }
 }
