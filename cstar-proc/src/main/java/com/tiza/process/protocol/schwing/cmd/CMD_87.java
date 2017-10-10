@@ -88,20 +88,20 @@ public class CMD_87 extends SchwingDataProcess {
         toKafka(m2Header, position, status, param);
 
         VehicleInfo vehicleInfo = (VehicleInfo) vehicleCacheProvider.get(m2Header.getTerminalId());
-        CanInfo canInfo = null;
+        FunctionInfo functionInfo = null;
                 //(CanInfo) canCacheProvider.get(vehicleInfo.getSoftVersion());
         Map emptyValues = null;
         try {
-            emptyValues = canInfo.getEmptyValues();
+            emptyValues = functionInfo.getEmptyValues();
         } catch (Exception e) {
             logger.error("没有can数据");
         }
-        if (canInfo != null && parameters.containsKey(canInfo.getModelCode())){
-            byte[] bytes = parameters.get(canInfo.getModelCode());
-            Map<String, CanPackage> canPackages = canInfo.getCanPackages();
+        if (functionInfo != null && parameters.containsKey(functionInfo.getModelCode())){
+            byte[] bytes = parameters.get(functionInfo.getModelCode());
+            Map<String, CanPackage> canPackages = functionInfo.getCanPackages();
 
             try {
-                Map canValues = parseCan(bytes, canPackages, canInfo.getPidLength());
+                Map canValues = parseCan(bytes, canPackages, functionInfo.getPidLength());
                 emptyValues.putAll(canValues);
             } catch (Exception e) {
                 logger.error("can数据 解析异常！"+e.getMessage());
@@ -159,37 +159,5 @@ public class CMD_87 extends SchwingDataProcess {
         }
 
         return canValues;
-    }
-
-    private Map parsePackage(byte[] content, List<NodeItem> nodeItems){
-
-        Map packageValues = new HashMap<>(nodeItems.size());
-
-        for (NodeItem item: nodeItems){
-            try {
-                packageValues.put(item.getField().toUpperCase(), parseItem(content, item));
-            } catch (ScriptException e) {
-                logger.error("解析表达式错误：", e);
-            }
-        }
-
-        return packageValues;
-    }
-
-    private String parseItem(byte[] data, NodeItem item) throws ScriptException {
-
-        String tVal;
-
-        byte[] val = CommonUtil.byteToByte(data, item.getByteStart(), item.getByteLen(), item.getEndian());
-
-        int tempVal = CommonUtil.byte2int(val);
-        if (item.isOnlyByte()) {
-            tVal = CommonUtil.parseExp(tempVal, item.getExpression(), item.getType());
-        } else {
-            int biteVal = CommonUtil.getBits(tempVal, item.getBitStart(), item.getBitLen());
-            tVal = CommonUtil.parseExp(biteVal, item.getExpression(), item.getType());
-        }
-
-        return tVal;
     }
 }

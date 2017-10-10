@@ -2,7 +2,7 @@ package com.tiza.process.common.dao;
 
 import com.diyiliu.common.dao.BaseDao;
 import com.tiza.process.common.config.MStarConstant;
-import com.tiza.process.common.model.CanInfo;
+import com.tiza.process.common.model.FunctionInfo;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
@@ -12,15 +12,15 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Description: CanDao
+ * Description: FunctionDao
  * Author: DIYILIU
  * Update: 2016-04-21 11:31
  */
 
 @Component
-public class CanDao extends BaseDao {
+public class FunctionDao extends BaseDao {
 
-    public List<CanInfo> selectCanInfo() {
+    public List<FunctionInfo> selectCanInfo() {
         String sql = MStarConstant.getSQL(MStarConstant.SQL.SELECT_CAN_INFO);
 
         if (jdbcTemplate == null) {
@@ -28,9 +28,9 @@ public class CanDao extends BaseDao {
             return null;
         }
 
-        return jdbcTemplate.query(sql, new RowMapper<CanInfo>() {
+        return jdbcTemplate.query(sql, new RowMapper<FunctionInfo>() {
             @Override
-            public CanInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
+            public FunctionInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
 
                 String softVersion = rs.getString("code");
                 String softName = rs.getString("description");
@@ -39,7 +39,7 @@ public class CanDao extends BaseDao {
                 Clob xmlClob = rs.getClob("xml");
                 String functionXml = xmlClob == null? "": xmlClob.getSubString(1, (int) xmlClob.length());
 
-                return new CanInfo(softVersion, softName, modelCode, functionXml);
+                return new FunctionInfo(softVersion, softName, modelCode, functionXml);
             }
         });
     }

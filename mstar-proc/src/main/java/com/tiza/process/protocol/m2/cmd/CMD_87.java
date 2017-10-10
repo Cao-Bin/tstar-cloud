@@ -1,10 +1,11 @@
 package com.tiza.process.protocol.m2.cmd;
 
-import com.diyiliu.common.cache.ICache;
 import com.diyiliu.common.model.Header;
 import com.diyiliu.common.util.CommonUtil;
-import com.diyiliu.common.util.JacksonUtil;
-import com.tiza.process.common.model.*;
+import com.tiza.process.common.model.CanPackage;
+import com.tiza.process.common.model.FunctionInfo;
+import com.tiza.process.common.model.Parameter;
+import com.tiza.process.common.model.Position;
 import com.tiza.process.protocol.bean.M2Header;
 import com.tiza.process.protocol.m2.M2DataProcess;
 import io.netty.buffer.ByteBuf;
@@ -12,10 +13,7 @@ import io.netty.buffer.Unpooled;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import javax.script.ScriptException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,9 +29,6 @@ public class CMD_87 extends M2DataProcess {
         this.cmd = 0x87;
     }
 
-    @Resource
-    private ICache canCacheProvider;
-
     @Override
     public void parse(byte[] content, Header header) {
         M2Header m2Header = (M2Header) header;
@@ -44,9 +39,10 @@ public class CMD_87 extends M2DataProcess {
         buf.readBytes(positionArray);
 
         Position position = renderPosition(positionArray);
-        Status status = renderStatus(position.getStatus());
+
+        /*Status status = renderStatus(position.getStatus());
         // 车辆在线
-        status.setOnOff(1);
+        status.setOnOff(1);*/
 
         byte[] paramArray = new byte[buf.readableBytes()];
         buf.readBytes(paramArray);
@@ -71,29 +67,32 @@ public class CMD_87 extends M2DataProcess {
             param.setSatellite(satellite);
         }
 
-        VehicleInfo vehicleInfo = (VehicleInfo) vehicleCacheProvider.get(m2Header.getTerminalId());
-        CanInfo canInfo = (CanInfo) canCacheProvider.get(vehicleInfo.getSoftVersion());
-        Map emptyValues = null;
-        try {
-            emptyValues = canInfo.getEmptyValues();
-        } catch (Exception e) {
-            logger.error("没有can数据");
-        }
+        FunctionInfo functionInfo = getFunctionInfo(m2Header.getTerminalId());
+        if (functionInfo != null) {
+            Map statusValues = parsePackage(position.getStatusBytes(), functionInfo.getStatusItems());
+            position.setStatusMap(statusValues);
 
-        if (canInfo != null && parameters.containsKey(canInfo.getModelCode())) {
-            byte[] bytes = parameters.get(canInfo.getModelCode());
-            Map<String, CanPackage> canPackages = canInfo.getCanPackages();
-
+            Map emptyValues = null;
             try {
-                Map canValues = parseCan(bytes, canPackages, canInfo.getPidLength());
-                emptyValues.putAll(canValues);
+                emptyValues = functionInfo.getEmptyValues();
             } catch (Exception e) {
-                logger.error("can数据 解析异常！" + e.getMessage());
+                logger.error("没有can数据");
             }
-        }
-        param.setCanValues(emptyValues);
+            if (parameters.containsKey(functionInfo.getModelCode())) {
+                byte[] bytes = parameters.get(functionInfo.getModelCode());
+                Map<String, CanPackage> canPackages = functionInfo.getCanPackages();
 
-        toKafka(m2Header, position, status, param);
+                try {
+                    Map canValues = parseCan(bytes, canPackages, functionInfo.getPidLength());
+                    emptyValues.putAll(canValues);
+                } catch (Exception e) {
+                    logger.error("can数据 解析异常！" + e.getMessage());
+                }
+            }
+            param.setCanValues(emptyValues);
+        }
+
+        toKafka(m2Header, position, param);
     }
 
     private Map parseParameter(byte[] content) {
@@ -143,35 +142,5 @@ public class CMD_87 extends M2DataProcess {
         }
 
         return canValues;
-    }
-
-    private Map parsePackage(byte[] content, List<NodeItem> nodeItems) {
-        Map packageValues = new HashMap<>(nodeItems.size());
-
-        for (NodeItem item : nodeItems) {
-            try {
-                packageValues.put(item.getField().toUpperCase(), parseItem(content, item));
-            } catch (ScriptException e) {
-                logger.error("解析表达式错误：", e);
-            }
-        }
-
-        return packageValues;
-    }
-
-    private String parseItem(byte[] data, NodeItem item) throws ScriptException {
-
-        String tVal;
-
-        byte[] val = CommonUtil.byteToByte(data, item.getByteStart(), item.getByteLen(), item.getEndian());
-        int tempVal = CommonUtil.byte2int(val);
-        if (item.isOnlyByte()) {
-            tVal = CommonUtil.parseExp(tempVal, item.getExpression(), item.getType());
-        } else {
-            int biteVal = CommonUtil.getBits(tempVal, item.getBitStart(), item.getBitLen());
-            tVal = CommonUtil.parseExp(biteVal, item.getExpression(), item.getType());
-        }
-
-        return tVal;
     }
 }

@@ -43,14 +43,14 @@ jar {
     }
 
     // 过滤所有配置文件(打包时取消注释)
-//    sourceSets {
-//        main {
-//            resources {
-//                exclude '*.*'
-//                exclude '**/'
-//            }
-//        }
-//    }
+    sourceSets {
+        main {
+            resources {
+                exclude '*.*'
+                exclude '**/'
+            }
+        }
+    }
 }
 
 // 拷贝文件

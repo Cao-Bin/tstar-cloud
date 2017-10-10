@@ -3,8 +3,8 @@ package com.tiza.process.common.task;
 import com.diyiliu.common.cache.ICache;
 import com.diyiliu.common.task.ITask;
 import com.diyiliu.common.util.CommonUtil;
-import com.tiza.process.common.dao.CanDao;
-import com.tiza.process.common.model.CanInfo;
+import com.tiza.process.common.dao.FunctionDao;
+import com.tiza.process.common.model.FunctionInfo;
 import com.tiza.process.common.model.CanPackage;
 import com.tiza.process.common.model.NodeItem;
 import org.apache.commons.collections.CollectionUtils;
@@ -30,45 +30,47 @@ public class RefreshCanInfoTask implements ITask {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Resource
-    private ICache canCacheProvider;
+    private ICache functionCacheProvider;
 
     @Resource
-    private CanDao canDao;
+    private FunctionDao functionDao;
 
     @Override
     public void execute() {
         logger.info("刷新车辆功能集信息...");
 
-        List<CanInfo> canInfoList = canDao.selectCanInfo();
-        refresh(canInfoList, canCacheProvider);
+        List<FunctionInfo> functionInfoList = functionDao.selectCanInfo();
+        refresh(functionInfoList, functionCacheProvider);
     }
 
-    private void refresh(List<CanInfo> canInfoList, ICache canCache) {
+    private void refresh(List<FunctionInfo> functionInfoList, ICache functionCache) {
 
-        if (canInfoList == null || canInfoList.size() < 1) {
+        if (functionInfoList == null || functionInfoList.size() < 1) {
             logger.warn("功能集数据为空！");
             return;
         }
 
-        Set oldKeys = canCacheProvider.getKeys();
-        Set tempKeys = new HashSet<>(canInfoList.size());
+        Set oldKeys = functionCacheProvider.getKeys();
+        Set tempKeys = new HashSet<>(functionInfoList.size());
 
-        for (CanInfo canInfo : canInfoList) {
-            dealCan(canInfo);
-            canCache.put(canInfo.getSoftVersion(), canInfo);
-            tempKeys.add(canInfo.getSoftVersion());
+        for (FunctionInfo functionInfo : functionInfoList) {
+            dealCan(functionInfo);
+            dealStatus(functionInfo);
+
+            functionCache.put(functionInfo.getSoftVersion(), functionInfo);
+            tempKeys.add(functionInfo.getSoftVersion());
         }
 
         // 被删除的
         Collection subKeys = CollectionUtils.subtract(oldKeys, tempKeys);
         for (Iterator iterator = subKeys.iterator(); iterator.hasNext();){
             int key = (int) iterator.next();
-            canCache.remove(key);
+            functionCache.remove(key);
         }
     }
 
-    private void dealCan(CanInfo canInfo) {
-        String xml = canInfo.getFunctionXml();
+    private void dealCan(FunctionInfo functionInfo) {
+        String xml = functionInfo.getFunctionXml();
         if (CommonUtil.isEmpty(xml)) {
             return;
         }
@@ -88,14 +90,37 @@ public class RefreshCanInfoTask implements ITask {
                 emptyValues.putAll(canPackage.getEmptyValues());
                 pidLength = canPackage.getIdLength();
             }
-            canInfo.setCanPackages(canPackages);
+            functionInfo.setCanPackages(canPackages);
 
-            canInfo.setPidLength(pidLength);
-            canInfo.setEmptyValues(emptyValues);
+            functionInfo.setPidLength(pidLength);
+            functionInfo.setEmptyValues(emptyValues);
         } catch (DocumentException e) {
             e.printStackTrace();
         }
     }
+
+    private void dealStatus(FunctionInfo functionInfo){
+
+        String xml = functionInfo.getFunctionXml();
+        if (CommonUtil.isEmpty(xml)) {
+            return;
+        }
+
+        try {
+            Document document = DocumentHelper.parseText(xml);
+            List<Node> nodes  = document.selectNodes("root/status/item");
+
+            List<NodeItem> list = new ArrayList<>();
+            for (Node node: nodes){
+                NodeItem nodeItem= dealItem(node);
+                list.add(nodeItem);
+            }
+            functionInfo.setStatusItems(list);
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private CanPackage dealPackage(Node packageNode){
         String packageId = packageNode.valueOf("@id");

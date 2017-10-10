@@ -9,18 +9,15 @@ import com.diyiliu.common.util.CommonUtil;
 import com.diyiliu.common.util.DateUtil;
 import com.diyiliu.common.util.JacksonUtil;
 import com.tiza.process.common.config.MStarConstant;
-import com.tiza.process.common.model.Parameter;
-import com.tiza.process.common.model.Position;
-import com.tiza.process.common.model.Status;
-import com.tiza.process.common.model.VehicleInfo;
+import com.tiza.process.common.model.*;
 import com.tiza.process.protocol.bean.M2Header;
-import com.tiza.process.protocol.handler.M2ParseHandler;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
+import javax.script.ScriptException;
 import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.HashMap;
@@ -40,8 +37,12 @@ public class M2DataProcess implements IDataProcess{
 
     @Resource
     protected ICache cmdCacheProvider;
+
     @Resource
     protected ICache vehicleCacheProvider;
+
+    @Resource
+    protected ICache functionCacheProvider;
 
     @Override
     public Header dealHeader(byte[] bytes) {
@@ -99,9 +100,56 @@ public class M2DataProcess implements IDataProcess{
      * 位置、工况信息
      * @param header
      * @param position
-     * @param status
      * @param parameter
      */
+    public void toKafka(M2Header header, Position position, Parameter parameter) {
+        String terminalId = header.getTerminalId();
+        if (!vehicleCacheProvider.containsKey(terminalId)) {
+            logger.warn("该终端[{}]不存在车辆列表中...", terminalId);
+            return;
+        }
+
+        VehicleInfo vehicle = (VehicleInfo) vehicleCacheProvider.get(terminalId);
+
+        Map posMap = new HashMap();
+        posMap.put(MStarConstant.Location.GPS_TIME,
+                DateUtil.dateToString(position.getDateTime()));
+        posMap.put(MStarConstant.Location.SPEED, position.getSpeed());
+        posMap.put(MStarConstant.Location.ALTITUDE, position.getHeight());
+        posMap.put(MStarConstant.Location.DIRECTION, position.getDirection());
+        posMap.put(MStarConstant.Location.ORIGINAL_LNG, position.getLngD());
+        posMap.put(MStarConstant.Location.ORIGINAL_LAT, position.getLatD());
+        posMap.put(MStarConstant.Location.LNG, position.getEnLngD());
+        posMap.put(MStarConstant.Location.LAT, position.getEnLatD());
+
+        posMap.put(MStarConstant.Location.VEHICLE_ID, vehicle.getId());
+
+        RPTuple rpTuple = new RPTuple();
+        rpTuple.setCmdID(header.getCmd());
+        rpTuple.setCmdSerialNo(header.getSerial());
+
+        rpTuple.setTerminalID(String.valueOf(vehicle.getId()));
+
+        String msgBody = JacksonUtil.toJson(posMap);
+        rpTuple.setMsgBody(msgBody.getBytes(Charset.forName(MStarConstant.JSON_CHARSET)));
+        rpTuple.setTime(position.getDateTime().getTime());
+
+        // 将解析的位置和状态信息放入流中
+        RPTuple tuple = (RPTuple) header.gettStarData();
+        // 修改ID(原来是SIM)为车辆ID
+        tuple.setTerminalID(String.valueOf(vehicle.getId()));
+
+        Map<String, String> context = tuple.getContext();
+        context.put(MStarConstant.FlowKey.POSITION, JacksonUtil.toJson(position));
+
+        if (parameter != null) {
+            context.put(MStarConstant.FlowKey.PARAMETER, JacksonUtil.toJson(parameter));
+        }
+
+        logger.info("终端[{}]写入Kafka位置信息...", terminalId);
+        handler.storeInKafka(rpTuple, context.get(MStarConstant.Kafka.TRACK_TOPIC));
+    }
+
     public void toKafka(M2Header header, Position position, Status status, Parameter parameter) {
         String terminalId = header.getTerminalId();
         if (!vehicleCacheProvider.containsKey(terminalId)) {
@@ -144,7 +192,10 @@ public class M2DataProcess implements IDataProcess{
         Map<String, String> context = tuple.getContext();
         context.put(MStarConstant.FlowKey.POSITION, JacksonUtil.toJson(position));
         context.put(MStarConstant.FlowKey.STATUS, JacksonUtil.toJson(status));
-        //context.put(Constant.FlowKey.PARAMETER, JacksonUtil.toJson(parameter));
+
+        if (parameter != null) {
+            context.put(MStarConstant.FlowKey.PARAMETER, JacksonUtil.toJson(parameter));
+        }
 
         logger.info("终端[{}]写入Kafka位置信息...", terminalId);
         handler.storeInKafka(rpTuple, context.get(MStarConstant.Kafka.TRACK_TOPIC));
@@ -209,7 +260,6 @@ public class M2DataProcess implements IDataProcess{
         int height = CommonUtil.renderHeight(heightBytes);
         byte[] statusBytes = new byte[4];
         buf.readBytes(statusBytes);
-        long status = CommonUtil.bytesToLong(statusBytes);
 
         Date dateTime = new Date();
         if (bytes.length > 16) {
@@ -223,8 +273,9 @@ public class M2DataProcess implements IDataProcess{
             dateTime = CommonUtil.bytesToDate(dateBytes);
         }
 
-        return new Position(lng, lat, speed, direction, height, status, dateTime);
+        return new Position(lng, lat, speed, direction, height, statusBytes, dateTime);
     }
+
 
     protected Status renderStatus(long l) {
         Status status = new Status();
@@ -247,6 +298,58 @@ public class M2DataProcess implements IDataProcess{
         status.setUncap(statusBit(l, 18));
 
         return status;
+    }
+
+
+    protected Map parsePackage(byte[] content, List<NodeItem> nodeItems) {
+        Map packageValues = new HashMap();
+
+        for (NodeItem item : nodeItems) {
+            try {
+                packageValues.put(item.getField().toUpperCase(), parseItem(content, item));
+            } catch (ScriptException e) {
+                logger.error("解析表达式错误：", e);
+            }
+        }
+
+        return packageValues;
+    }
+
+    protected String parseItem(byte[] data, NodeItem item) throws ScriptException {
+
+        String tVal;
+
+        byte[] val = CommonUtil.byteToByte(data, item.getByteStart(), item.getByteLen(), item.getEndian());
+        int tempVal = CommonUtil.byte2int(val);
+        if (item.isOnlyByte()) {
+            tVal = CommonUtil.parseExp(tempVal, item.getExpression(), item.getType());
+        } else {
+            int biteVal = CommonUtil.getBits(tempVal, item.getBitStart(), item.getBitLen());
+            tVal = CommonUtil.parseExp(biteVal, item.getExpression(), item.getType());
+        }
+
+        return tVal;
+    }
+
+
+    /**
+     * 获取车辆功能集
+     *
+     * @param terminalId
+     * @return
+     */
+    protected FunctionInfo getFunctionInfo(String terminalId){
+
+        if (vehicleCacheProvider.containsKey(terminalId)){
+
+            VehicleInfo vehicleInfo = (VehicleInfo) vehicleCacheProvider.get(terminalId);
+            if (functionCacheProvider.containsKey(vehicleInfo.getSoftVersion())){
+
+                return (FunctionInfo) functionCacheProvider.get(vehicleInfo.getSoftVersion());
+            }
+        }
+
+            return null;
     }
 
     private int statusBit(long l, int offset) {

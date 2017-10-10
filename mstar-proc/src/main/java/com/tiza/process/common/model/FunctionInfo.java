@@ -1,42 +1,38 @@
 package com.tiza.process.common.model;
 
+import java.util.List;
 import java.util.Map;
 
 /**
- * Description: CanInfo
+ * Description: FunctionInfo
  * Author: DIYILIU
  * Update: 2016-04-21 11:25
  */
-public class CanInfo {
+public class FunctionInfo {
 
     private String softVersion;
     private String softName;
     private String modelCode;
     private String functionXml;
-    private String alarmXml;
 
     private Map<String, CanPackage> canPackages;
     private Map emptyValues;
-    // packageId 长度（占字节数）
+
+    // can包 packageId 长度（占字节数）
     private int pidLength;
 
-    public CanInfo() {
+    // 状态位
+    private List<NodeItem> statusItems;
+
+    public FunctionInfo() {
 
     }
 
-    public CanInfo(String softVersion, String softName, String modelCode, String functionXml) {
+    public FunctionInfo(String softVersion, String softName, String modelCode, String functionXml) {
         this.softVersion = softVersion;
         this.softName = softName;
         this.modelCode = modelCode;
         this.functionXml = functionXml;
-    }
-
-    public CanInfo(String softVersion, String softName, String modelCode, String functionXml , String alarmXml) {
-        this.softVersion = softVersion;
-        this.softName = softName;
-        this.modelCode = modelCode;
-        this.functionXml = functionXml;
-        this.alarmXml=alarmXml;
     }
 
     public String getSoftVersion() {
@@ -95,11 +91,11 @@ public class CanInfo {
         this.emptyValues = emptyValues;
     }
 
-    public String getAlarmXml() {
-        return alarmXml;
+    public List<NodeItem> getStatusItems() {
+        return statusItems;
     }
 
-    public void setAlarmXml(String alarmXml) {
-        this.alarmXml = alarmXml;
+    public void setStatusItems(List<NodeItem> statusItems) {
+        this.statusItems = statusItems;
     }
 }

@@ -4,6 +4,7 @@ import com.diyiliu.common.util.CommonUtil;
 import com.diyiliu.common.util.GpsCorrectUtil;
 
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Description: Position
@@ -25,6 +26,9 @@ public class Position {
     private Long status;
     private Date dateTime;
 
+    private byte[] statusBytes;
+    private Map statusMap;
+
     public Position() {
     }
 
@@ -35,6 +39,17 @@ public class Position {
         this.direction = direction;
         this.height = height;
         this.status = status;
+        this.dateTime = dateTime;
+    }
+
+
+    public Position(long lng, long lat, int speed, int direction, int height, byte[] statusBytes, Date dateTime) {
+        this.lng = lng;
+        this.lat = lat;
+        this.speed = speed;
+        this.direction = direction;
+        this.height = height;
+        this.statusBytes = statusBytes;
         this.dateTime = dateTime;
     }
 
@@ -120,5 +135,21 @@ public class Position {
 
     public void setDateTime(Date dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public byte[] getStatusBytes() {
+        return statusBytes;
+    }
+
+    public void setStatusBytes(byte[] statusBytes) {
+        this.statusBytes = statusBytes;
+    }
+
+    public Map getStatusMap() {
+        return statusMap;
+    }
+
+    public void setStatusMap(Map statusMap) {
+        this.statusMap = statusMap;
     }
 }

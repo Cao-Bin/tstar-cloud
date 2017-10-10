@@ -3,7 +3,11 @@ package com.tiza.webservice.protocol.m2.cmd;
 import com.diyiliu.common.model.Header;
 import com.tiza.webservice.protocol.bean.M2Header;
 import com.tiza.webservice.protocol.m2.M2DataProcess;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 /**
  * Description: CMD_03
@@ -21,9 +25,12 @@ public class CMD_03 extends M2DataProcess {
     @Override
     public byte[] pack(Header header, Object... argus) {
         M2Header m2Header = (M2Header) header;
+        Map paramMap = (Map) argus[0];
 
-        // 施维英0x03指令，无指令内容。
+        int interval = (int) paramMap.get("value");
+        ByteBuf buf = Unpooled.buffer(2);
+        buf.writeShort(interval);
 
-        return headerToSendBytes(new byte[0], cmd, m2Header);
+        return headerToSendBytes(buf.array(), cmd, m2Header);
     }
 }

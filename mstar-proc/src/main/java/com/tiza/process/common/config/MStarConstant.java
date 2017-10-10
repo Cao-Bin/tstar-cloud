@@ -36,6 +36,9 @@ public final class MStarConstant extends ConstantUtil{
         public final static String LAT = "lat";
 
         public final static String VEHICLE_ID = "vehicleId";
+
+        //终端在线状态0：离线 1：在线
+        public final static String TERMINAL_STATUS = "terminalStatus";
     }
 
     public enum WorkTime{

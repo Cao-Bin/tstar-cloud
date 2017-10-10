@@ -10,7 +10,7 @@
     <bean id="vehicleCacheProvider" class="com.diyiliu.common.cache.ram.RamCacheProvider"/>
 
     <!-- 车辆功能集信息 -->
-    <bean id="canCacheProvider" class="com.diyiliu.common.cache.ram.RamCacheProvider"/>
+    <bean id="functionCacheProvider" class="com.diyiliu.common.cache.ram.RamCacheProvider"/>
 
     <!-- 车辆仓库信息 -->
     <bean id="vehicleStorehouseCacheProvider" class="com.diyiliu.common.cache.ram.RamCacheProvider"/>
