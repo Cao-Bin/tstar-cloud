@@ -231,12 +231,12 @@ public class M2DataProcess implements IDataProcess{
 
             RPTuple rpTuple = new RPTuple();
             rpTuple.setCmdID(header.getCmd());
-            rpTuple.setCmdSerialNo(header.getSerial());
+            //rpTuple.setCmdSerialNo(header.getSerial());
             rpTuple.setTerminalID(String.valueOf(vehicle.getId()));
+            rpTuple.setTime(starTime.getTime());
 
             String msgBody = JacksonUtil.toJson(wtMap);
             rpTuple.setMsgBody(msgBody.getBytes(Charset.forName(MStarConstant.JSON_CHARSET)));
-            rpTuple.setTime(starTime.getTime());
 
             logger.info("终端[{}]写入Kafka开关机信息(累计工作时间)...", terminalId);
             handler.storeInKafka(rpTuple, context.get(MStarConstant.Kafka.WORK_TIME_TOPIC));
