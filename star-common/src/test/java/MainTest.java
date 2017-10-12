@@ -1,4 +1,5 @@
 import com.diyiliu.common.model.Circle;
+import com.diyiliu.common.util.DateUtil;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
@@ -6,6 +7,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -53,5 +55,14 @@ public class MainTest {
         double mileage = new BigDecimal(mile).divide(new BigDecimal(10)).doubleValue();
 
         System.out.println(mileage);
+    }
+
+    @Test
+    public void test3(){
+        Date origin = DateUtil.stringToDate("2000-01-01 00:00:00");
+
+        System.out.println(DateUtil.dateToString(origin, "9位数字的毫秒数（不足9位前面补0）:%tN%n"));
+
+        System.out.println(new Date(0));
     }
 }

@@ -229,9 +229,9 @@ public class M2DataProcess implements IDataProcess{
             wtMap.put(MStarConstant.WorkTime.END_TIME, DateUtil.dateToString(endTime));
             wtMap.put(MStarConstant.WorkTime.VEHICLE_ID, vehicle.getId());
 
+            //hbase相同rowkey数据执行update操作
             RPTuple rpTuple = new RPTuple();
             rpTuple.setCmdID(header.getCmd());
-            //rpTuple.setCmdSerialNo(header.getSerial());
             rpTuple.setTerminalID(String.valueOf(vehicle.getId()));
             rpTuple.setTime(starTime.getTime());
 

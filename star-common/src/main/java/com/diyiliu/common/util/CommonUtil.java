@@ -77,18 +77,48 @@ public class CommonUtil {
         return new byte[]{(byte) year, (byte) month, (byte) day, (byte) hour, (byte) minute, (byte) second};
     }
 
+    /**
+     * 创建时间，修改对应时间
+     * @param bytes
+     * @return
+     */
     public static Date bytesToDate(byte[] bytes) {
 
-        if (bytes.length < 3) {
-            return null;
+        if (bytes.length == 3 || bytes.length == 6) {
+            Calendar calendar = Calendar.getInstance();
+            toDate(calendar, bytes);
+
+            return calendar.getTime();
         }
 
-        Calendar calendar = Calendar.getInstance();
+        return null;
+    }
+
+    /**
+     *
+     * @param date
+     * @param bytes
+     * @return
+     */
+    public static Date bytesToDate(Date date, byte[] bytes) {
+
+        if (bytes.length == 3 || bytes.length == 6) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            toDate(calendar, bytes);
+
+            return calendar.getTime();
+        }
+
+        return null;
+    }
+
+
+    public static void toDate(Calendar calendar, byte[] bytes){
 
         calendar.set(Calendar.YEAR, 2000 + bytes[0]);
         calendar.set(Calendar.MONTH, bytes[1] - 1);
         calendar.set(Calendar.DAY_OF_MONTH, bytes[2]);
-
         if (bytes.length == 6) {
 
             calendar.set(Calendar.HOUR_OF_DAY, bytes[3]);
@@ -100,13 +130,10 @@ public class CommonUtil {
             calendar.set(Calendar.HOUR_OF_DAY, 0);
             calendar.set(Calendar.MINUTE, 0);
             calendar.set(Calendar.SECOND, 0);
-        } else {
-
-            return null;
         }
-
-        return calendar.getTime();
     }
+
+
 
     public static long bytesToLong(byte[] bytes) {
 

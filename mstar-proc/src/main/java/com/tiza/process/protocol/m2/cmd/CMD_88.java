@@ -2,6 +2,7 @@ package com.tiza.process.protocol.m2.cmd;
 
 import com.diyiliu.common.model.Header;
 import com.diyiliu.common.util.CommonUtil;
+import com.diyiliu.common.util.DateUtil;
 import com.tiza.process.protocol.bean.M2Header;
 import com.tiza.process.protocol.m2.M2DataProcess;
 import io.netty.buffer.ByteBuf;
@@ -39,6 +40,8 @@ public class CMD_88 extends M2DataProcess {
             return;
         }
 
+        // 起始时间
+        Date origin = new Date(0);
         List<Date> dateList = new ArrayList<>();
 
         // 时分秒
@@ -49,7 +52,7 @@ public class CMD_88 extends M2DataProcess {
 
             // 拼接 年月日 + 时分秒 = 完整日期
             ByteBuf dateBuf = Unpooled.copiedBuffer(ymd, hms);
-            Date date = CommonUtil.bytesToDate(dateBuf.array());
+            Date date = CommonUtil.bytesToDate(origin, dateBuf.array());
             dateList.add(date);
         }
 
